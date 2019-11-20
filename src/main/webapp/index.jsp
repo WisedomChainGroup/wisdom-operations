@@ -4,5 +4,5 @@
 <head>
     <title>Test</title>
 </head>
-
+呵呵呵，页面可以用用spring支持的Thymeleaf，jsp是原来老的用法了，试试没试过的
 </html>
