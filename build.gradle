@@ -30,14 +30,34 @@ dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.8'
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+//    // https://mvnrepository.com/artifact/javax.servlet/jstl
+//    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+//    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+//    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.16'
+//    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+//    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+//// https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core
+//    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.24'
+//    // https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api
+//    providedCompile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.2.1'
+//    // https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jsp-api
+//    compile group: 'org.apache.tomcat', name: 'tomcat-jsp-api', version: '9.0.22'
+    compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+    compile('org.springframework.boot:spring-boot-starter-tomcat')
+    providedCompile('javax.servlet:jstl')
+    providedCompile('javax.servlet:javax.servlet-api')
+
+
+
+
 //    compile "org.slf4j:slf4j-api:1.7.7"
 //    // used to hide spring initialization logs messages in samples
 //    optional "org.slf4j:jcl-over-slf4j:1.7.7"
 
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
-    testCompile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.25'
+//    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+//    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+//    // https://mvnrepository.com/artifact/org.slf4j/slf4j-nop
+//    testCompile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.25'
 
 
 }
