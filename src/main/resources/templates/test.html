@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head lang="en">
+    <meta charset="UTF-8" />
+    <title></title>
+</head>
+<body>
+<h1>Hello World</h1>
+<h1 th:text="${baidu}" >Hello World</h1>
+<input type="button" th:onclick="|javascript:fungetone()|" value = "修改" />
+
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script language="javascript" type="text/javascript">
+    function fungetone(){
+        var json={};
+        json.from="1KiiV1MUXFuhmziAZ3DCRU4rwBSR9eJ7pg";
+        window.location.href ="/export/txrecordFromAddress?json="+encodeURI(JSON.stringify(json));
+    }
+</script>
+</html>
