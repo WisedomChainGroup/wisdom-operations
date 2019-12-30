@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>WDC基本指数</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <script type="text/javascript" th:src="@{/js/monitor.js}"></script>
+    <link th:href="@{/css/pass.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<section class="outer-section">
+    <div class="">
+        <div class="basic_top_info">
+            <div class="h_top">
+                <span class="top_info"><a href="basic">基础信息</a></span>
+                <span class="out_info"><a style="color: #5B9AFF;">导入导出</a></span>
+            </div>
+        </div>
+    </div>
+    <div class="pass_backdrop">
+        <div class="pass_info">
+            <div class="pass_info_kv">
+                <div class="info_key">From</div>
+                <div class="info_input"><input class="form-control" id="input_from" placeholder="Enter FromAddress">
+                </div>
+            </div>
+            <div class="pass_info_kv">
+                <div class="info_key">To</div>
+                <div class="info_input"><input class="form-control" id="input_to" placeholder="Enter ToAddress"></div>
+            </div>
+            <div class="pass_info_kv">
+                <div class="info_key">事务类型</div>
+                <div class="info_input"></div>
+            </div>
+            <div>
+                <button class="export"><span>导出Excel</span></button>
+            </div>
+            <button class="export_case" formnovalidate>
+                <span style="color: seagreen;">↑</span><span>&nbsp;&nbsp;</span><span>↓</span>
+            </button>
+            <div>
+                <button class="import" formnovalidate><span>导入区块</span></button>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script language="javascript" type="text/javascript">
+    $(function () {
+        $(' .export').click(function () {
+            var from_value = $('#input_from').val();
+            if ($.trim(from_value) != "") {
+                var json = {};
+                json.from = from_value;
+                window.location.href = "export/txrecordFromAddress?json=" + encodeURI(JSON.stringify(json));
+                swithfun("导出Excel-完成",200);
+            } else {
+                ShowWarn('请输入From地址');
+            }
+        });
+        $(' .import').click(function () {
+            $.get("importDb",
+                function (result) {
+                    swithfun(result.message,result.code);
+                }, 'json').fail(function () {
+                swithfun("导入区块-发生内部错误",400);
+            });
+        });
+    });
+</script>
+</html>
