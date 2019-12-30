@@ -39,12 +39,12 @@ public class JavaShellUtil {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("执行Shell命令时发生异常");
         }
         return tag == containername.length;
     }
 
-    public static int executeShell(String shellCommand) throws IOException {
+    public static int executeShell(String shellCommand)  {
         int success = 0;
         StringBuffer stringBuffer = new StringBuffer();
         BufferedReader bufferedReader = null;
@@ -86,7 +86,11 @@ public class JavaShellUtil {
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    outputStreamWriter.close();
+                    try {
+                        outputStreamWriter.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             success = 1;
