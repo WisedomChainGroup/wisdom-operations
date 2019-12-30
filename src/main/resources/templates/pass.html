@@ -42,13 +42,15 @@
                 <div class="info_input"></div>
             </div>
             <div>
-                <button class="export"><span>导出Excel</span></button>
+                <button class="export ladda-button" data-style="slide-down"><span class="ladda-label">导出Excel</span>
+                </button>
             </div>
-            <button class="export_case" formnovalidate>
+            <button class="export_case">
                 <span style="color: seagreen;">↑</span><span>&nbsp;&nbsp;</span><span>↓</span>
             </button>
             <div>
-                <button class="import ladda-button" id="import1" data-style="slide-down"><span class="ladda-label">导入区块</span></button>
+                <button class="import ladda-button" data-style="slide-down"><span class="ladda-label">导入区块</span>
+                </button>
             </div>
         </div>
     </div>
@@ -56,27 +58,29 @@
 </body>
 <script language="javascript" type="text/javascript">
     $(function () {
+        var ladda;
         $(' .export').click(function () {
             var from_value = $('#input_from').val();
             if ($.trim(from_value) != "") {
+                ladda = Ladda.create(this).start();
                 var json = {};
                 json.from = from_value;
                 window.location.href = "export/txrecordFromAddress?json=" + encodeURI(JSON.stringify(json));
-                swithfun("导出Excel-完成",200);
+                ladda.stop();
+                swithfun("导出Excel-完成", 200);
             } else {
                 ShowWarn('请输入From地址');
             }
         });
-        $('#import1').click(function () {
-            var l = Ladda.create(this);
-            l.start();
+        $(' .import').click(function () {
+            ladda = Ladda.create(this).start();
             $.get("importDb",
                 function (result) {
-                    l.stop();
-                    swithfun(result.message,result.code);
+                    swithfun(result.message, result.code);
+                    ladda.stop();
                 }, 'json').fail(function () {
-                l.stop();
-                swithfun("导入区块-发生内部错误",400);
+                ladda.stop();
+                swithfun("导入区块-发生内部错误", 400);
             });
         });
     });
