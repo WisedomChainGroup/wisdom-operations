@@ -4,11 +4,8 @@ package com.wisdom.monitor.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.wisdom.monitor.model.Block;
 import com.wisdom.monitor.service.TransactionService;
-import com.wisdom.monitor.utils.ApiResult.APIResult;
 import com.wisdom.monitor.utils.HttpRequestUtil;
-import com.wisdom.monitor.utils.JavaShellUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +15,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.*;
 
 @Component
-@EnableScheduling
+//@EnableScheduling
 public class Monitor {
     private static final Logger logger = LoggerFactory.getLogger(Monitor.class);
     @Autowired
@@ -74,6 +70,7 @@ public class Monitor {
 //                        JavaShellUtil.executeShell(restartShell);
 
                     }
+                    System.out.println("----------------------");
                 }
             }
     }

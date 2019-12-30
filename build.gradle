@@ -5,10 +5,31 @@ plugins {
 }
 
 group = 'com.wisdom'
-version = '0.0.1-SNAPSHOT'
+//version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-apply plugin: 'war'
+//apply plugin: 'war'
+apply plugin:'java'
+apply plugin:'application'
+mainClassName = 'com.wisdom.monitor.MonitorApplication'
+run {
+    main = project.getProperty('mainClassName')
+}
+
+jar{
+    manifestContentCharset 'utf-8'
+    metadataCharset 'utf-8'
+    manifest{
+        attributes 'Main-Class': project.getProperty('mainClassName')
+    }
+
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+}
 
 repositories {
     maven {
@@ -27,9 +48,10 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-
-    providedCompile('javax.servlet:jstl')
-    providedCompile('javax.servlet:javax.servlet-api')
+    compile('javax.servlet:jstl')
+    compile('javax.servlet:javax.servlet-api')
+   // providedCompile('javax.servlet:jstl')
+   // providedCompile('javax.servlet:javax.servlet-api')
     compile('org.apache.tomcat.embed:tomcat-embed-jasper')
     compile('org.springframework.boot:spring-boot-starter-tomcat')
 
