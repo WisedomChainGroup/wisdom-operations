@@ -41,12 +41,7 @@ public class ImportDb {
 
     @ResponseBody
     @GetMapping("/importDb")
-    public String importDb() throws IOException {
-        try {
-            Thread.sleep(1000*3);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public String importDb() {
         logger.info("importDb--------------------" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "--------------------------");
         Result rs = new Result();
         if (!import_valve.equals("true")) {
@@ -65,11 +60,16 @@ public class ImportDb {
         }
         //copy至容器
         String cmd_cp = String.format("echo %s |sudo -S docker cp /home/postgres.sql %s:/", sys_password, postgres_name);
-        int flag = JavaShellUtil.executeShell(cmd_cp);
-        if (1 == flag) {
-            //Step.1 stop容器 | Step.2 执行psql |Step.3 restart容器
-            String cmd_container = String.format("echo %1$s |sudo -S docker stop %2$s && echo %1$s |sudo -S docker exec %3$s /bin/bash -c \"psql -h localhost -p %4$s -U wdcadmin postgres -f postgres.sql && rm -f postgres.sql\" && echo %1$s |sudo -S docker restart %2$s", sys_password, core_name, postgres_name, postgres_port);
-            flag = JavaShellUtil.executeShell(cmd_container);
+        int flag = 0;
+        try {
+            flag = JavaShellUtil.executeShell(cmd_cp);
+            if (1 == flag) {
+                //Step.1 stop容器 | Step.2 执行psql |Step.3 restart容器
+                String cmd_container = String.format("echo %1$s |sudo -S docker stop %2$s && echo %1$s |sudo -S docker exec %3$s /bin/bash -c \"psql -h localhost -p %4$s -U wdcadmin postgres -f postgres.sql && rm -f postgres.sql\" && echo %1$s |sudo -S docker restart %2$s", sys_password, core_name, postgres_name, postgres_port);
+                flag = JavaShellUtil.executeShell(cmd_container);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         rs.setCode(flag == 0 ? ResultCode.FAIL : ResultCode.SUCCESS);
         rs.setMessage(flag == 0 ? "区块数据导入失败" : "区块数据导入成功");
