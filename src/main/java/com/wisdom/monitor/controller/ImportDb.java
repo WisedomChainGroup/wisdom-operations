@@ -42,6 +42,11 @@ public class ImportDb {
     @ResponseBody
     @GetMapping("/importDb")
     public String importDb() throws IOException {
+        try {
+            Thread.sleep(1000*3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.info("importDb--------------------" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "--------------------------");
         Result rs = new Result();
         if (!import_valve.equals("true")) {

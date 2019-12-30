@@ -19,7 +19,7 @@ a:hover {color: #5B9AFF;}
 	float: left;
 	font-size:20px;
 	margin-top: 1em;
-} 
+}
 .h_top div
 {
 	width:50% ;
@@ -106,7 +106,7 @@ a:hover {color: #5B9AFF;}
 	min-width: 10em;
 }
 .export_case span{
-	color:#FFFFFF;
+	color: orange;
 	font-size: 2em;
 }
 .import{
@@ -114,7 +114,7 @@ a:hover {color: #5B9AFF;}
 	width:10%;
 	height:3rem;
 	border-radius: 10px 10px 10px 10px;
-	background: #FFFFFF;
+	background: orange;
 	display: inline-block;
 	vertical-align: middle;
 	background-repeat:repeat-x;
@@ -129,14 +129,3 @@ a:hover {color: #5B9AFF;}
 .import span{
 	font-size: 1.5rem;
 }
-
-
-
-
-
-
-
-
-
-
-

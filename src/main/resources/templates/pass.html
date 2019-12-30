@@ -8,7 +8,11 @@
     <meta name="renderer" content="webkit">
     <meta name="description" content=""/>
     <meta name="keywords" content=""/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" th:src="@{/js/monitor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/spin.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ladda.min.js}"></script>
+    <link th:href="@{/css/ladda-themeless.min.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/pass.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
 </head>
@@ -44,13 +48,12 @@
                 <span style="color: seagreen;">↑</span><span>&nbsp;&nbsp;</span><span>↓</span>
             </button>
             <div>
-                <button class="import" formnovalidate><span>导入区块</span></button>
+                <button class="import ladda-button" id="import1" data-style="slide-down"><span class="ladda-label">导入区块</span></button>
             </div>
         </div>
     </div>
 </section>
 </body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script language="javascript" type="text/javascript">
     $(function () {
         $(' .export').click(function () {
@@ -64,11 +67,15 @@
                 ShowWarn('请输入From地址');
             }
         });
-        $(' .import').click(function () {
+        $('#import1').click(function () {
+            var l = Ladda.create(this);
+            l.start();
             $.get("importDb",
                 function (result) {
+                    l.stop();
                     swithfun(result.message,result.code);
                 }, 'json').fail(function () {
+                l.stop();
                 swithfun("导入区块-发生内部错误",400);
             });
         });
