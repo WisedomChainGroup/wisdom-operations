@@ -38,6 +38,11 @@ public class ImportDb {
     private String postgres_name;
     @Value("${import.valve}")
     private String import_valve;
+    @Value("${postgres.ip}")
+    private String postgres_ip;
+    @Value("${postgres.pwd}")
+    private String postgres_pwd;
+
 
     @ResponseBody
     @GetMapping("/importDb")
@@ -50,59 +55,34 @@ public class ImportDb {
             return rs.toString();
         }
         //检查环境
-        String[] containers = new String[]{core_name, postgres_name};
+        String[] containers = {core_name, postgres_name};
         String cmd_judge = String.format("echo %s |sudo -S docker ps", sys_password);
         boolean tag = JavaShellUtil.judgeImages(cmd_judge, containers);
-        if (!tag) {
+        String[] path = {""};
+        if (!tag || !getPath(path)) {
             rs.setCode(ResultCode.FAIL);
             rs.setMessage("请检查程序与节点运行环境");
             return rs.toString();
         }
-        //copy至容器
-        String cmd_cp = String.format("echo %s |sudo -S docker cp /home/postgres.sql %s:/", sys_password, postgres_name);
-        int flag = JavaShellUtil.executeShell(cmd_cp);
-        if (1 == flag) {
-            //Step.1 stop容器 | Step.2 执行psql |Step.3 restart容器
-            String cmd_container = String.format("echo %1$s |sudo -S docker stop %2$s && echo %1$s |sudo -S docker exec %3$s /bin/bash -c \"psql -h localhost -p %4$s -U wdcadmin postgres -f postgres.sql && rm -f postgres.sql\" && echo %1$s |sudo -S docker restart %2$s", sys_password, core_name, postgres_name, postgres_port);
-            flag = JavaShellUtil.executeShell(cmd_container);
+        int flag = JavaShellUtil.executeShell(String.format("echo %s |sudo -S docker stop %s", sys_password, core_name));
+        if (flag == 1) {
+            String cmd = String.format("PGPASSWORD=%1$s psql -h %2$s -U replica  -p %3$s -d postgres < %4$s/WDC.sql", postgres_pwd, postgres_ip, postgres_port, path[0]);
+            flag = JavaShellUtil.executeShell(cmd);
+            JavaShellUtil.executeShell(String.format("echo %s |sudo -S docker restart %s", sys_password, core_name));
         }
         rs.setCode(flag == 0 ? ResultCode.FAIL : ResultCode.SUCCESS);
         rs.setMessage(flag == 0 ? "区块数据导入失败" : "区块数据导入成功");
         return rs.toString();
-
-        //region  zhangtong Script
-         /*   //psql -U postgres(用户名)  数据库名(缺省时同用户名) < /data/dum.
-            //
-            //                String restartShell = "echo "+password+" |sudo -S -u postgres psql -U postgres test</home/zt599/database/tt.sql";
-            //JavaShellUtil.executeShell(restartShell);
-
-
-            //导入前先删除数据库
-            tmpl.batchUpdate( "DROP TABLE IF EXISTS incubator_state",
-            "DROP TABLE IF EXISTS account",
-            "DROP TABLE IF EXISTS transaction",
-            "DROP TABLE IF EXISTS transaction_index",
-            "DROP TABLE IF EXISTS header");
-
-
-            //    $ pg_dump -U postgres(用户名)  (-t 表名)  数据库名(缺省时同用户名)  > 路径/文件名.sql
-            //    postgres@debian:~$   -U postgres -t system_calls wangye > ./test.sql
-            //    postgres@debian:~$ ls*/
-        //endregion
     }
 
-    // TODO: 2019/12/30 以后再做 
-    public String getPath() {
+    public boolean getPath(String[] ref_path) {
         String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-        if (System.getProperty("os.name").contains("dows")) {
-            path = path.substring(1, path.length());
-        }
         if (path.contains("jar")) {
             path = path.substring(0, path.lastIndexOf("."));
-            return path.substring(0, path.lastIndexOf("/"));
+            ref_path[0] = path.substring(0, path.lastIndexOf("/")).replace("file:", "");
+            return true;
         }
-        //return path.replace("target/classes/", "");
-        return path + "----------" + System.getProperty("os.name");
+        return false;
     }
 }
 

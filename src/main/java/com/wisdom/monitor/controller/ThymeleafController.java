@@ -26,6 +26,12 @@ public class ThymeleafController {
 
     @RequestMapping(value = {"/", "/basic"})
     public String Basci(ModelMap map) {
+        return "basic";
+    }
+
+    @RequestMapping("/basic_info")
+    public String localRefresh(ModelMap map)
+    {
         WDCInfo info = new WDCInfo();
         try {
             JSONObject get_info = JSON.parseObject(HttpRequestUtil.sendGet(String.format("http://%s/WisdomCore/ExplorerInfo", url_node), null)).getJSONObject("data");
@@ -36,13 +42,11 @@ public class ThymeleafController {
             e.printStackTrace();
         }
         map.addAttribute("result", info);
-        return "basic";
+        return "basic_info::basic_info";
     }
 
     @RequestMapping("/pass")
     public String pass(ModelMap map) {
-        // 加入一个属性，用来在模板中读取
-        String T="";
         return "pass";
     }
 

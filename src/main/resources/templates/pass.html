@@ -8,13 +8,7 @@
     <meta name="renderer" content="webkit">
     <meta name="description" content=""/>
     <meta name="keywords" content=""/>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/monitor.js}"></script>
-    <script type="text/javascript" th:src="@{/js/spin.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/ladda.min.js}"></script>
-    <link th:href="@{/css/ladda.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/pass.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <section class="outer-section">
@@ -29,59 +23,51 @@
     <div class="pass_backdrop">
         <div class="pass_info">
             <div class="pass_info_kv">
-                <div class="info_key">From</div>
-                <div class="info_input"><input class="form-control" id="input_from" placeholder="Enter FromAddress">
-                </div>
-            </div>
-            <div class="pass_info_kv">
-                <div class="info_key">To</div>
-                <div class="info_input"><input class="form-control" id="input_to" placeholder="Enter ToAddress"></div>
-            </div>
-            <div class="pass_info_kv">
-                <div class="info_key">事务类型</div>
-                <div class="info_input"></div>
-            </div>
-            <div>
-                <button class="export ladda-button" data-style="slide-down"><span class="ladda-label">导出Excel</span>
-                </button>
-            </div>
-            <button class="export_case">
-                <span style="color: seagreen;">↑</span><span>&nbsp;&nbsp;</span><span>↓</span>
-            </button>
-            <div>
-                <button class="import ladda-button" data-style="slide-down"><span class="ladda-label">导入区块</span>
-                </button>
+                <div class="info_key">地址</div>
+                <div class="info_input"><input id="input_from"/></div>
             </div>
         </div>
+        <div class="export">
+            <button></button>
+        </div>
+    </div>
+    <button class="export_case">
+        <div>^</div>
+    </button>
+    <div class="import">
+        <button></button>
     </div>
 </section>
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script language="javascript" type="text/javascript">
     $(function () {
-        var ladda;
         $(' .export').click(function () {
             var from_value = $('#input_from').val();
             if ($.trim(from_value) != "") {
-                ladda = Ladda.create(this).start();
                 var json = {};
                 json.from = from_value;
                 window.location.href = "export/txrecordFromAddress?json=" + encodeURI(JSON.stringify(json));
-                ladda.stop();
-                swithfun("导出Excel-完成", 200);
             } else {
-                ShowWarn('请输入From地址');
+                alert('请输入地址');
             }
         });
+
+        var isrun = true;
         $(' .import').click(function () {
-            ladda = Ladda.create(this).start();
-            $.get("importDb",
-                function (result) {
-                    swithfun(result.message, result.code);
-                    ladda.stop();
-                }, 'json').fail(function () {
-                ladda.stop();
-                swithfun("导入区块-发生内部错误", 400);
-            });
+            if (isrun) {
+                isrun = false;
+                $.get("importDb",
+                    function (result) {
+                        alert(result.message);
+                    }, 'json').fail(function () {
+                    alert("导入区块-发生内部错误");
+                }).always(function () {
+                    setTimeout(function () {
+                        isrun = true;
+                    }, 1000);
+                });
+            }
         });
     });
 </script>

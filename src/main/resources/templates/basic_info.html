@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+</head>
+<!--/*@thymesVar id="result" type="com.wisdom.monitor.model.WDCInfo"*/-->
+<div class="basic_info" id="basic_info" th:fragment="basic_info">
+    <div class="basic_info_key">
+        <div class="outer_img"></div>
+        <div class="info_img"></div>
+        <span>WDC价格</span>
+        <h4 th:text="'&yen;&nbsp;'+${result.price}">&yen;20</h4>
+    </div>
+    <div class="basic_info_key">
+        <div class="outer_img"></div>
+        <div class="info_img"></div>
+        <span>每天出块数量</span>
+        <h4 th:text="${result.blocksCount}"></h4>
+    </div>
+    <div class="basic_info_key">
+        <div class="outer_img"></div>
+        <div class="info_img"></div>
+        <span>区块高度</span>
+        <h4 th:text="${result.lastConfirmedHeight}"></h4>
+    </div>
+    <div class="basic_info_key_clean">
+        <div class="outer_img"></div>
+        <div class="info_img"></div>
+        <span>平均出块时间</span>
+        <h4 th:text="${result.averageBlockInterval}+'&nbsp;S'"></h4>
+    </div>
+    <div class="basic_info_key">
+        <div class="outer_img"></div>
+        <div class="info_img"></div>
+        <span>平均手续费(WDC)</span>
+        <h4 th:text="${result.averageFee}/100000000">0</h4>
+    </div>
+    <div class="basic_info_key">
+        <div class="outer_img"></div>
+        <div class="info_img"></div>
+        <span>事务池大小</span>
+        <h4 th:text="${result.queuedTransactions} + ${result.pendingTransactions}"></h4>
+    </div>
+    <div class="basic_info_key" style="">
+        <div class="outer_img"></div>
+        <div class="info_img"></div> <span>当前难度</span>
+        <h4 style="word-wrap:break-word;line-height: 25px;padding-top: 10px;"  th:text="${result.target}"></h4>
+    </div>
+</html>
