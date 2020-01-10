@@ -66,7 +66,7 @@ public class ImportDb {
         }
         int flag = JavaShellUtil.executeShell(String.format("echo %s |sudo -S docker stop %s", sys_password, core_name));
         if (flag == 1) {
-            String cmd = String.format("PGPASSWORD=%1$s psql -h %2$s -U replica  -p %3$s -d postgres < %4$s/WDC.sql", postgres_pwd, postgres_ip, postgres_port, path[0]);
+            String cmd = "PGPASSWORD=PqR_w9hk6Au-jq5ElsFcEjq\\!wvULrYXeF3*oDKp5i@A/D5m03VaB1M/hyKY psql -h " + postgres_ip + " -U wdcadmin  -p " + postgres_port + " -d postgres < " + path[0] + "/WDC.sql";
             flag = JavaShellUtil.executeShell(cmd);
             JavaShellUtil.executeShell(String.format("echo %s |sudo -S docker restart %s", sys_password, core_name));
         }
