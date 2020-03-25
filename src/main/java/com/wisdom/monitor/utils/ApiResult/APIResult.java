@@ -68,10 +68,10 @@ public class APIResult<T> extends ResultSupport {
         return apiResult;
     }
 
-    public static <U> APIResult<U> newSuccess(int code, String message,U data){
+    public static <U> APIResult<U> newSuccess(U data){
         APIResult<U> apiResult = new APIResult<U>();
-        apiResult.setCode(code);
-        apiResult.setMessage(message);
+        apiResult.setCode(2000);
+        apiResult.setMessage("SUCCESS");
         apiResult.setData(data);
         return apiResult;
     }

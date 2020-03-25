@@ -68,7 +68,7 @@ public class TransactionServiceImpl implements TransactionService {
                         return name2.compareTo(name1);
                     }
                 });
-                return APIResult.newSuccess(2000, "SUCCESS", list);
+                return APIResult.newSuccess(list);
             } else {
                 return APIResult.newFailResult(5000, "Address check error");
             }
