@@ -14,10 +14,9 @@ public class Leveldb {
 
     private DB db = null;
     private static final Charset CHARSET = Charset.forName("utf-8");
-    private static final String path = System.getProperty("user.dir")+File.separator+"leveldb";
+    private static final String path = System.getProperty("user.dir") + File.separator + "leveldb";
     private static final File file = new File(path);
-    private static final Options options =new Options();
-
+    private static final Options options = new Options();
 
 
     public void addAccount(String account) throws IOException {
@@ -28,9 +27,9 @@ public class Leveldb {
             byte[] keyByte = "Account_table".getBytes(CHARSET);
             // 会写入磁盘中
             this.db.put(keyByte, account.getBytes(CHARSET));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (db != null) {
                 try {
                     db.close();
@@ -63,8 +62,8 @@ public class Leveldb {
                         .next();
                 String key = new String(entry.getKey(), CHARSET);
                 String value = new String(entry.getValue(), CHARSET);
-//                System.out.println("key: " + key + " value: " + value);
-                if(key.equals("Account_table")){
+                //System.out.println("key: " + key + " value: " + value);
+                if (key.equals("Account_table")) {
                     account = value;
                 }
             }
@@ -85,8 +84,10 @@ public class Leveldb {
     }
 
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
+        Leveldb s = new Leveldb();
+        //s.addAccount("sssss");
+        System.out.println(s.readAccountFromSnapshot());
     }
 
 }

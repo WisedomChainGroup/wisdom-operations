@@ -57,6 +57,11 @@ dependencies {
     compile('org.apache.tomcat.embed:tomcat-embed-jasper')
     compile('org.springframework.boot:spring-boot-starter-tomcat')
 
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.1.1.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-devtools:2.1.1.RELEASE'
+
     // https://mvnrepository.com/artifact/com.alibaba/fastjson
     compile group: 'com.alibaba', name: 'fastjson', version: '1.2.58'
     // https://mvnrepository.com/artifact/commons-codec/commons-codec

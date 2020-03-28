@@ -3,13 +3,14 @@ package com.wisdom.monitor.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wisdom.monitor.model.WDCInfo;
+import com.wisdom.monitor.security.IsUser;
 import com.wisdom.monitor.utils.HttpRequestUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+@IsUser
 @Controller
 public class ThymeleafController {
 
