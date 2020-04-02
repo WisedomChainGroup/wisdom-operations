@@ -1,0 +1,131 @@
+* {margin: 0; padding: 0;}
+body, textarea, input, button, select, keygen, legend{font:14px "Microsoft YaHei", Verdana, "宋体", sans-serif; font-weight: normal; color: #666666; outline: 0;}
+table {border-collapse: collapse; border-spacing: 0;}
+.mail_cont{
+	min-width: 100%;
+	height:370px;
+	/* height: auto; */
+	background:#FFFFFF;
+	border:1px solid rgba(212,211,211,1);
+	border-radius:5px;
+	padding-bottom: 2em;
+}
+.mail_node{
+	min-width: 90%;
+	height: 38px;
+	background: #E2E8F2;
+	margin-top: 2em;
+	margin-left: 5%;
+	float: left;
+}
+.node_blue{
+	min-width: 1%;
+	height: 38px;
+	background: #519BFD;
+	float: left;
+}
+.mail_send{
+	min-width: 25%;
+	padding-top: 10px;
+	margin-left: 1%;
+	font-size:14px;
+	font-family:Microsoft YaHei;
+	font-weight:bold;
+	color:#555555;
+	float: left;
+}
+.mail_receive{
+	min-width: 25%;
+	padding-top: 10px;
+	font-size:14px;
+	font-family:Microsoft YaHei;
+	font-weight:bold;
+	color:#555555;
+	float: left;
+}
+.mail_stop{
+	min-width: 4%;
+	font-size:14px;
+	color:rgba(255,255,255,1);
+	background: #519BFD;
+	float: right;
+	margin-top: -1.6em;
+	border:0px ;
+	border-radius:5px;
+	margin-right: 2%;
+	margin-top: 8px;
+}
+.mail_del{
+	margin-left: 90%;
+}
+.bind_mail{
+	width: 60%;
+	height:310px;
+/* 	background:#FFFFFF; */
+	border:0px solid rgba(212,211,211,1);
+	margin-left: 20%;
+	margin-top: 2em;
+	float: left;
+}
+.bind_send{
+	min-width: 20%;
+	height:17px;
+	font-size:16px;
+	padding-top: 30px;
+	padding-left: 10%;
+	float: left;
+}
+.bind_mail input{
+	min-width: 50%;
+	height: 38px;
+	margin-top: 15px;
+	background:#FFFFFF;
+	border:1px solid #D4D3D3;
+	border-radius:5px;
+	float: left;
+}
+.note{
+	width: 60%;
+	height:17px;
+	font-size:12px;
+	padding-top: 30px;
+	padding-left: 10%;
+	float: left;
+	color: red;
+}
+.mail_confirm{
+	min-width: 15%;
+	height:48px;
+	background:#519BFD;
+	border-radius:5px;
+	color: #FFFFFF;
+	float: left;
+	margin-top: 4em;
+	margin-left: -30%;
+	border:0px solid;
+	font-size: 16px;
+}
+
+.input-phone {
+	color: #BFBFBF;
+}
+
+.input-phone::-webkit-input-placeholder {
+	position: relative;
+	left: 1em;
+	color: #999;
+}
+
+.input-phone::-moz-placeholder {
+	color: #555555;
+}
+
+.input-phone:-ms-input-placeholder {
+	color: #555555;
+}
+
+.input-phone:-moz-placeholder {
+	color: #555555;
+}
+input:focus{color:#555555}
+button{cursor:pointer;outline: none;}

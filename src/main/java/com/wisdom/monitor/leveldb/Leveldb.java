@@ -1,12 +1,22 @@
 package com.wisdom.monitor.leveldb;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.wisdom.monitor.model.User;
+import com.wisdom.monitor.model.WDCInfo;
+import com.wisdom.monitor.utils.HttpRequestUtil;
 import org.iq80.leveldb.*;
 import org.iq80.leveldb.impl.Iq80DBFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -19,14 +29,14 @@ public class Leveldb {
     private static final Options options = new Options();
 
 
-    public void addAccount(String account) throws IOException {
+    public void addAccount(String table, String context) throws IOException {
         try {
             DBFactory factory = new Iq80DBFactory();
             options.createIfMissing(true);
             this.db = factory.open(file, options);
-            byte[] keyByte = "Account_table".getBytes(CHARSET);
+            byte[] keyByte = table.getBytes(CHARSET);
             // 会写入磁盘中
-            this.db.put(keyByte, account.getBytes(CHARSET));
+            this.db.put(keyByte, context.getBytes(CHARSET));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -41,11 +51,11 @@ public class Leveldb {
         }
     }
 
-    public String readAccountFromSnapshot() throws IOException {
+    public String readAccountFromSnapshot(String table) throws IOException {
         DBFactory factory = new Iq80DBFactory();
         options.createIfMissing(true);
         this.db = factory.open(file, options);
-        String account = "";
+        String context = "";
         try {
             // 读取当前快照，重启服务仍能读取，说明快照持久化至磁盘，
             Snapshot snapshot = this.db.getSnapshot();
@@ -63,8 +73,8 @@ public class Leveldb {
                 String key = new String(entry.getKey(), CHARSET);
                 String value = new String(entry.getValue(), CHARSET);
                 //System.out.println("key: " + key + " value: " + value);
-                if (key.equals("Account_table")) {
-                    account = value;
+                if (key.equals(table)) {
+                    context = value;
                 }
             }
         } catch (Exception e) {
@@ -80,14 +90,22 @@ public class Leveldb {
                 }
             }
         }
-        return account;
+        return context;
     }
 
 
     public static void main(String[] args) throws IOException {
         Leveldb s = new Leveldb();
-        //s.addAccount("sssss");
-        System.out.println(s.readAccountFromSnapshot());
+       /* List<User> list = new ArrayList<>();
+        list.add(new User("admin", new BCryptPasswordEncoder().encode("admin"), "ROLE_ADMIN"));
+        list.add(new User("zhang", "zhang", "ROLE_EDITOR"));
+        list.add(new User("xi", "xi", "ROLE_REVIEWER"));
+        list.add(new User("chen", "chen", "ROLE_ADMIN"));
+        String ss = JSON.toJSONString(list);
+        s.addAccount("user", ss);*/
+
+        System.out.println("sssss"+s.readAccountFromSnapshot("mail"));
     }
 
 }
+

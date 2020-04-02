@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>邮件预警</title>
+    <link th:href="@{/css/mail.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/header.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/navion.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/font-awesome-4.7.0/css/font-awesome.css}" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="headpage"></div>
+<div style="width: 87%;margin-left: 1%;float: left;margin-top: 1%;">
+    <div class="mail_cont">
+        <div class="mail_node">
+            <div class="node_blue"></div>
+            <div class="mail_send">当前节点发送邮箱：<span th:text="${mail.getSender()}"></span></div>
+            <div class="mail_receive">当前节点接收邮箱：<span th:text="${mail.getReceiver()}"></span></div>
+            <!--<button class="mail_stop"><i class="fa fa-window-close"></i>&nbsp;删除</button>
+            <button class="mail_stop"><i class="fa fa-minus-square"></i>&nbsp;停用</button>-->
+        </div>
+        <div class="mail_node">
+            <div class="node_blue"></div>
+            <div class="mail_send">修改邮箱信息</div>
+        </div>
+        <div class="bind_mail">
+            <div class="bind_send">绑定发送邮箱:</div>
+            <input type="text" placeholder="请输入新的发送邮箱" class="input-phone" id="txt_send"/>
+            <div class="bind_send">绑定发送邮箱:</div>
+            <input type="text" placeholder="请输入新的接收邮箱" class="input-phone" id="txt_receiver"/>
+            <div class="note">注：如若需填写多个接收邮箱，中间用 ";" 隔开。</div>
+            <button class="mail_confirm" id="bt_editmail">确认修改</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(" .headpage").load("control");
+        $('#bt_editmail').click(function () {
+            var urlData = {sender: $('#txt_send').val(), receiver: $('#txt_receiver').val()};
+            $.get('editmail', urlData, function (result) {
+                alert(result.message);
+                window.location.reload();
+                console.log(result);
+            }, 'json');
+        });
+    });
+</script>
+</body>
+</html>

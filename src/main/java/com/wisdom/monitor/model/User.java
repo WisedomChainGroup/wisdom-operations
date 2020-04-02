@@ -2,7 +2,16 @@ package com.wisdom.monitor.model;
 
 public class User {
     private String name;
-    private int type;
+    private String password;
+    private String role;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getName() {
         return name;
@@ -12,16 +21,20 @@ public class User {
         this.name = name;
     }
 
-    public int getType() {
-        return type;
+    public String getRole() {
+        return role;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public User(String name,int type){
+    public User() {
+    }
+
+    public User(String name, String password, String role) {
         this.name = name;
-        this.type = type;
+        this.role = role;
+        this.password = password;
     }
 }

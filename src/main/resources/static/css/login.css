@@ -1,0 +1,77 @@
+*{margin: 0;padding: 0;}
+body{background: #EDF0F4;}
+html, body, fieldset, img, iframe, abbr{border: 0;}
+button{cursor:pointer;}
+
+.login_box{
+    height:100vh;
+	width:100%;
+	float: left;
+}
+.login_cont{
+	width: 681px;
+	height:418px;
+	margin-left: 30%;
+	margin-top: 12%;
+	background: #DDDDDD;
+	background:rgba(221,221,221,1);
+	border-radius:10px;
+}
+.login_text{
+	text-align: center;
+	font-size:36px;
+	font-family:PingFang SC;
+	font-weight:bold;
+	color:rgba(85,85,85,1);
+	line-height:60px;
+}
+.login_input{
+	margin-top: 1.5em;
+	margin-left: 25%;
+	height: 60px;
+	min-width: 50%;
+	background:rgba(255,255,255,1);
+	border:2px solid rgba(212,211,211,1);
+	border-radius:10px;
+	font-size: 18px;
+}
+
+input::-webkit-input-placeholder {
+	color: #D4D3D3;
+	font-size: 24px;
+	text-align: center;
+}
+.login_cont button{
+	min-width: 50%;
+	margin-top: 1em;
+	margin-left: 25%;
+	height:50px;
+	background:rgba(72,188,63,1);
+	border-radius:10px;
+	font-size:26px;
+	outline:0 none;
+	border: 1px solid #C6C4C4;
+	color: #FFFFFF;
+}
+.login_prompt{
+	min-width: 50%;
+	margin-top: 1em;
+	text-align: center;
+	height:19px;
+	font-size:16px;
+	font-family:PingFang SC;
+	font-weight:bold;
+	color:rgba(81,155,253,1);
+	line-height:24px;
+}
+.login_footer{
+	min-width: 50%;
+	margin-top: 1em;
+	text-align: center;
+	height:18px;
+	font-size:14px;
+	font-family:PingFang SC;
+	font-weight:300;
+	color:rgba(85,85,85,1);
+	line-height:26px;
+}

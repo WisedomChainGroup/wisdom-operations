@@ -1,0 +1,36 @@
+*{margin: 0;padding: 0;}
+body{background: #EDF0F4;}
+.deal_cont{
+	background:rgba(255,255,255,1);
+	border:1px solid rgba(212,211,211,1);
+	border-radius:5px;
+	margin-top: 1em;
+	padding-bottom: 1em;
+}
+.deal_part{
+	min-width: 92%;
+	float: left;
+	margin-left: 5%;
+	margin-top: 1%;
+}
+.deal_part input{
+	height: 30px;
+	min-width: 20%;
+	border-radius:5px;
+	border:2px solid rgba(81,155,253,1);
+}
+.deal_part button{
+	height: 35px;
+	min-width: 5%;
+	font-size: 16px;
+	background: #519BFD;
+	color: #FFFFFF;
+	border:0px solid rgba(212,211,211,1);
+	border-radius:5px;
+	margin-top: 5px;
+}
+.deal_cont table{
+	width: 90%;
+	margin-top: 6em;
+	margin-left: 5%;
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>鉴权设置</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
+    <link th:href="@{/css/sign.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/header.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/navion.css}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background: #EDF0F4;">
+<div class="headpage"></div>
+<div style="width: 87%;margin-left: 1%;float: left;margin-top: 1%;">
+    <div class="sign_cont" style="height: auto;">
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
+                style="background:#519BFD;margin: 1em;">
+            +&nbsp;添加新的用户
+        </button>
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <div class="moda">
+                            <h4 class="modal-title moda_info">
+                                登录账号:
+                            </h4>
+                            <input class="form-control" id="username">
+                        </div>
+                        <div class="moda">
+                            <h4 class="modal-title moda_info">
+                                密码:
+                            </h4>
+                            <input class="form-control moda_info" id="password">
+                        </div>
+                        <div class="moda">
+                            <h4 class="modal-title moda_info">
+                                权限:
+                            </h4>
+                            <select id="role">
+                                <option th:value="ROLE_ADMIN">管理员</option>
+                                <option th:value="ROLE_REVIEWER">仅查询</option>
+                                <option th:value="ROLE_EDITOR">操作员</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="button" id="bt_submit" class="btn btn-primary">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sign">
+            <table>
+                <tr>
+                    <th>登陆账号</th>
+                    <th>当前权限</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="user: ${userList}">
+                    <td th:text="${user.getName()}">Asegmahh</td>
+                    <td th:switch="${user.getRole()}">
+                        <p th:case="'ROLE_ADMIN'">管理员</p>
+                        <p th:case="'ROLE_REVIEWER'">进查询</p>
+                        <p th:case="'ROLE_EDITOR'">操作员</p>
+                    </td>
+                    <td>
+                        <button class="do bt_delete" th:id="${user.getName()}">删除</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(" .headpage").load("control");
+        $('#bt_submit').click(function () {
+            var urlData = {name: $('#username').val(), password: $('#password').val(), role: $('#role').val()};
+            $.get('adduser', urlData, function (result) {
+                $(".modal").css("display", "none");
+                $(".modal-backdrop").css("display", "none");
+                alert(result.message);
+                window.location.reload();
+                console.log(result);
+            }, 'json');
+        });
+        $(' .bt_delete').click(function () {
+            var r = confirm("是否删除该用户");
+            if (r == true) {
+                var urlData = {name: $(this).attr('id')};
+                $.get('deleteuser', urlData, function (result) {
+                    alert(result.message);
+                    window.location.reload();
+                    console.log(result);
+                }, 'json');
+            }
+        });
+    });
+</script>
+</body>
+</html>

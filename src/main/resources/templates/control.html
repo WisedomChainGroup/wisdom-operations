@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div style="width:11%;min-width: 11%; float: left;">
+    <div class="pane">
+        <div class="inner1">
+            <div class="inner1-top"><i class="fa fa-bar-chart"></i>&emsp;WDC运维平台</div>
+        </div>
+        <div class="inner2">
+            <div><a href="home"><i class="fa fa-list-alt"></i>&emsp;信息概要</a></div>
+            <div><a href="node"><i class="fa fa-list-ul"></i>&emsp;控制台&emsp;</a></div>
+            <div><a href=""><i class="fa fa-file-text-o"></i>&emsp;日志信息</a></div>
+            <div><a href="mail"><i class="fa fa-wpexplorer"></i>&emsp;预警信息</a></div>
+            <div><a href="user"><i class="fa fa-key"></i>&emsp;鉴权设置</a></div>
+            <div><a href="deal"><i class="fa fa-envelope-open-o"></i>&emsp;合约部署</a></div>
+        </div>
+        <div class="inner3">
+            <div class="nav_jum"><i class="fa fa-angle-double-left fa-2x"></i></div>
+        </div>
+    </div>
+</div>
+<div style="width: 88%;margin-left: 11%;">
+    <div class="head_cont">
+        <div class="header">
+            <table class="">
+                <tr style="height: 80px;">
+                    <td class="tdroot" style="font-size: 18px;" ><i class="fa fa-user-circle" style="color: #48BC3F;"></i>&emsp;用户：&nbsp;
+                        <span th:text="${customUser.getUsername()}"></span>
+                    </td>
+                    <td colspan="4" style="font-size: 18px;">
+                        当前时间：&nbsp;<span th:text="${#dates.format(dateNow,'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </td>
+                    <td class="tdstop">
+                        <button class="stop_do" th:href="@{logout}"><i class="fa fa-sign-out fa-lg"></i>&nbsp;退出</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tdroot" style="font-size: 16px;"><i class="fa fa-circle" style="color: #48BC3F;"></i>&nbsp;当前节点：KKKKKKKKKKKK节点
+                    </td>
+                    <td class="tdnode" style="color: #519BFD;"><i class="fa fa-unsorted" style="color: #48BC3F;"></i>&nbsp;节点版本：2.01.213
+                    </td>
+                    <td class="tdnode" style="color: #519BFD;">运行状态：运行中</td>
+                    <td style="color: #519BFD;">节点类型：普通全节点</td>
+                    <td class="tdstop">
+                        <button class="h-button"><i class="fa fa-stop"></i>&nbsp;停止</button>
+                    </td>
+                    <td>
+                        <button class="h-button"><i class="fa fa-undo"></i>&nbsp;重启</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

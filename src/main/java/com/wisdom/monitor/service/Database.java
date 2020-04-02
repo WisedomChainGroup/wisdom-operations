@@ -1,31 +1,41 @@
 package com.wisdom.monitor.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.wisdom.monitor.leveldb.Leveldb;
+import com.wisdom.monitor.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 public class Database {
 
     private Map<String, CustomUser> data;
-
+    private List<User> userList;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public Database() {
+    public Database() throws IOException {
         data = new HashMap<>();
-
-        CustomUser jack = new CustomUser(1, "jack", getPassword("jack123"), getGrants("ROLE_USER"));
-        CustomUser danny = new CustomUser(2, "danny", getPassword("danny123"), getGrants("ROLE_EDITOR"));
-        CustomUser alice = new CustomUser(3, "alice", getPassword("alice123"), getGrants("ROLE_REVIEWER"));
-        CustomUser smith = new CustomUser(4, "smith", getPassword("smith123"), getGrants("ROLE_ADMIN"));
-        data.put("jack", jack);
-        data.put("danny", danny);
-        data.put("alice", alice);
-        data.put("smith", smith);
+        Leveldb leveldb = new Leveldb();
+        String account = leveldb.readAccountFromSnapshot("user");
+        if (account.length() > 0) {
+            userList = JSONObject.parseArray(account, User.class);
+            for (int i = 0; i < userList.size(); i++) {
+                CustomUser customUser = new CustomUser(i, userList.get(i).getName(), userList.get(i).getPassword(), getGrants(userList.get(i).getRole()));
+                data.put(userList.get(i).getName(), customUser);
+            }
+        } else {
+            userList = new ArrayList<>();
+            User user = new User("admin", getPassword("admin"), "ROLE_ADMIN");
+            userList.add(user);
+            leveldb.addAccount("user",JSON.toJSONString(userList));
+            CustomUser customUser = new CustomUser(0, user.getName(), user.getPassword(), getGrants(user.getRole()));
+            data.put(user.getName(), customUser);
+        }
     }
 
     public Map<String, CustomUser> getDatabase() {

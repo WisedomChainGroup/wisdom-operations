@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>信息概要</title>
+    <link rel="stylesheet" type="text/css" href="css/home.css"/>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/highcharts.js"></script>
+    <link th:href="@{/css/home.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/header.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/navion.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/font-awesome-4.7.0/css/font-awesome.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="headpage"></div>
+<div style="width: 87%;margin-left: 1%;float: left;margin-top: 1%;">
+    <div class="th_box">
+        <div>
+            <div class="th_sum" href="#panel-657186" data-toggle="tab">信息概要</div>
+            <div class="th_move" href="#panel-440280" data-toggle="tab">导入导出</div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="panel-657186">
+                <div class="th_monitor">
+                    <div class="th_monitor_blue"></div>
+                    <div class="th_monitor_info">
+                        <span style="margin-left: 10px;">监控信息</span>
+                    </div>
+                </div>
+                <div class="tabinfo">
+                    <div class="tabinfoitem">
+                        <div>
+                            <span>WDC价格</span>
+                            <br/>
+                            <span th:text="'&yen;&nbsp;'+${result.price}"></span>
+                        </div>
+                        <div>
+                            <span>每天出块数</span>
+                            <br/>
+                            <span th:text="${result.blocksCount}"></span></div>
+                        <div>
+                            <span>区块高度</span>
+                            <br/>
+                            <span th:text="${result.lastConfirmedHeight}"></span>
+                        </div>
+                        <div>
+                            <span>平均出块时间</span>
+                            <br/>
+                            <span th:text="${result.averageBlockInterval}+'&nbsp;S'"></span>
+                        </div>
+                        <div>
+                            <span>事务池大小</span>
+                            <br/>
+                            <span th:text="${result.queuedTransactions} + ${result.pendingTransactions}"></span>
+                        </div>
+                        <div>
+                            <span>平均手续费</span>
+                            <br/>
+                            <span th:text="${result.averageFee}/100000000">0</span>
+                        </div>
+                    </div>
+                    <div id="container" class="tabline">
+
+                    </div>
+                </div>
+                <div class="th_monitor">
+                </div>
+                <div class="th_box2" style="height: auto;">
+                    <div class="th_monitor_blue2"></div>
+                    <div class="th_monitor_info2">
+                        <span style="margin-left: 10px;">预警状态</span>
+                    </div>
+                    <div class="warningitem">
+                        <div style="margin-left: 25%;">CPU状态</div>
+                        <div>卡块情况</div>
+                        <div>停运情况</div>
+                        <div>分叉情况</div>
+                        <div>挖矿检测</div>
+                        <div>检查点状态</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="panel-440280">
+                <div class="tabexport">
+                    <table>
+                        <tr>
+                            <td style="width: 50px;text-align: right;">地址：</td>
+                            <td style="width: 200px"><input class="form-control" id="input_from"></td>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td colspan="2" style="width: 300px;text-align: center;margin-top: 3em;">
+                                <button type="button" id="export" class="btn btn-default">导出</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    var chart = null;
+    $.getJSON('getLinedata/Json', function (data) {
+        chart = Highcharts.chart('container', {
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'WDC价格走势图'
+            },
+            xAxis: {
+                type: 'datetime',
+                dateTimeLabelFormats: {
+                    millisecond: '%H:%M:%S.%L',
+                    second: '%H:%M:%S',
+                    minute: '%H:%M',
+                    hour: '%H:%M',
+                    day: '%m-%d',
+                    week: '%m-%d',
+                    month: '%Y-%m',
+                    year: '%Y'
+                }
+            },
+            tooltip: {
+                dateTimeLabelFormats: {
+                    millisecond: '%H:%M:%S.%L',
+                    second: '%H:%M:%S',
+                    minute: '%H:%M',
+                    hour: '%H:%M',
+                    day: '%Y-%m-%d',
+                    week: '%m-%d',
+                    month: '%Y-%m',
+                    year: '%Y'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, new Highcharts.getOptions().colors[0]],
+                            [1, new Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+            series: [{
+                type: 'area',
+                name: 'Price',
+                data: data
+            }]
+        });
+    });
+    $(function () {
+        $(" .headpage").load("control");
+        $('#export').click(function () {
+            var from_value = $('#input_from').val();
+            if ($.trim(from_value) != "") {
+                var json = {};
+                json.from = from_value;
+                window.location.href = "export/txrecordFromAddress?json=" + encodeURI(JSON.stringify(json));
+            } else {
+                alert('请输入地址');
+            }
+        });
+    });
+</script>
+
+</html>

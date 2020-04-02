@@ -2,10 +2,15 @@ package com.wisdom.monitor.service;
 
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class UserService {
 
     private Database database = new Database();
+
+    public UserService() throws IOException {
+    }
 
     public CustomUser getUserByUsername(String username) {
         CustomUser originUser = database.getDatabase().get(username);

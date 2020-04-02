@@ -1,0 +1,65 @@
+*{margin: 0;padding: 0;}
+html, body, fieldset, img, iframe, abbr{border: 0;}
+button{cursor:pointer;}
+div a, a:hover{text-decoration: none; cursor: pointer;}
+a:link {color: #FFFFFF}
+a:visited {color: #FFFFFF}
+a:hover {color: #519BFD}
+a:active {color: #519BFD;text-decoration:none;}
+
+.outer-section {width:11%;min-width: 11%; float: left;}
+
+.pane{
+    background: aliceblue;
+    overflow: auto;
+    height:100vh;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+	width: 100%;
+}
+.inner1{
+    min-width: 100%;
+    height: 70px;
+    position: relative;
+	font-weight: 500;
+	color: #FFFFFF;
+	background: #202845;
+	text-align: center;
+	font-size: 18px;
+	float: left;
+}
+.inner1-top{
+	margin-top: 15px;
+}
+.inner2{
+    min-width: 100%;
+    height: inherit;
+    position: relative;
+	float: left;
+	background:rgba(50,57,80,1);
+}
+.inner2 div{
+	text-align: center;
+	font-size: 1.2em;
+	margin-top: 1em;
+}
+.inner3{
+    background:#202845;
+    min-width: 100%;
+    height: auto;
+    position: relative;
+	text-align: center;
+	color: #FFFFFF;
+}
+::selection {
+   background: #FFF;
+   color: #333;
+}
+::-moz-selection {
+   background: #FFF;
+   color: #333;
+}
+::-webkit-selection {
+   background: #FFF;
+   color: #333;
+}
