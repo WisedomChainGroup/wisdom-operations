@@ -31,7 +31,7 @@
                         <span th:text="${customUser.getUsername()}"></span>
                     </td>
                     <td colspan="4" style="font-size: 18px;">
-                        当前时间：&nbsp;<span th:text="${#dates.format(dateNow,'yyyy-MM-dd HH:mm:ss')}"></span>
+                        当前时间：&nbsp;<span id = "time"></span>
                     </td>
                     <td class="tdstop">
                         <button class="stop_do" th:href="@{logout}"><i class="fa fa-sign-out fa-lg"></i>&nbsp;退出</button>
@@ -56,4 +56,19 @@
     </div>
 </div>
 </body>
+
+<script th:inline="javascript">
+    function setTime(){
+        var dt=new Date();
+        var strHour=dt.getHours();
+        var strMinutes=dt.getMinutes();
+        var strSeconds=dt.getSeconds();
+        var strYear=dt.getFullYear()+"-";
+        var strMonth=(dt.getMonth()+1)+"-";
+        var strDay=dt.getDate();
+        var strTime=strHour+":"+strMinutes+":"+strSeconds;
+        document.getElementById("time").innerHTML=strYear+strMonth+strDay+" "+strTime;
+    }
+    setInterval("setTime()",1000);
+</script>
 </html>

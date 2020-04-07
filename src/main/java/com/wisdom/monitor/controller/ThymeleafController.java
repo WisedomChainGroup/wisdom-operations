@@ -8,29 +8,17 @@ import com.wisdom.monitor.model.*;
 import com.wisdom.monitor.security.IsUser;
 import com.wisdom.monitor.service.CustomUser;
 import com.wisdom.monitor.utils.HttpRequestUtil;
-import com.wisdom.monitor.utils.SysStatusUtil;
-import org.apache.logging.log4j.status.StatusData;
-import org.hyperic.sigar.CpuPerc;
-import org.hyperic.sigar.Mem;
-import org.hyperic.sigar.SigarException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.soap.Node;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @IsUser
@@ -50,26 +38,14 @@ public class ThymeleafController {
     }
 
     @RequestMapping(value = {"/", "/home"})
-    public String home(ModelMap map) throws Exception {
+    public String home(ModelMap map){
         WDCInfo info = new WDCInfo();
         JSONObject get_info = JSON.parseObject(HttpRequestUtil.sendGet(String.format("http://%s/WisdomCore/ExplorerInfo", url_node), null)).getJSONObject("data");
         String get_price = JSON.parseObject(HttpRequestUtil.sendGet(url_price, "market=wdc_qc")).getJSONObject("data").getString("last");
         info = JSON.toJavaObject(get_info, WDCInfo.class);
         info.setPrice(get_price);
         map.addAttribute("result", info);
-        SysStatusUtil sysStatusUtils = new SysStatusUtil();
-        JSONObject jsonObject = sysStatusUtils.status();
-        map.addAttribute("sysCpuUsed",jsonObject.getString("sysCpuUsed"));
-        map.addAttribute("sysMemoryUsed",jsonObject.getString("sysMemoryUsed"));
         return "home";
-    }
-
-    @ResponseBody
-    @RequestMapping(value = {"/cpu"})
-    public String cpu() throws Exception {
-        SysStatusUtil sysStatusUtils = new SysStatusUtil();
-        JSONObject jsonObject = sysStatusUtils.status();
-        return jsonObject.getString("sysCpuUsed");
     }
 
     @ResponseBody

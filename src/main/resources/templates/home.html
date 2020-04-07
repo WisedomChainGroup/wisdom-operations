@@ -73,12 +73,10 @@
                         <span style="margin-left: 10px;">预警状态</span>
                     </div>
                     <div class="warningitem" >
-                        <div style="margin-left: 23%;" th:fragment="article_type">CPU状态<br/><span id = "demo"></span></div>
-                        <div>卡块情况<br/><span th:text="'&nbsp;'+${sysMemoryUsed}"></span></div>
-                        <div>停运情况</div>
-                        <div>分叉情况</div>
-                        <div>挖矿检测</div>
-                        <div>检查点状态</div>
+                        <div style="margin-left: 23%;" th:fragment="article_type">CPU状态<br/><span id = "cpuStatus"></span></div>
+                        <div>卡块情况<br/><span th:text="'&nbsp;'"  id = "blockStatus"></span></div>
+                        <div>停运情况<br/><span th:text="'&nbsp;'"  id = "outageStatus"></span></div>
+                        <div>分叉情况<br/><span th:text="'&nbsp;'"  id = "bifurcation"></span></div>
                     </div>
                 </div>
             </div>
@@ -196,16 +194,65 @@
 <script th:inline="javascript">
     var t2 = setInterval(function() {
         cpu()},1000);
-    function cpu() {
-        var urlData = $('#demo').val();
-        $.get('home',urlData,function (result) {
-            // window.location.reload();
-        }, 'json');
-        console.log("111")
-        var a = [[${sysCpuUsed}]];
-        console.log(a)
-        document.getElementById("demo").innerHTML = a;
-    }
+        function cpu() {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: "/cpu",
+                data: "",
+                success: function (result) {
+                    document.getElementById("cpuStatus").innerHTML = result;
+                }
+            });
+        };
+    $(function () {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/block",
+            data: "",
+            success: function (result) {
+                console.log(result);
+                if(result){
+                    document.getElementById("blockStatus").innerHTML = "正常";
+                }else{
+                    document.getElementById("blockStatus").innerHTML = "不正常";
+                }
+            }
+        })
+    });
+    $(function () {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/outageStatus",
+            data: "",
+            success: function (result) {
+                console.log(result);
+                if(result){
+                    document.getElementById("outageStatus").innerHTML = "正常";
+                }else{
+                    document.getElementById("outageStatus").innerHTML = "不正常";
+                }
+            }
+        })
+    });
+    $(function () {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/bifurcation",
+            data: "",
+            success: function (result) {
+                console.log(result);
+                if(result){
+                    document.getElementById("bifurcation").innerHTML = "正常";
+                }else{
+                    document.getElementById("bifurcation").innerHTML = "不正常";
+                }
+            }
+        })
+    });
 </script>
 
 </html>
