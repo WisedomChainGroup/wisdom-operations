@@ -72,9 +72,9 @@
                     <div class="th_monitor_info2">
                         <span style="margin-left: 10px;">预警状态</span>
                     </div>
-                    <div class="warningitem">
-                        <div style="margin-left: 25%;">CPU状态</div>
-                        <div>卡块情况</div>
+                    <div class="warningitem" >
+                        <div style="margin-left: 23%;" th:fragment="article_type">CPU状态<br/><span id = "demo"></span></div>
+                        <div>卡块情况<br/><span th:text="'&nbsp;'+${sysMemoryUsed}"></span></div>
                         <div>停运情况</div>
                         <div>分叉情况</div>
                         <div>挖矿检测</div>
@@ -192,6 +192,20 @@
             }
         });
     });
+</script>
+<script th:inline="javascript">
+    var t2 = setInterval(function() {
+        cpu()},1000);
+    function cpu() {
+        var urlData = $('#demo').val();
+        $.get('home',urlData,function (result) {
+            // window.location.reload();
+        }, 'json');
+        console.log("111")
+        var a = [[${sysCpuUsed}]];
+        console.log(a)
+        document.getElementById("demo").innerHTML = a;
+    }
 </script>
 
 </html>
