@@ -51,18 +51,21 @@ button{cursor:pointer;}
 }
 
 .sign table{
-	width: 90%;
-	margin-left: 5%;
+	width: 96%;
+	margin-left: 2%;
+	margin-top: 20px;
+	white-space:nowrap;
 }
 .sign th{
 	text-align: center;
-	height: 50px;
+	height: 45px;
 	font-weight:900;
 	font-size: 16px;
+	background: #E2E8F2;
 }
 .sign td{
 	text-align: center;
-	height: 30px;
+	height: 45px;
 }
 .sign td .root{
 	background: #48BC3F;
@@ -73,7 +76,7 @@ button{cursor:pointer;}
 }
 .sign table,th,td
 {
-	border:1px solid black;
+	border:1px solid #519BFD;
 }
 
 .sign td .do{
@@ -81,6 +84,8 @@ button{cursor:pointer;}
 	border-radius:5px;
 	border:0px #ff0000 solid;
 	color: #FFFFFF;
+	height: 28px;
+	min-width: 20%;
 }
 
 .dropbtn {

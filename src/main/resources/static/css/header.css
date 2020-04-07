@@ -31,11 +31,20 @@ button{cursor:pointer;}
 	font-weight:400;
 	color:rgba(85,85,85,1);
 }
+.tdroot i{
+	margin-left: 8%;
+}
 .tdstop{
 	width: 5%;
 }
+.tdnode-img{
+	width: 3%;
+}
+.tdnode-img i{
+	margin-left: 65%;
+}
 .tdnode{
-	width: 9%;
+	width: 10%;
 }
 .h-button{
 	height:30px;

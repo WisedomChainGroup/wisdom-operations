@@ -11,11 +11,11 @@ table {border-collapse: collapse; border-spacing: 0;}
 	padding-bottom: 2em;
 }
 .mail_node{
-	min-width: 90%;
+	min-width: 96%;
 	height: 38px;
 	background: #E2E8F2;
-	margin-top: 2em;
-	margin-left: 5%;
+	margin-top: 20px;
+	margin-left: 2%;
 	float: left;
 }
 .node_blue{
@@ -64,7 +64,7 @@ table {border-collapse: collapse; border-spacing: 0;}
 /* 	background:#FFFFFF; */
 	border:0px solid rgba(212,211,211,1);
 	margin-left: 20%;
-	margin-top: 2em;
+	margin-top: 20px;
 	float: left;
 }
 .bind_send{
@@ -94,7 +94,7 @@ table {border-collapse: collapse; border-spacing: 0;}
 	color: red;
 }
 .mail_confirm{
-	min-width: 15%;
+	min-width: 10%;
 	height:48px;
 	background:#519BFD;
 	border-radius:5px;

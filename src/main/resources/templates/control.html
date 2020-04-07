@@ -27,10 +27,10 @@
         <div class="header">
             <table class="">
                 <tr style="height: 80px;">
-                    <td class="tdroot" style="font-size: 18px;" ><i class="fa fa-user-circle" style="color: #48BC3F;"></i>&emsp;用户：&nbsp;
+                    <td class="tdroot" style="font-size: 18px;" ><i class="fa fa-address-book" style="color: #48BC3F;"></i>&emsp;用户：&nbsp;
                         <span th:text="${customUser.getUsername()}"></span>
                     </td>
-                    <td colspan="4" style="font-size: 18px;">
+                    <td colspan="5" style="font-size: 18px;">
                         当前时间：&nbsp;<span id = "time"></span>
                     </td>
                     <td class="tdstop">
@@ -40,8 +40,12 @@
                 <tr>
                     <td class="tdroot" style="font-size: 16px;"><i class="fa fa-circle" style="color: #48BC3F;"></i>&nbsp;当前节点：KKKKKKKKKKKK节点
                     </td>
-                    <td class="tdnode" style="color: #519BFD;"><i class="fa fa-unsorted" style="color: #48BC3F;"></i>&nbsp;节点版本：2.01.213
+                    <td class="tdnode-img"><i class="fa fa-unsorted" style="color: #48BC3F;"></i>
                     </td>
+                    <td class="tdnode" style="color: #519BFD;">节点版本：2.01.213
+                    </td>
+<!--                    <td class="tdnode" style="color: #519BFD;"><i class="fa fa-unsorted" style="color: #48BC3F;"></i>&nbsp;节点版本：2.01.213-->
+<!--                    </td>-->
                     <td class="tdnode" style="color: #519BFD;">运行状态：运行中</td>
                     <td style="color: #519BFD;">节点类型：普通全节点</td>
                     <td class="tdstop">
