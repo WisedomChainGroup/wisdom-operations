@@ -23,8 +23,6 @@ public class KeystoreUtil {
     private static final int ivLength = 16;
     private static final String defaultVersion = "1";
     private static final String t = "1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ec";
-    public static byte[] outscrip;
-    private static final Long rate= 100000000L;
 
 
 
@@ -141,84 +139,6 @@ public class KeystoreUtil {
             return "";
         }
     }
-
-//    /**
-//     * 通过keystore,密码获取公钥
-//     * @param ksJson
-//     * @param password
-//     * @return
-//     */
-//    public static String keystoreToPubkey(String ksJson,String password){
-//        try {
-//            Keystore ks = JSON.parseObject(ksJson, Keystore.class);
-//            String privateKey =  KeystoreAction.obPrikey(ks,password);
-//            String pubkey = KeystoreAction.prikeyToPubkey(privateKey);
-//            return  pubkey;
-//        }catch (Exception e){
-//            return "";
-//        }
-//    }
-//
-//    /**
-//     * 通过keystore,密码获取公钥hash
-//     * @param ksJson
-//     * @param password
-//     * @return
-//     */
-//    public static String keystoreToPubkeyHash(String ksJson,String password){
-//        try {
-//            Keystore ks = JSON.parseObject(ksJson, Keystore.class);
-//            String privateKey =  KeystoreAction.obPrikey(ks,password);
-//            String pubkey = KeystoreAction.prikeyToPubkey(privateKey);
-//            byte[] pub256 = SHA3Utility.keccak256(Hex.decodeHex(pubkey.toCharArray()));
-//            byte[] r1 = RipemdUtility.ripemd160(pub256);
-//            String pubkeyHash = new String(Hex.encodeHex(r1));
-//            return  pubkeyHash;
-//        }catch (Exception e){
-//            return "";
-//        }
-//    }
-//
-//    /**
-//     * 通过keystore,密码获取私钥
-//     * @param ksJson
-//     * @param password
-//     * @return
-//     */
-//    public static String obtainPrikey(String ksJson, String password){
-//        try {
-//            Keystore ks = JSON.parseObject(ksJson, Keystore.class);
-//            String privateKey =  new String(Hex.encodeHex(KeystoreAction.decrypt(ks,password)));
-//            return  privateKey;
-//        }catch (Exception e){
-//            return "";
-//        }
-//    }
-
-    /**
-     * 通过私钥获取公钥
-     * @param prikey
-     * @return
-     */
-//    public static String prikeyToPubkey(String prikey){
-//        try {
-//            if(prikey.length() == 64){
-//                if(new BigInteger(Hex.decodeHex(prikey.toCharArray())).compareTo(new BigInteger(ByteUtils.hexStringToBytes(t))) > 0){
-//                    return "";
-//                }
-//            }else if(prikey.length() == 128){
-//                if(new BigInteger(Hex.decodeHex(prikey.substring(0,64).toCharArray())).compareTo(new BigInteger(ByteUtils.hexStringToBytes(t))) > 0){
-//                    return "";
-//                }
-//            }
-//            Ed25519PrivateKey eprik = new Ed25519PrivateKey(Hex.decodeHex(prikey.toCharArray()));
-//            Ed25519PublicKey epuk = eprik.generatePublicKey();
-//            String pubkey = new String(Hex.encodeHex(epuk.getEncoded()));
-//            return  pubkey;
-//        }catch (Exception e){
-//            return "";
-//        }
-//    }
 
     /**
      * pubkeyStrToPubkeyHashStr

@@ -1,6 +1,10 @@
 package com.wisdom.monitor.model;
 
 public class Mail {
+    private String sender;
+    private String receiver;
+    private String password;
+
     public String getSender() {
         return sender;
     }
@@ -17,14 +21,20 @@ public class Mail {
         this.receiver = receiver;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Mail() {
     }
 
-    public Mail(String sender, String receiver) {
+    public Mail(String sender, String receiver, String password) {
         this.sender = sender;
         this.receiver = receiver;
+        this.password = password;
     }
-
-    private String sender;
-    private String receiver;
 }

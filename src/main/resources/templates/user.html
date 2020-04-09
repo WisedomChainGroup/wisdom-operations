@@ -11,13 +11,16 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>-->
+<!--    <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
+<!--    <link rel="stylesheet" href="sweetalert2/dist/sweetalert2.min.css">-->
 </head>
 <body style="background: #EDF0F4;">
 <div class="headpage"></div>
 <div style="width: 87%;margin-left: 1%;float: left;margin-top: 1%;">
     <div class="sign_cont" style="height: auto;">
         <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
-                style="background:#519BFD;margin-left: 2%;margin-top: 20px;">
+                style="background:#519BFD;margin-left: 2%;margin-top: 20px;" id="add">
             +&nbsp;添加新的用户
         </button>
 
@@ -47,8 +50,8 @@
                             </h4>
                             <select id="role">
                                 <option th:value="ROLE_ADMIN">管理员</option>
-                                <option th:value="ROLE_REVIEWER">仅查询</option>
                                 <option th:value="ROLE_EDITOR">操作员</option>
+                                <option th:value="ROLE_REVIEWER">仅查询</option>
                             </select>
                         </div>
                     </div>
@@ -69,16 +72,16 @@
                 <tr>
                     <th>登陆账号</th>
                     <th>当前权限</th>
-                    <th>操作</th>
+                    <th id="operation">操作</th>
                 </tr>
                 <tr th:each="user: ${userList}">
                     <td th:text="${user.getName()}">Asegmahh</td>
                     <td th:switch="${user.getRole()}">
                         <p th:case="'ROLE_ADMIN'">管理员</p>
-                        <p th:case="'ROLE_REVIEWER'">进查询</p>
                         <p th:case="'ROLE_EDITOR'">操作员</p>
+                        <p th:case="'ROLE_REVIEWER'">仅查询</p>
                     </td>
-                    <td>
+                    <td class="operations">
                         <button class="do bt_delete" th:id="${user.getName()}">删除</button>
                     </td>
                 </tr>
@@ -87,7 +90,7 @@
     </div>
 </div>
 </div>
-<script type="text/javascript">
+<script th:inline="javascript">
     $(function () {
         $(" .headpage").load("control");
         $('#bt_submit').click(function () {
@@ -111,6 +114,18 @@
                 }, 'json');
             }
         });
+    });
+    $(document).ready(function () {
+        var role = [[${role}]];
+        if(role == "ROLE_REVIEWER" || role == "ROLE_EDITOR"){
+            $("#operation").attr("style","display:none;");
+            $("#add").attr("style","display:none;");
+            var aa = document.getElementsByClassName("operations");//获取到的是一个类数组
+            for(var i=0;i<aa.length;i++){
+                aa[i].style.visibility = "hidden";
+
+            }
+        }
     });
 </script>
 </body>

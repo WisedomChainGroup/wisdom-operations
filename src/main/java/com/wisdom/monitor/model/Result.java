@@ -7,6 +7,9 @@ public class Result<T> {
     private String message;
     private T data;
 
+    public static int FAIL = 5000;
+    public static int SUCCESS = 2000;
+
     public Result setCode(ResultCode resultCode) {
         this.code = resultCode.code();
         return this;
@@ -37,5 +40,12 @@ public class Result<T> {
     @Override
     public String toString() {
         return JSON.toJSONString(this);
+    }
+
+    public static <U> Result<U> newFailed(String message) {
+        Result<U> result = new Result<U>();
+        result.setCode(ResultCode.FAIL);
+        result.setMessage(message);
+        return result;
     }
 }

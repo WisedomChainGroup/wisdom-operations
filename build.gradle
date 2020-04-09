@@ -101,6 +101,9 @@ dependencies {
     compile group: 'org.fusesource', name: 'sigar', version: '1.6.4'
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    // https://mvnrepository.com/artifact/com.github.oshi/oshi-core
+    compile group: 'com.github.oshi', name: 'oshi-core', version: '3.5.0'
+
 
 
 

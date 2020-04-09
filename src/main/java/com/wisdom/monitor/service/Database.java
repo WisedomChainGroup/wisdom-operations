@@ -46,7 +46,7 @@ public class Database {
         return passwordEncoder.encode(raw);
     }
 
-    private Collection<GrantedAuthority> getGrants(String role) {
+    public Collection<GrantedAuthority> getGrants(String role) {
         return AuthorityUtils.commaSeparatedStringToAuthorityList(role);
     }
 }

@@ -1,15 +1,8 @@
 package com.wisdom.monitor.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.*;
+
 import org.hyperic.sigar.*;
 
-@Data
-@AllArgsConstructor
-@Builder
-@Getter
 public class SysStatusData {
     // cpu信息
     private CpuInfo info;

@@ -97,4 +97,33 @@ public class JavaShellUtil {
         }
         return success;
     }
+
+    public static void main(String[] args)
+    {
+        ProcessBuilder pbsh = new ProcessBuilder("bash", "shell.sh");
+        pbsh.directory(new File("/tmp"));// 指定检查脚本存放目录，绝对路径
+        /*相对路径方式
+        ProcessBuilder pb = new ProcessBuilder("bash", "./scripts/test.sh");
+		pb.directory(new File(System.getProperty("user.dir")));//运行当前路径
+        */
+        pbsh.redirectErrorStream(true);//合并标准错误和标准输出
+        try
+        {
+            Process pr = pbsh.start();
+            // 读取输出，脚本运行结束后获取返回值，流的转换
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+            StringBuffer strBuf = new StringBuffer();
+            String line;
+            while ((line = stdInput.readLine()) != null)//echo输出多值，循环读取直到结束
+            {
+                strBuf.append(line).append("^");
+            }
+            String[] result = strBuf.toString().split("\\^");
+            pr.waitFor();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

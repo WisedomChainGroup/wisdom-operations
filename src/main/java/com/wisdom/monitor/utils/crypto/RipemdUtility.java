@@ -57,7 +57,4 @@ public class RipemdUtility {
         return rsData;
     }
 
-    public static void main(String[] args) {
-
-    }
 }

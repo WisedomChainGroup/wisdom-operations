@@ -12,6 +12,7 @@
     <link th:href="@{/css/header.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/navion.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/font-awesome-4.7.0/css/font-awesome.css}" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 </head>
 <body>
 <div class="headpage"></div>
@@ -19,7 +20,7 @@
     <div class="th_box">
         <div>
             <div class="th_sum" href="#panel-657186" data-toggle="tab">信息概要</div>
-            <div class="th_move" href="#panel-440280" data-toggle="tab">导入导出</div>
+<!--            <div class="th_move" href="#panel-440280" data-toggle="tab" id="import"></div>-->
         </div>
         <div class="tab-content">
             <div class="tab-pane active" id="panel-657186">
@@ -34,31 +35,31 @@
                         <div>
                             <span>WDC价格</span>
                             <br/>
-                            <span th:text="'&yen;&nbsp;'+${result.price}"></span>
+                            <span th:text="'&yen;&nbsp;'+${result.price}==''?'0':${result.price}"></span>
                         </div>
                         <div>
                             <span>每天出块数</span>
                             <br/>
-                            <span th:text="${result.blocksCount}"></span></div>
+                            <span th:text="${result.blocksCount}==''?'0':${result.blocksCount}"></span></div>
                         <div>
                             <span>区块高度</span>
                             <br/>
-                            <span th:text="${result.lastConfirmedHeight}"></span>
+                            <span th:text="${result.lastConfirmedHeight}==''?'0':${result.lastConfirmedHeight}"></span>
                         </div>
                         <div>
                             <span>平均出块时间</span>
                             <br/>
-                            <span th:text="${result.averageBlockInterval}+'&nbsp;S'"></span>
+                            <span th:text="${result.averageBlockInterval}==''?'0':${result.averageBlockInterval}+'&nbsp;S'"></span>
                         </div>
                         <div>
                             <span>事务池大小</span>
                             <br/>
-                            <span th:text="${result.queuedTransactions} + ${result.pendingTransactions}"></span>
+                            <span th:text="(${result.queuedTransactions}==''?'0':${result.queuedTransactions}) + (${result.pendingTransactions}==null?'0':${result.pendingTransactions})"></span>
                         </div>
                         <div>
                             <span>平均手续费</span>
                             <br/>
-                            <span th:text="${result.averageFee}/100000000">0</span>
+                            <span th:text="${result.averageFee}==''?'0':${result.averageFee}">0</span>
                         </div>
                     </div>
                     <div id="container" class="tabline">
@@ -186,26 +187,14 @@
                 json.from = from_value;
                 window.location.href = "export/txrecordFromAddress?json=" + encodeURI(JSON.stringify(json));
             } else {
-                alert('请输入地址');
+                Swal.fire('', '请输入地址!', 'error');
             }
         });
     });
 </script>
 <script th:inline="javascript">
-    var t2 = setInterval(function() {
-        cpu()},1000);
-        function cpu() {
-            $.ajax({
-                type: "GET",
-                contentType: "application/json",
-                url: "/cpu",
-                data: "",
-                success: function (result) {
-                    document.getElementById("cpuStatus").innerHTML = result;
-                }
-            });
-        };
-    $(function () {
+    $("#import").hidden;
+    var t2 = window.setInterval(function() {
         $.ajax({
             type: "GET",
             contentType: "application/json",
@@ -213,14 +202,23 @@
             data: "",
             success: function (result) {
                 console.log(result);
-                if(result){
-                    document.getElementById("blockStatus").innerHTML = "正常";
-                }else{
-                    document.getElementById("blockStatus").innerHTML = "不正常";
+                document.getElementById("blockStatus").innerHTML = result;
                 }
+        }),
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/cpu",
+            data: "",
+            success: function (result) {
+                console.log(result);
+                document.getElementById("cpuStatus").innerHTML = result;
             }
         })
-    });
+    },1000);
+
+    var role = [[role]];
+
     $(function () {
         $.ajax({
             type: "GET",
@@ -232,7 +230,7 @@
                 if(result){
                     document.getElementById("outageStatus").innerHTML = "正常";
                 }else{
-                    document.getElementById("outageStatus").innerHTML = "不正常";
+                    document.getElementById("outageStatus").innerHTML = "异常";
                 }
             }
         })
@@ -248,7 +246,7 @@
                 if(result){
                     document.getElementById("bifurcation").innerHTML = "正常";
                 }else{
-                    document.getElementById("bifurcation").innerHTML = "不正常";
+                    document.getElementById("bifurcation").innerHTML = "异常";
                 }
             }
         })

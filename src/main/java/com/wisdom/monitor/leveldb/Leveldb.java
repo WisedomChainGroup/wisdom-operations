@@ -3,6 +3,7 @@ package com.wisdom.monitor.leveldb;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wisdom.monitor.model.Nodes;
 import com.wisdom.monitor.model.User;
 import com.wisdom.monitor.model.WDCInfo;
 import com.wisdom.monitor.utils.HttpRequestUtil;
@@ -104,7 +105,6 @@ public class Leveldb {
         String ss = JSON.toJSONString(list);
         s.addAccount("user", ss);*/
 
-        System.out.println("sssss"+s.readAccountFromSnapshot("mail"));
     }
 
 }

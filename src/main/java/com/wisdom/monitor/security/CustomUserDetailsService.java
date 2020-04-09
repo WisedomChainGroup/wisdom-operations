@@ -1,7 +1,9 @@
 package com.wisdom.monitor.security;
 
 
+import com.wisdom.monitor.model.User;
 import com.wisdom.monitor.service.CustomUser;
+import com.wisdom.monitor.service.Impl.CustomUserServiceImpl;
 import com.wisdom.monitor.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +24,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CustomUserServiceImpl customUserService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        CustomUser user = userService.getUserByUsername(username);
+        CustomUser user = customUserService.getCustomUserByName(username);
         if (user == null) {
             throw new  UsernameNotFoundException("该用户不存在");
         }

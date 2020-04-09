@@ -1,7 +1,12 @@
 package com.wisdom.monitor.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wisdom.monitor.leveldb.Leveldb;
+import com.wisdom.monitor.model.Mail;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -16,20 +21,25 @@ public class SendMailUtil {
 
 
 
-    public  static boolean sendMailOutLook(String title, String body){
-
-        //设置参数
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.outlook.com");
-        props.put("mail.smtp.port", "587");
-        //自定义信息
-        props.put("username", "wdcserver@outlook.com");//你的邮箱
-        props.put("password", "Wisdom!@#123");//你的密码
-        props.put("to", "840043122@qq.com");//接收的邮箱
-        return SendMailUtil.send(props,title,body);
-
+    public static boolean sendMailOutLook(String title, String body) throws IOException {
+        Leveldb leveldb = new Leveldb();
+        Mail mail = new Mail();
+        Object read = JSONObject.parseObject(leveldb.readAccountFromSnapshot("mail"), Mail.class);
+        if (read != null) {
+            mail= (Mail) read;
+            //设置参数
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.outlook.com");
+            props.put("mail.smtp.port", "587");
+            //自定义信息
+            props.put("username", mail.getSender());//你的邮箱
+            props.put("password", mail.getPassword());//你的密码
+            props.put("to", mail.getReceiver());//接收的邮箱
+            return SendMailUtil.send(props,title,body);
+        }
+        return false;
     }
 
     /**
@@ -87,13 +97,4 @@ public class SendMailUtil {
 
         return true;
     }
-
-    public static void main(String[] args) {
-        StringBuffer messageText=new StringBuffer();//内容以html格式发送,防止被当成垃圾邮件
-        messageText.append("<span>Hi，您好:</span></br>");
-        messageText.append("<span>你的验证码是:"+"code"+"</span></br>");
-        messageText.append("<span>出于安全原因，该验证码将于10分钟后失效。请勿将验证码透露给他人。</span></br>");
-        sendMailOutLook("通知",messageText.toString());
-    }
-
 }

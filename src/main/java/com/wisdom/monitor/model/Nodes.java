@@ -1,14 +1,26 @@
 package com.wisdom.monitor.model;
 
 public class Nodes {
-    private String nodeName;
+    private String nodeIP;
+    private String nodePort;
+    private String nodeType;
+    private String nodeState;
+    private String nodeVersion;
 
-    public String getNodeName() {
-        return nodeName;
+    public String getNodeIP() {
+        return nodeIP;
     }
 
-    public void setNodeName(String nodeName) {
-        this.nodeName = nodeName;
+    public void setNodeIP(String nodeIP) {
+        this.nodeIP = nodeIP;
+    }
+
+    public String getNodePort() {
+        return nodePort;
+    }
+
+    public void setNodePort(String nodePort) {
+        this.nodePort = nodePort;
     }
 
     public String getNodeType() {
@@ -27,6 +39,11 @@ public class Nodes {
         this.nodeState = nodeState;
     }
 
-    private String nodeType;
-    private String nodeState;
+    public String getNodeVersion() {
+        return nodeVersion;
+    }
+
+    public void setNodeVersion(String nodeVersion) {
+        this.nodeVersion = nodeVersion;
+    }
 }

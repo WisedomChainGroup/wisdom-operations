@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 </head>
 <body style="background: #EDF0F4;">
 <div class="headpage"></div>
@@ -33,13 +34,22 @@
                         <h4 class="modal-title moda_info">
                             节点IP:
                         </h4>
-                        <input class="form-control" id="nodename">
+                        <input class="form-control" id="nodeIp">
+                    </div>
+                    <div class="moda">
+                        <h4 class="modal-title moda_info">
+                            节点PORT:
+                        </h4>
+                        <input class="form-control" id="nodePort">
                     </div>
                     <div class="moda">
                         <h4 class="modal-title moda_info">
                             节点类型:
                         </h4>
-                        <input class="form-control moda_info" id="nodetype">
+                        <select id="nodetype">
+                            <option th:value=1>全节点</option>
+                            <option th:value=2>矿工节点</option>
+                        </select>
                     </div>
                 </div>
 
@@ -62,36 +72,93 @@
                 <th style="text-align: center;">节点版本</th>
                 <th style="text-align: center;">运行状态</th>
                 <th style="text-align: center;">节点类型</th>
+                <th style="text-align: center;" id="operation">操作</th>
             </tr>
             <tr th:each="node,nodeState: ${nodesList}">
                 <td th:text="${nodeState.index+1}">Asegmahh</td>
-                <td th:text="${node.getNodeName()}">Asegmahh</td>
-                <td></td>
+                <td th:text="${node.getNodeIP()}+':'+${node.getNodePort()}">Asegmahh</td>
+                <td th:text="${node.getNodeVersion()}">Asegmahh</td>
                 <td th:text="${node.getNodeState()}">Asegmahh</td>
-                <td th:text="${node.getNodeType()}">Asegmahh</td>
+                <td th:switch="${node.getNodeType()}">
+                    <p th:case=1>全节点</p>
+                    <p th:case=2>矿工节点</p>
+                </td>
+                <td class="operations">
+                    <button th:if="${node.getNodeIP()}+':'+${node.getNodePort()} != ${nodeip} "  class="do bt_bind" th:id="${node.getNodeIP()}+':'+${node.getNodePort()}">绑定</button>
+                    <button th:if="${node.getNodeIP()}+':'+${node.getNodePort()} == ${nodeip} "  class="do bt_unbind" th:id="${node.getNodeIP()}+':'+${node.getNodePort()}">解绑</button>
+                    <button class="do bt_delete" th:id="${node.getNodeIP()}+':'+${node.getNodePort()}">删除</button>
+                </td>
             </tr>
         </table>
     </div>
 </div>
-<script type="text/javascript">
+<script th:inline="javascript">
     $(function () {
         $(" .headpage").load("control");
         $('#bt_submit').click(function () {
             var re = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
-            var r = re.test($('#nodename').val());
+            var r = re.test($('#nodeIp').val());
             if (!r)
             {
-                alert('IP地址不正确');
+                swal("", "IP地址不正确", "error");
                 return;
             }
-            var urlData = {nodeName: $('#nodename').val(), nodeType: $('#nodetype').val()};
+            var urlData = {nodeIP: $('#nodeIp').val(),nodePort: $('#nodePort').val(), nodeType: $('#nodetype').val()};
             $.get('addnode', urlData, function (result) {
                 $(".modal").css("display", "none");
                 $(".modal-backdrop").css("display", "none");
-                alert(result.message);
+                swal("", result.message, "success");
                 window.location.reload();
                 console.log(result);
             }, 'json');
+        });
+        //删除
+        $(' .bt_delete').click(function () {
+            var r = confirm("是否删除该节点");
+            if (r == true) {
+                var urlData = {nodeStr: $(this).attr('id')};
+                $.get('deleteNode', urlData, function (result) {
+                    alert(result.message);
+                    window.location.reload();
+                    console.log(result);
+                }, 'json');
+            }
+        });
+        //绑定
+        $(' .bt_bind').click(function () {
+            var r = confirm("是否绑定该节点");
+            if (r == true) {
+                var urlData = {nodeStr: $(this).attr('id')};
+                $.get('bindNode', urlData, function (result) {
+                    alert(result.message);
+                    window.location.reload();
+                    console.log(result);
+                }, 'json');
+            }
+        });
+        //解绑
+        $(' .bt_unbind').click(function () {
+            var r = confirm("是否解除绑定");
+            if (r == true) {
+                var urlData = {nodeStr: $(this).attr('id')};
+                $.get('unbindNode', urlData, function (result) {
+                    alert(result.message);
+                    window.location.reload();
+                    console.log(result);
+                }, 'json');
+            }
+        });
+
+        $(document).ready(function () {
+            var role = [[${role}]];
+            if(role == "ROLE_REVIEWER"){//仅查询
+                $("#operation").attr("style","display:none;");//隐藏div
+                $("#add").attr("style","display:none;");//隐藏div
+                var aa = document.getElementsByClassName("operations");//获取到的是一个类数组
+                for(var i=0;i<aa.length;i++){
+                    aa[i].style.visibility = "hidden";
+                }
+            }
         });
     });
 </script>

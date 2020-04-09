@@ -1,7 +1,6 @@
 package com.wisdom.monitor.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.wisdom.monitor.model.Transaction;
 import com.wisdom.monitor.service.TransactionService;
 import com.wisdom.monitor.utils.ApiResult.APIResult;
@@ -32,8 +31,6 @@ public class ExportDb {
         return "test-push";
     }
 
-//    @PostMapping("/exportExcel")
-//    @ResponseBody
     @GetMapping("/export/txrecordFromAddress")
     public void export(HttpServletResponse response, @RequestParam("json") String json){
         try {
@@ -84,5 +81,14 @@ public class ExportDb {
             e.printStackTrace();
         }
     }
-
+//    @GetMapping("/version")
+//    public Object Version(){
+//        return APIResult.newSuccess(configBean.getVersion());
+//    }
+//
+//    @PostMapping("/changeVersion")
+//    public Object ChangeVersion(@RequestParam(value = "version") String version){
+//        configBean.setVersion(version);
+//        return APIResult.newSuccess(configBean.getVersion());
+//    }
 }

@@ -51,21 +51,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.loginPage("/login") // 自定义用户登入页面
                 .failureUrl("/login?error") // 自定义登入失败页面，前端可以通过url中是否有error来提供友好的用户登入提示
                 .and()
-                .logout()
-                .logoutUrl("/logout")// 自定义用户登出页面
-                .logoutSuccessUrl("/")
-                .and()
-                .rememberMe() // 开启记住密码功能
-                .rememberMeServices(getRememberMeServices()) // 必须提供
-                .key(SECRET_KEY) // 此SECRET需要和生成TokenBasedRememberMeServices的密钥相同
-                .and()
+//                .rememberMe()// 开启记住密码功能
+//                .rememberMeServices(getRememberMeServices()) // 必须提供
+//                .key(SECRET_KEY) // 此SECRET需要和生成TokenBasedRememberMeServices的密钥相同
+//                .and()
                 /*
                  * 默认允许所有路径所有人都可以访问，确保静态资源的正常访问。
                  * 后面再通过方法注解的方式来控制权限。
                  */
                 .authorizeRequests().anyRequest().permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/403"); // 权限不足自动跳转403
+                .logout()
+                .deleteCookies()
+                .permitAll();
+//                .logoutUrl("/logout")// 自定义用户登出页面
+//                .logoutSuccessUrl("/")
+//                .and()
+//                .exceptionHandling().accessDeniedPage("/403"); // 权限不足自动跳转403
     }
 
     /**

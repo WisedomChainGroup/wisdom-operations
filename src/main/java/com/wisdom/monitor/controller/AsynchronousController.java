@@ -3,39 +3,48 @@ package com.wisdom.monitor.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wisdom.monitor.utils.HttpRequestUtil;
+import com.wisdom.monitor.utils.MapCacheUtil;
 import com.wisdom.monitor.utils.SysStatusUtil;
 import org.hyperic.sigar.SigarException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.HardwareAbstractionLayer;
 
 @RestController
 public class AsynchronousController {
 
-    @Value("${node}")
-    private String ip;
 
     @GetMapping(value = {"/cpu"})
     public String cpu(){
-        SysStatusUtil sysStatusUtils = new SysStatusUtil();
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = sysStatusUtils.status();
-        } catch (SigarException e) {
-            e.printStackTrace();
-        }
-        return jsonObject.getString("sysCpuUsed");
+        SystemInfo si = new SystemInfo();
+        HardwareAbstractionLayer hal = si.getHardware();
+        CentralProcessor processor = hal.getProcessor();
+        double useRate = processor.getSystemCpuLoadBetweenTicks();
+        return String.format("%.2f",useRate*100)+"%";
     }
 
     @GetMapping(value = {"/block"})
-    public boolean block(){
-        Monitor monitor = new Monitor();
-        boolean blockStatus = monitor.checkBlockIsStuck();
-        return blockStatus;
+    public String block(){
+        int blockStatus = Monitor.checkBlockIsStuck(false);
+        if (blockStatus == -1){
+            return "异常";
+        }else if(blockStatus == 0){
+            return "待确认";
+        }else {
+            return "正常";
+        }
     }
 
     @GetMapping(value = {"/outageStatus"})
     public boolean outageStatus(){
+        MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
+        String ip = "";
+        if (mapCacheUtil.getCacheItem("bindNode") != null){
+             ip = mapCacheUtil.getCacheItem("bindNode").toString();
+        }
         //获取当前高度
         String heightUrl = "http://"+ip+"/height";
         JSONObject result = JSON.parseObject(HttpRequestUtil.sendGet(heightUrl,""));

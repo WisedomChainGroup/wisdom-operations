@@ -65,7 +65,4 @@ public class SHA3Utility {
         return SHA3Utility.hash(in, digest);
     }
 
-    public static void main(String[] args) {
-        System.out.println(org.apache.commons.codec.binary.Hex.encodeHexString(keccak256("abc".getBytes())));
-    }
 }
