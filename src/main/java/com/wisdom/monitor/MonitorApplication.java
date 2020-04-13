@@ -1,6 +1,6 @@
 package com.wisdom.monitor;
 
-import com.wisdom.monitor.model.ConfigBean;
+//import com.wisdom.monitor.model.ConfigBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

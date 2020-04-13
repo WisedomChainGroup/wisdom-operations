@@ -5,63 +5,54 @@
     <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 </head>
 <body>
-<div style="width:11%;min-width: 11%; float: left;">
-    <div class="pane">
-        <div class="inner1">
-            <div class="inner1-top"><i class="fa fa-bar-chart"></i>&emsp;WDC运维平台</div>
-        </div>
-        <div class="inner2" id="example">
-            <div><a href="home"><i class="fa fa-list-alt"></i>&emsp;信息概要</a></div>
-            <div><a href="node"><i class="fa fa-list-ul"></i>&emsp;控制台&emsp;</a></div>
-<!--            <div><a href=""><i class="fa fa-file-text-o"></i>&emsp;日志信息</a></div>-->
-            <div><a href="mail"><i class="fa fa-wpexplorer"></i>&emsp;预警信息</a></div>
-            <div><a href="user"><i class="fa fa-key"></i>&emsp;鉴权设置</a></div>
-<!--            <div><a href="deal"><i class="fa fa-envelope-open-o"></i>&emsp;合约部署</a></div>-->
-        </div>
-        <div class="inner3">
-            <div class="nav_jum"><i class="fa fa-angle-double-left fa-2x"></i></div>
-        </div>
+<div class="header-one">
+    <table class="header-one-table">
+        <tr class="header-one-tr">
+            <td class="platform">
+                <i class="fa fa-bar-chart" style="color: #61A0F2;"></i>&nbsp;WDC运维平台
+            </td>
+            <td class="tdroot"style="text-align: left;"><i class="fa fa-address-book" style="color: #90E58A;"></i>&nbsp;用户:
+                <span th:text="${customUser.getUsername()}"></span>
+            </td>
+            <td colspan=""class="tdtime" style="text-align: left;">
+                当前时间：&nbsp;<span id = "time"></span>
+            </td>
+            <td class="tdstop"><button style="font-size:18px;font-family:Microsoft YaHei;font-weight:400;"><i class="fa fa-sign-out fa-lg"></i>&nbsp;退出</button></td>
+        </tr>
+    </table>
+</div>
+<div class="panel-nav" style="width: 11%;height:calc(100vh - 62px);float:left;">
+    <div class="inner2" id="example">
+        <div id="home_link"><a href="home"><i class="fa fa-list-alt"></i>&emsp;信息概要</a></div>
+        <div id="node_link"><a href="node"><i class="fa fa-list-ul"></i>&emsp;控制台&emsp;</a></div>
+<!--        <div id="log_link"><a href="log"><i class="fa fa-file-text-o"></i>&emsp;日志信息</a></div>-->
+        <div id="mail_link"><a href="mail"><i class="fa fa-wpexplorer"></i>&emsp;预警信息</a></div>
+        <div id="user_link"><a href="user"><i class="fa fa-key"></i>&emsp;鉴权设置</a></div>
+<!--        <div id="deal_link"><a href="deal"><i class="fa fa-envelope-open-o"></i>&emsp;合约部署</a></div>-->
+    </div>
+    <div class="inner3">
+        <div><i class="fa fa-angle-double-left fa-2x"></i></div>
     </div>
 </div>
-<div style="width: 88%;margin-left: 11%;">
-    <div class="head_cont">
-        <div class="header">
-            <table class="">
-                <tr style="height: 80px;">
-                    <td class="tdroot" style="font-size: 18px;width: 20%;" ><i class="fa fa-address-book" style="color: #48BC3F;"></i>&emsp;用户：&nbsp;
-                        <span th:text="${customUser.getUsername()}"></span>
-                    </td>
-                    <td colspan="5" style="font-size: 18px;">
-                        当前时间：&nbsp;<span id = "time"></span>
-                    </td>
-                    <td class="tdstop">
-                        <a href="/logout"><button class="stop_do"><i class="fa fa-sign-out fa-lg"></i>&nbsp;退出</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="tdroot" style="font-size: 16px;color: #519BFD;"><i class="fa fa-circle" style="color: #48BC3F;"></i>&nbsp;当前节点：
-                        <span th:text="${info.getNodeIP()}"></span>
-                    </td>
-                    <td class="tdnode" style="color: #519BFD;"><i class="fa fa-unsorted" style="color: #48BC3F;"></i>&nbsp;节点版本：
-                        <span th:text="${version}"></span>
-                    </td>
-                    <td class="tdnode" style="color: #519BFD;">运行状态：
-                        <span th:text="${isrun}"></span>
-                    <td class="tdnode-img"><i class="fa fa-unsorted" style="color: #48BC3F;"></i>
-                    </td>
-                    <td style="color: #519BFD;">节点类型：
-                        <span th:text="${info.getNodeType()}"></span>
-                    </td>
-                    <td class="tdstop" id="stop">
-                        <button class="h-button"><i class="fa fa-stop"></i>&nbsp;停止</button>
-                    </td>
-                    <td id="start">
-                        <button class="h-button"><i class="fa fa-undo"></i>&nbsp;重启</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+<div class="header-two"style="width: 89%;float:left;">
+    <table>
+        <tr >
+            <td class="tdnode"style="font-size: 16px;"><i class="fa fa-circle" style="color: #90E58A;"></i>&nbsp;当前节点：
+                <span th:text="${info.getNodeIP()}"></span>
+            </td>
+            <td class="tdnode-version"><i class="fa fa-unsorted" style="color: #90E58A;"></i>&nbsp;节点版本：
+                <span th:text="${version}"></span>
+            </td>
+            <td class="tdnode-status">运行状态：
+                <span th:text="${isrun}"></span>
+            </td>
+            <td style="color: #519BFD;">节点类型：
+                <span th:text="${info.getNodeType()}"></span>
+            </td>
+            <td class="tdstop"id="stop"><button class="header-two-button"><i class="fa fa-stop"></i>&nbsp;停止</button></td>
+            <td class="tdstop"><button class="header-two-button"><i class="fa fa-undo"></i>&nbsp;重启</button></td>
+        </tr>
+    </table>
 </div>
 </body>
 
@@ -122,6 +113,22 @@
 
                 }
             })
+        }
+    });
+    $(function(){
+        var u=window.location.pathname;
+        if(u.indexOf('home')>-1){
+            $('#home_link').css('background','#61A0F2');
+        }else if(u.indexOf('node')>-1){
+            $('#node_link').css('background','#61A0F2');
+        }else if(u.indexOf('log')>-1){
+            $('#log_link').css('background','#61A0F2');
+        }else if(u.indexOf('mail')>-1){
+            $('#mail_link').css('background','#61A0F2');
+        }else if(u.indexOf('user')>-1){
+            $('#user_link').css('background','#61A0F2');
+        }else if(u.indexOf('deal')>-1){
+            $('#deal_link').css('background','#61A0F2');
         }
     });
 </script>

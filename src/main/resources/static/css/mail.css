@@ -1,19 +1,23 @@
 * {margin: 0; padding: 0;}
 body, textarea, input, button, select, keygen, legend{font:14px "Microsoft YaHei", Verdana, "宋体", sans-serif; font-weight: normal; color: #666666; outline: 0;}
 table {border-collapse: collapse; border-spacing: 0;}
+a, a:hover{text-decoration: none; cursor: pointer;}
+a:link {color: #666666;}
+a:visited {color: #666666;}
+a:hover {color: #5B9AFF;}
 .mail_cont{
 	min-width: 100%;
 	height:430px;
 	/* height: auto; */
-	background:#FFFFFF;
-	border:1px solid rgba(212,211,211,1);
+	background:#F3F3F3;
+	border:1px solid rgba(230,230,230,1);
 	border-radius:5px;
 	padding-bottom: 2em;
 }
 .mail_node{
 	min-width: 96%;
 	height: 38px;
-	background: #E2E8F2;
+	background: #E6E6E6;
 	margin-top: 20px;
 	margin-left: 2%;
 	float: left;
@@ -21,33 +25,33 @@ table {border-collapse: collapse; border-spacing: 0;}
 .node_blue{
 	min-width: 1%;
 	height: 38px;
-	background: #519BFD;
+	background: #61A0F2;
 	float: left;
 }
 .mail_send{
 	min-width: 25%;
 	padding-top: 10px;
 	margin-left: 1%;
-	font-size:14px;
+	float: left;
+	font-size:16px;
 	font-family:Microsoft YaHei;
 	font-weight:bold;
-	color:#555555;
-	float: left;
+	color:rgba(85,85,85,1);
 }
 .mail_receive{
 	min-width: 25%;
 	padding-top: 10px;
-	font-size:14px;
+	font-size:16px;
 	font-family:Microsoft YaHei;
 	font-weight:bold;
-	color:#555555;
+	color:rgba(85,85,85,1);
 	float: left;
 }
 .mail_stop{
 	min-width: 4%;
 	font-size:14px;
 	color:rgba(255,255,255,1);
-	background: #519BFD;
+	background: #61A0F2;
 	float: right;
 	margin-top: -1.6em;
 	border:0px ;
@@ -71,6 +75,9 @@ table {border-collapse: collapse; border-spacing: 0;}
 	min-width: 20%;
 	height:17px;
 	font-size:16px;
+	font-family:Microsoft YaHei;
+	font-weight:bold;
+	color:rgba(85,85,85,1);
 	padding-top: 30px;
 	padding-left: 10%;
 	float: left;
@@ -83,27 +90,35 @@ table {border-collapse: collapse; border-spacing: 0;}
 	border:1px solid #D4D3D3;
 	border-radius:5px;
 	float: left;
+	font-size:16px;
+	font-family:Microsoft YaHei;
+	font-weight:400;
+	color:rgba(191,191,191,1);
 }
 .note{
 	width: 60%;
 	height:17px;
-	font-size:12px;
 	padding-top: 30px;
 	padding-left: 10%;
 	float: left;
-	color: red;
+	font-size:14px;
+	font-family:Microsoft YaHei;
+	font-weight:400;
+	color:rgba(229,115,115,1);
 }
 .mail_confirm{
 	min-width: 10%;
 	height:48px;
-	background:#519BFD;
+	background:#61A0F2;
 	border-radius:5px;
-	color: #FFFFFF;
 	float: left;
 	margin-top: 4em;
 	margin-left: -30%;
 	border:0px solid;
-	font-size: 16px;
+	font-size:16px;
+	font-family:Microsoft YaHei;
+	font-weight:400;
+	color:rgba(255,255,255,1);
 }
 
 .input-phone {

@@ -6,7 +6,6 @@ a:link {color: #FFFFFF}
 a:visited {color: #FFFFFF}
 a:hover {color: #519BFD}
 a:active {color: #519BFD;text-decoration:none;}
-
 .outer-section {width:11%;min-width: 11%; float: left;}
 
 .pane{
@@ -22,21 +21,23 @@ a:active {color: #519BFD;text-decoration:none;}
     height: 70px;
     position: relative;
 	font-weight: 500;
-	color: #FFFFFF;
-	background: #202845;
+	/*color: #FFFFFF;*/
+	/*background: #202845;*/
+    color: #61A0F2;
+    background: #FFFFFF;
 	text-align: center;
 	font-size: 18px;
 	float: left;
 }
 .inner1-top{
-	margin-top: 15px;
+	margin-top: 20px;
 }
 .inner2{
     min-width: 100%;
     height: inherit;
     position: relative;
 	float: left;
-	background:rgba(50,57,80,1);
+	background:#4D4D4D;
 }
 .inner2 div{
 	text-align: center;
@@ -44,12 +45,12 @@ a:active {color: #519BFD;text-decoration:none;}
 	margin-top: 1em;
 }
 .inner3{
-    background:#202845;
+    background:#E6E6E6;
     min-width: 100%;
     height: auto;
     position: relative;
 	text-align: center;
-	color: #FFFFFF;
+	color: #4D4D4D;
 }
 ::selection {
    background: #FFF;

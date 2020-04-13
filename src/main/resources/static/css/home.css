@@ -4,10 +4,15 @@ body{background: #EDF0F4;}
 summary{outline: 0;}
 ul, li{list-style: none;}
 img {vertical-align: middle;}
+/*a, a:link {color: #666666;}*/
+/*a:visited {color: #666666;}*/
+/*a:hover {color: #5B9AFF;}*/
+/*a:active{color: #5B9AFF;}*/
 a, a:hover{text-decoration: none; cursor: pointer;}
 a:link {color: #666666;}
 a:visited {color: #666666;}
 a:hover {color: #5B9AFF;}
+
 
 
 .wid-1200{
@@ -120,13 +125,16 @@ a:hover {color: #5B9AFF;}
 .th_sum{
 	width:100px;
 	height:40px;
-	background:rgba(81,155,253,1);
+	background:rgba(97,160,242,1);
 	border-radius:5px 0px 0px 0px;
 	text-align: center;
-	font-size: 16px;
+	font-size: 18px;
 	float: left;
 	line-height: 35px;
 	cursor:pointer;
+	font-family:Microsoft YaHei;
+	font-weight:400;
+	color:rgba(255,255,255,1);
 }
 .th_move{
 	width:100px;
@@ -141,7 +149,7 @@ a:hover {color: #5B9AFF;}
 .th_monitor_blue{
 	width: 1%;
 	height: 100%;
-	background: #519BFD;
+	background:rgba(97,160,242,1);
 	float: left;
 }
 .th_monitor_info{
@@ -150,6 +158,10 @@ a:hover {color: #5B9AFF;}
 	background: #D4D3D3;
 	line-height: 30px;
 	margin-top: 50px;
+	font-size:16px;
+	font-family:Microsoft YaHei;
+	font-weight:bold;
+	color:rgba(85,85,85,1);
 }
 
 .monitor_s{
@@ -158,11 +170,12 @@ a:hover {color: #5B9AFF;}
 }
 .th_box{
 	background:rgba(255,255,255,1);
-	border:1px solid rgba(212,211,211,1);
+	border:1px solid rgba(230,230,230,1);
 	border-radius:5px;
 	/* margin-top: 1em;*/
 	padding-bottom: 1em;
 	/* display: inline-block; */
+	background: #F3F3F3;
 }
 .insidebox
 {
@@ -205,8 +218,8 @@ a:hover {color: #5B9AFF;}
 	width: 100%;
 	padding: 1px;
 	border-radius:5px;
-	border:1px solid #5B9AFF;
-	background: #EEF0F6;
+	border:0px solid #5B9AFF;
+	background:rgba(230,230,230,1);
 }
 .th_monitor_blue2
 {
@@ -214,7 +227,7 @@ a:hover {color: #5B9AFF;}
 	margin-top: 1em;
 	width: 1%;
 	height: 30px;
-	background: #519BFD;
+	background:rgba(97,160,242,1);
 	float: left;
 }
 .th_monitor_info2
@@ -226,12 +239,19 @@ a:hover {color: #5B9AFF;}
 	background: #D4D3D3;
 	line-height: 30px;
 }
+.th_monitor_info2 .span_status{
+	margin-left: 10px;
+	font-size:16px;
+	font-family:Microsoft YaHei;
+	font-weight:bold;
+	color:rgba(85,85,85,1)
+}
 .th_box2
 {
-	width: 98%;
-	margin-left: 1%;
-	background:rgba(255,255,255,1);
-	border:1px solid rgba(212,211,211,1);
+	width: 100%;
+	/*margin-left: 1%;*/
+	background:rgba(243,243,243,1);
+	border:1px solid rgba(230,230,230,1);
 	border-radius:5px;
 	margin-top: 1em;
 	padding-bottom: 1em;
@@ -250,8 +270,8 @@ a:hover {color: #5B9AFF;}
 	display: inline-block;position: relative;float: left;
 	height: 100px;
 	border-radius:5px;
-	border:1px solid #5B9AFF;
-	background: #EEF0F6;
+	border:0px solid #5B9AFF;
+	background:rgba(230,230,230,1);
 	min-width: 8%;
 }
 .tabexport tr
