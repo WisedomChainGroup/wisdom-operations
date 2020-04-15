@@ -17,9 +17,11 @@
 <div class="headpage"></div>
 <div style="width: 87%;margin-left: 1%;float: left;margin-top: 1%;">
     <div class="th_box">
-        <div>
-            <div class="th_sum" href="#panel-657186" data-toggle="tab">信息概要</div>
-<!--            <div class="th_move" href="#panel-440280" data-toggle="tab" id="import"></div>-->
+        <div style="width: 100%;height: 40px;">
+            <span id="url-jump" class="th_ul">
+                <p class="th_sum" href="#panel-657186" data-toggle="tab" id="sum" onclick='g(this.id)'>信息概要</p>
+                <p class="th_move" href="#panel-440280" data-toggle="tab" id="move" onclick='g(this.id)'>导入导出</p>
+            </span>
         </div>
         <div class="tab-content">
             <div class="tab-pane active" id="panel-657186">
@@ -28,77 +30,96 @@
                     <div class="th_monitor_info">
                         <span style="margin-left: 10px;">监控信息</span>
                     </div>
-                </div>
-                <div class="tabinfo">
-                    <div class="tabinfoitem">
-                        <div>
-                            <span>WDC价格</span>
-                            <br/>
-                            <span th:text="'&yen;&nbsp;'+${result.price}==''?'0':${result.price}"></span>
-                        </div>
-                        <div>
-                            <span>每天出块数</span>
-                            <br/>
-                            <span th:text="${result.blocksCount}==''?'0':${result.blocksCount}"></span></div>
-                        <div>
-                            <span>区块高度</span>
-                            <br/>
-                            <span th:text="${result.lastConfirmedHeight}==''?'0':${result.lastConfirmedHeight}"></span>
-                        </div>
-                        <div>
-                            <span>平均出块时间</span>
-                            <br/>
-                            <span th:text="${result.averageBlockInterval}==''?'0':${result.averageBlockInterval}+'&nbsp;S'"></span>
-                        </div>
-                        <div>
-                            <span>事务池大小</span>
-                            <br/>
-                            <span th:text="(${result.queuedTransactions}==''?'0':${result.queuedTransactions}) + (${result.pendingTransactions}==null?'0':${result.pendingTransactions})"></span>
-                        </div>
-                        <div>
-                            <span>平均手续费</span>
-                            <br/>
-                            <span th:text="${result.averageFee}==''?'0':${result.averageFee}">0</span>
-                        </div>
-                    </div>
-                    <div id="container" class="tabline">
 
+                    <div class="info_Indicators">
+                        <div class="Indicators_part">
+								<span class="day">
+									<div class="day_key">每天出块数量</div>
+									<div class="day_val" th:text="${result.blocksCount}==''?'0':${result.blocksCount}"></div>
+								</span>
+                            <span class="day">
+									<div class="day_key">区块高度</div>
+									<div class="day_val" th:text="${result.lastConfirmedHeight}==''?'0':${result.lastConfirmedHeight}"></div>
+								</span>
+                            <span class="day">
+									<div class="day_key">平均手续费(WDC)</div>
+									<div class="day_val" th:text="${result.averageFee}==''?'0':${result.averageFee}"></div>
+								</span>
+                            <span class="day"style="border-right:2px solid rgba(226,226,226,1)">
+									<div class="day_key">平均出块时间</div>
+									<div class="day_val" th:text="${result.averageBlockInterval}==''?'0':${result.averageBlockInterval}+'&nbsp;S'"></div>
+								</span>
+                        </div>
+                        <div class="Indicators_part" style="padding-top: 0px;">
+								<span class="day">
+									<div class="day_key">事务池大小</div>
+									<div class="day_val" th:text="(${result.queuedTransactions}==''?'0':${result.queuedTransactions}) + (${result.pendingTransactions}==null?'0':${result.pendingTransactions})"></div>
+								</span>
+                            <span class="day"style="border-right:2px solid rgba(226,226,226,1)">
+									<div class="day_key">当前难度</div>
+									<div class="Difficulty_val" th:text="${result.target}==''?'0':${result.target}"></div>
+								</span>
+                        </div>
                     </div>
-                </div>
-                <div class="th_monitor">
                 </div>
 
             </div>
 
             <div class="tab-pane" id="panel-440280">
-                <div class="tabexport">
-                    <table>
-                        <tr>
-                            <td style="width: 50px;text-align: right;">地址：</td>
-                            <td style="width: 200px"><input class="form-control" id="input_from"></td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td colspan="2" style="width: 300px;text-align: center;margin-top: 3em;">
-                                <button type="button" id="export" class="btn btn-default">导出</button>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="pass_info">
+                    <div class="pass_info_kv">
+                        <div class="info_key">地址1:</div>
+                        <div class="info_input"><input /></div>
+                    </div>
+                    <div class="pass_info_kv">
+                        <div class="info_key">分类1:</div>
+                        <div class="info_input"><input /></div>
+                    </div>
+                    <div class="pass_info_kv">
+                        <div class="info_key">地址2:</div>
+                        <div class="info_input"><input /></div>
+                    </div>
+                    <div class="pass_info_kv">
+                        <div class="info_key">分类2:</div>
+                        <div class="info_input"><input /></div>
+                    </div>
+                    <div class="pass_info_kv">
+                        <div class="info_key">地址3:</div>
+                        <div class="info_input"><input /></div>
+                    </div>
+                    <div class="pass_info_kv">
+                        <div class="info_key">分类3:</div>
+                        <div class="info_input"><input /></div>
+                    </div>
+                    <button class="but_Export">导出</button>
+                    <button class="but_Import">导入</button>
+                    <button class="Export_byte">导出字节格式数据</button>
                 </div>
             </div>
         </div>
-
     </div>
-    <div class="th_box2">
+    <div class="th_box2" style="height: auto;">
         <div class="th_monitor_blue2"></div>
         <div class="th_monitor_info2">
-            <span class="span_status">预警状态</span>
+            <span style="margin-left: 10px;">预警状态</span>
         </div>
         <div class="warningitem">
-            <div style="margin-left: 23%;" th:fragment="article_type">CPU状态<br/><span id = "cpuStatus"></span></div>
-            <div>卡块情况<br/><span th:text="'&nbsp;'"  id = "blockStatus"></span></div>
-            <div>停运情况<br/><span th:text="'&nbsp;'"  id = "outageStatus"></span></div>
-            <div>分叉情况<br/><span th:text="'&nbsp;'"  id = "bifurcation"></span></div>
+            <div class="warningitem-status" style="margin-left: 23%;">
+                <div th:fragment="article_type">CPU状态</div>
+                <span id = "cpuStatus"></span>
+            </div>
+            <div class="warningitem-status">
+                <div>卡块情况</div>
+                <span th:text="'&nbsp;'"  id = "blockStatus"></span>
+            </div>
+            <div class="warningitem-status">
+                <div>停运情况</div>
+                <span th:text="'&nbsp;'"  id = "outageStatus"></span>
+            </div>
+            <div class="warningitem-status">
+                <div>分叉情况</div>
+                <span th:text="'&nbsp;'"  id = "bifurcation"></span>
+            </div>
         </div>
     </div>
 </div>
@@ -253,6 +274,29 @@
             }
         })
     });
+
+</script>
+<script th:inline="javascript">
+    $('#move').click(function(){
+        $("div .th_box2").hide()
+    })
+    $('#sum').click(function(){
+        $("div .th_box2").show()
+    });
+    function g(sum){
+        d=document.getElementsByTagName('p')
+        for(p=d.length;p--;){
+            if(d[p].id!=sum){
+                d[p].style.backgroundColor='#E6E6E6'
+                d[p].style.color='#555555'
+            }
+            else{
+                d[p].style.backgroundColor='#61A0F2'
+                d[p].style.color='#FFFFFF'
+            }
+
+        }
+    }
 </script>
 
 </html>

@@ -42,19 +42,20 @@ public class AsynchronousController {
     public boolean outageStatus(){
         MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
         String ip = "";
+        boolean outage = false ;
         if (mapCacheUtil.getCacheItem("bindNode") != null){
              ip = mapCacheUtil.getCacheItem("bindNode").toString();
-        }
-        //获取当前高度
-        String heightUrl = "http://"+ip+"/height";
-        JSONObject result = JSON.parseObject(HttpRequestUtil.sendGet(heightUrl,""));
-        boolean outage = false ;
-        if(result != null){
-            if(result.getInteger("code") == 2000) {
-                outage = true;
+            //获取当前高度
+            String heightUrl = "http://"+ip+"/height";
+            JSONObject result = JSON.parseObject(HttpRequestUtil.sendGet(heightUrl,""));
+
+            if(result != null){
+                if(result.getInteger("code") == 2000) {
+                    outage = true;
+                }
+            }else {
+                return outage;
             }
-        }else {
-            return outage;
         }
         return outage;
     }

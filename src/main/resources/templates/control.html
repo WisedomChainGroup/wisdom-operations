@@ -22,7 +22,7 @@
     </table>
 </div>
 <div class="panel-nav" style="width: 11%;height:calc(100vh - 62px);float:left;">
-    <div class="inner2" id="example">
+    <div class="inner2">
         <div id="home_link"><a href="home"><i class="fa fa-list-alt"></i>&emsp;信息概要</a></div>
         <div id="node_link"><a href="node"><i class="fa fa-list-ul"></i>&emsp;控制台&emsp;</a></div>
 <!--        <div id="log_link"><a href="log"><i class="fa fa-file-text-o"></i>&emsp;日志信息</a></div>-->
@@ -115,6 +115,8 @@
             })
         }
     });
+</script>
+<script th:inline="javascript">
     $(function(){
         var u=window.location.pathname;
         if(u.indexOf('home')>-1){

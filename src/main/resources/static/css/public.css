@@ -66,7 +66,12 @@ a:active {color: #007BF9}
 
 
 
-
+#nav ul li.current{
+	background: #61A0F2;
+}
+#nav ul li a{
+	text-decoration: none;
+}
 .header-two{
 	
 }
@@ -89,7 +94,7 @@ a:active {color: #007BF9}
 }
 
 .header-two .tdnode{
-	width: 15%;
+	width: 18%;
 	font-family:Microsoft YaHei;
 	font-weight:400;
 	color:rgba(85,85,85,1);

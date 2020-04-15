@@ -51,6 +51,10 @@ a:active {color: #519BFD;}
 	text-align: center;
 	height: 45px;
 	background: #FFFFFF;
+	font-size:16px;
+	font-family:Microsoft YaHei;
+	font-weight:400;
+	color:rgba(85,85,85,1);
 }
 .control td .root{
 	background: #90E58A;
@@ -65,10 +69,15 @@ a:active {color: #519BFD;}
 }
 
 .control td .do{
-	background: #519BFD;
+	background: #61A0F2;
 	border-radius:5px;
 	border:0px #ff0000 solid;
-	color: #FFFFFF;
+	min-width: 25%;
+	height: 36px;
+	font-size: 16px;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	color: rgba(255,255,255,1);
 }
 
 .moda{
