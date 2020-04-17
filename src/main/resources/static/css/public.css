@@ -131,7 +131,8 @@ a:active {color: #007BF9}
 }
 .inner2{
     width: 100%;
-    height: inherit;
+    /*height: inherit;*/
+	height:100vh;
     position: relative;
 	float: left;
 	background:rgba(77,77,77,1);
