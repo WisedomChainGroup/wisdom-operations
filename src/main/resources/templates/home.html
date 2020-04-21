@@ -51,14 +51,14 @@
 								</span>
                         </div>
                         <div class="Indicators_part" style="padding-top: 0px;">
-								<span class="day">
-									<div class="day_key">事务池大小</div>
-									<div class="day_val" th:text="(${result.queuedTransactions}==''?'0':${result.queuedTransactions}) + (${result.pendingTransactions}==null?'0':${result.pendingTransactions})"></div>
-								</span>
+                            <span class="day">
+                                <div class="day_key">事务池大小</div>
+                                <div class="day_val" th:text="(${result.queuedTransactions}==''?'0':${result.queuedTransactions}) + (${result.pendingTransactions}==null?'0':${result.pendingTransactions})"></div>
+                            </span>
                             <span class="day"style="border-right:2px solid rgba(226,226,226,1)">
-									<div class="day_key">当前难度</div>
-									<div class="Difficulty_val" th:text="${result.target}==''?'0':${result.target}"></div>
-								</span>
+                                <div class="day_key">当前难度</div>
+                                <div class="day_val" th:text="${result.target}==''?'0':${result.target}" th:id="targetId"></div>
+							</span>
                         </div>
                     </div>
                 </div>
@@ -297,6 +297,15 @@
 
         }
     }
+    var isDifficulty = [[${result.target}]];
+    $(function () {
+        if(isDifficulty.length >0){
+            $('#targetId').removeClass("day_val");
+            $('#targetId').addClass("Difficulty_val");
+        }else {
+            $('#targetId').addClass("day_val");
+        }
+    });
 </script>
 
 </html>
