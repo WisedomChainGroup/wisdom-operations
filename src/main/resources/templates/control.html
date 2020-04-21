@@ -23,16 +23,16 @@
 </div>
 <div class="panel-nav" style="width: 11%;height:calc(100vh - 62px);float:left;">
     <div class="inner2">
-        <div id="home_link"><a href="home"><i class="fa fa-list-alt"></i>&emsp;信息概要</a></div>
+        <div id="home_link" class="current"><a href="home"><i class="fa fa-list-alt"></i>&emsp;信息概要</a></div>
         <div id="node_link"><a href="node"><i class="fa fa-list-ul"></i>&emsp;控制台&emsp;</a></div>
 <!--        <div id="log_link"><a href="log"><i class="fa fa-file-text-o"></i>&emsp;日志信息</a></div>-->
         <div id="mail_link"><a href="mail"><i class="fa fa-wpexplorer"></i>&emsp;预警信息</a></div>
         <div id="user_link"><a href="user"><i class="fa fa-key"></i>&emsp;鉴权设置</a></div>
 <!--        <div id="deal_link"><a href="deal"><i class="fa fa-envelope-open-o"></i>&emsp;合约部署</a></div>-->
     </div>
-    <div class="inner3">
+<!--    <div class="inner3">-->
 <!--        <div><i class="fa fa-angle-double-left fa-2x"></i></div>-->
-    </div>
+<!--    </div>-->
 </div>
 <div class="header-two"style="width: 89%;float:left;">
     <table>
@@ -123,14 +123,19 @@
             $('#home_link').css('background','#61A0F2');
         }else if(u.indexOf('node')>-1){
             $('#node_link').css('background','#61A0F2');
+            $("#home_link").removeClass("current");
         }else if(u.indexOf('log')>-1){
             $('#log_link').css('background','#61A0F2');
+            $("#home_link").removeClass("current");
         }else if(u.indexOf('mail')>-1){
             $('#mail_link').css('background','#61A0F2');
+            $("#home_link").removeClass("current");
         }else if(u.indexOf('user')>-1){
             $('#user_link').css('background','#61A0F2');
+            $("#home_link").removeClass("current");
         }else if(u.indexOf('deal')>-1){
             $('#deal_link').css('background','#61A0F2');
+            $("#home_link").removeClass("current");
         }
     });
 </script>
