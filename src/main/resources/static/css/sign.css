@@ -131,7 +131,7 @@ select {
   appearance:none;
   -moz-appearance:none;
   -webkit-appearance:none;
-  background: url("https://raw.githubusercontent.com/ourjs/static/gh-pages/2015/arrow.png") no-repeat scroll right center transparent;
+  /*background: url("https://raw.githubusercontent.com/ourjs/static/gh-pages/2015/arrow.png") no-repeat scroll right center transparent;*/
   padding-right: 60px;
 }
 select::-ms-expand { display: none; }
