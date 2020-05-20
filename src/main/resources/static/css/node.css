@@ -106,3 +106,30 @@ select {
   padding-right: 60px;
 }
 select::-ms-expand { display: none; }
+
+.moda-root{
+	padding: 15px 0px;
+	border-top: 2px solid #e5e5e5;
+}
+
+.moda-le{
+	width: 100%;
+	float: left;
+	display: flex;
+}
+
+.moda-in{
+	width: 60%;
+	margin-top: 0px;
+}
+.moda-root-info{
+	height: 40px;
+	float: left;
+	width: 30%;
+	line-height: 40px;
+}
+.ju-c{
+	justify-items: center;
+	height: 35px;
+}
+
