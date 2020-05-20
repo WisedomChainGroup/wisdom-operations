@@ -22,7 +22,7 @@ a:hover {color: #5B9AFF;}
 	color:rgba(255,255,255,1);
 }
 .th_ul{
-	min-width: 12%;
+	min-width: 6%;
 	height:40px;
 	background:rgba(230,230,230,1);
 	border-radius:5px 0px 0px 0px;
@@ -41,7 +41,7 @@ a:hover {color: #5B9AFF;}
 	height: 40px;
 }
 .th_sum{
-	min-width: 50%;
+	min-width: 100%;
 	height:40px;
 	background:rgba(97,160,242,1);
 	border-radius:5px 0px 0px 0px;

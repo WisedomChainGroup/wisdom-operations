@@ -81,14 +81,4 @@ public class ExportDb {
             e.printStackTrace();
         }
     }
-//    @GetMapping("/version")
-//    public Object Version(){
-//        return APIResult.newSuccess(configBean.getVersion());
-//    }
-//
-//    @PostMapping("/changeVersion")
-//    public Object ChangeVersion(@RequestParam(value = "version") String version){
-//        configBean.setVersion(version);
-//        return APIResult.newSuccess(configBean.getVersion());
-//    }
 }

@@ -6,6 +6,8 @@ public class Nodes {
     private String nodeType;
     private String nodeState;
     private String nodeVersion;
+    private String userName;
+    private String password;
 
     public String getNodeIP() {
         return nodeIP;
@@ -46,4 +48,6 @@ public class Nodes {
     public void setNodeVersion(String nodeVersion) {
         this.nodeVersion = nodeVersion;
     }
+
+
 }

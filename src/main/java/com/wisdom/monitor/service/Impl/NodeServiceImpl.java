@@ -16,16 +16,17 @@ import java.util.List;
 
 @Service
 public class NodeServiceImpl implements NodeService {
-    @Value("${password}")
+    @Value("${System_Password}")
     private String password;
-    @Value("${imageVersion}")
-    private String imageVersion;
+    @Value("${Image}")
+    private String image;
     private static final Logger logger = LoggerFactory.getLogger(NodeServiceImpl.class);
     @Override
     public List<String> stop() {
         List<String> strList = new ArrayList<String>();
         try {
-            Process process = Runtime.getRuntime().exec(new String[]{"/bin/sh","-c","echo "+password+" |sudo -S docker stop  wdc_core_v"+imageVersion},null,null);
+            logger.info("image is :"+image);
+            Process process = Runtime.getRuntime().exec(new String[]{"/bin/sh","-c","echo "+password+" |sudo -S docker stop "+image},null,null);
             InputStreamReader ir = new InputStreamReader(process.getInputStream());
             LineNumberReader input = new LineNumberReader(ir);
             String line;
@@ -43,7 +44,7 @@ public class NodeServiceImpl implements NodeService {
     public List<String> restart() {
         List<String> strList = new ArrayList<String>();
         try {
-            Process process = Runtime.getRuntime().exec(new String[]{"/bin/sh","-c","echo "+password+" |sudo -S docker restart  wdc_core_v"+imageVersion},null,null);
+            Process process = Runtime.getRuntime().exec(new String[]{"/bin/sh","-c","echo "+password+" |sudo -S docker restart "+image},null,null);
             InputStreamReader ir = new InputStreamReader(process.getInputStream());
             LineNumberReader input = new LineNumberReader(ir);
             String line;

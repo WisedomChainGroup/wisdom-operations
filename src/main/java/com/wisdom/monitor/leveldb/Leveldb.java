@@ -93,19 +93,5 @@ public class Leveldb {
         }
         return context;
     }
-
-
-    public static void main(String[] args) throws IOException {
-        Leveldb s = new Leveldb();
-       /* List<User> list = new ArrayList<>();
-        list.add(new User("admin", new BCryptPasswordEncoder().encode("admin"), "ROLE_ADMIN"));
-        list.add(new User("zhang", "zhang", "ROLE_EDITOR"));
-        list.add(new User("xi", "xi", "ROLE_REVIEWER"));
-        list.add(new User("chen", "chen", "ROLE_ADMIN"));
-        String ss = JSON.toJSONString(list);
-        s.addAccount("user", ss);*/
-
-    }
-
 }
 

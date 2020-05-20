@@ -103,10 +103,12 @@ dependencies {
     compile group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     // https://mvnrepository.com/artifact/com.github.oshi/oshi-core
     compile group: 'com.github.oshi', name: 'oshi-core', version: '3.5.0'
-
-
-
-
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+    compile group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
+    // https://mvnrepository.com/artifact/ch.ethz.ganymed/ganymed-ssh2
+    compile group: 'ch.ethz.ganymed', name: 'ganymed-ssh2', version: 'build210'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
 
 }
 

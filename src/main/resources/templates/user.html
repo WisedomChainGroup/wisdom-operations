@@ -9,10 +9,6 @@
     <link th:href="@{/css/sign.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/public.css}" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!--    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>-->
-<!--    <script src="sweetalert2/dist/sweetalert2.min.js"></script>-->
-<!--    <link rel="stylesheet" href="sweetalert2/dist/sweetalert2.min.css">-->
 </head>
 <body style="background: #EDF0F4">
 <div class="headpage"></div>
@@ -41,7 +37,7 @@
                             <h4 class="modal-title moda_info">
                                 密码:
                             </h4>
-                            <input class="form-control moda_info" id="password">
+                            <input class="form-control moda_info" id="password" type="password">
                         </div>
                         <div class="moda">
                             <h4 class="modal-title moda_info">
@@ -71,7 +67,7 @@
                 <tr>
                     <th>登陆账号</th>
                     <th>当前权限</th>
-                    <th id="operation">操作</th>
+                    <th id="operation" class="operations">操作</th>
                 </tr>
                 <tr th:each="user: ${userList}">
                     <td th:text="${user.getName()}">Asegmahh</td>
@@ -81,7 +77,7 @@
                         <p th:case="'ROLE_REVIEWER'">仅查询</p>
                     </td>
                     <td class="operations">
-                        <button class="do bt_delete" th:id="${user.getName()}">删除</button>
+                        <button class="do bt_delete" th:if="${user.getName()} != 'admin' " th:id="${user.getName()}">删除</button>
                     </td>
                 </tr>
             </table>
@@ -93,13 +89,23 @@
     $(function () {
         $(" .headpage").load("control");
         $('#bt_submit').click(function () {
+            var name = $('#username').val();
+            var password = $('#password').val();
+            var role = $('#role').val();
+            if (name == "" || password == "" || role == ""){
+                alert("请完善信息！");
+                return;
+            }
+            if (password.length > 20 || password.length<6){
+                alert("请输入密码6-20位密码！");
+                return;
+            }
             var urlData = {name: $('#username').val(), password: $('#password').val(), role: $('#role').val()};
             $.get('adduser', urlData, function (result) {
                 $(".modal").css("display", "none");
                 $(".modal-backdrop").css("display", "none");
                 alert(result.message);
                 window.location.reload();
-                console.log(result);
             }, 'json');
         });
         $(' .bt_delete').click(function () {
@@ -113,18 +119,14 @@
                 }, 'json');
             }
         });
-    });
-    $(document).ready(function () {
-        var role = [[${role}]];
-        if(role == "ROLE_REVIEWER" || role == "ROLE_EDITOR"){
-            $("#operation").attr("style","display:none;");
-            $("#add").attr("style","display:none;");
-            var aa = document.getElementsByClassName("operations");//获取到的是一个类数组
-            for(var i=0;i<aa.length;i++){
-                aa[i].style.visibility = "hidden";
-
+        $(document).ready(function () {
+            var role = [[${role}]];
+            if(role == "ROLE_REVIEWER" || role == "ROLE_EDITOR"){
+                $("#add").attr("style","display:none;");
+                var aa = document.getElementsByClassName("operations");//获取到的是一个类数组
+                $(".operations").attr("style","display:none;");
             }
-        }
+        });
     });
 </script>
 </body>

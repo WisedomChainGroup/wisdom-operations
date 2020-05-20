@@ -107,11 +107,4 @@ public class BigEndian {
     public static BigInteger decodeUint256(byte[] in) {
         return new BigInteger(1, Arrays.copyOfRange(in, 0, 32));
     }
-
-    public static void main(String[] args) throws Exception{
-        System.out.println(Hex.encodeHex(encodeUint16(MAX_UINT_16)));
-        System.out.println(Hex.encodeHexString(BigEndian.encodeUint256(BigEndian.decodeUint256(
-                Hex.decodeHex("0000afffffffffffffffffffffffffffffffffffffffffffffffffffffffffff".toCharArray())
-        ))));
-    }
 }

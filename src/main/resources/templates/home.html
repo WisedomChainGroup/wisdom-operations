@@ -20,7 +20,7 @@
         <div style="width: 100%;height: 40px;">
             <span id="url-jump" class="th_ul">
                 <p class="th_sum" href="#panel-657186" data-toggle="tab" id="sum" onclick='g(this.id)'>信息概要</p>
-                <p class="th_move" href="#panel-440280" data-toggle="tab" id="move" onclick='g(this.id)'>导入导出</p>
+<!--                <p class="th_move" href="#panel-440280" data-toggle="tab" id="move" onclick='g(this.id)'>导入导出</p>-->
             </span>
         </div>
         <div class="tab-content">
@@ -127,80 +127,80 @@
 </body>
 <script>
     var chart = null;
-    $.getJSON('getLinedata/Json', function (data) {
-        chart = Highcharts.chart('container', {
-            chart: {
-                zoomType: 'x'
-            },
-            title: {
-                text: 'WDC价格走势图'
-            },
-            xAxis: {
-                type: 'datetime',
-                dateTimeLabelFormats: {
-                    millisecond: '%H:%M:%S.%L',
-                    second: '%H:%M:%S',
-                    minute: '%H:%M',
-                    hour: '%H:%M',
-                    day: '%m-%d',
-                    week: '%m-%d',
-                    month: '%Y-%m',
-                    year: '%Y'
-                }
-            },
-            tooltip: {
-                dateTimeLabelFormats: {
-                    millisecond: '%H:%M:%S.%L',
-                    second: '%H:%M:%S',
-                    minute: '%H:%M',
-                    hour: '%H:%M',
-                    day: '%Y-%m-%d',
-                    week: '%m-%d',
-                    month: '%Y-%m',
-                    year: '%Y'
-                }
-            },
-            yAxis: {
-                title: {
-                    text: ''
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, new Highcharts.getOptions().colors[0]],
-                            [1, new Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
-                    },
-                    marker: {
-                        radius: 2
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                }
-            },
-            series: [{
-                type: 'area',
-                name: 'Price',
-                data: data
-            }]
-        });
-    });
+    // $.getJSON('getLinedata/Json', function (data) {
+    //     chart = Highcharts.chart('container', {
+    //         chart: {
+    //             zoomType: 'x'
+    //         },
+    //         title: {
+    //             text: 'WDC价格走势图'
+    //         },
+    //         xAxis: {
+    //             type: 'datetime',
+    //             dateTimeLabelFormats: {
+    //                 millisecond: '%H:%M:%S.%L',
+    //                 second: '%H:%M:%S',
+    //                 minute: '%H:%M',
+    //                 hour: '%H:%M',
+    //                 day: '%m-%d',
+    //                 week: '%m-%d',
+    //                 month: '%Y-%m',
+    //                 year: '%Y'
+    //             }
+    //         },
+    //         tooltip: {
+    //             dateTimeLabelFormats: {
+    //                 millisecond: '%H:%M:%S.%L',
+    //                 second: '%H:%M:%S',
+    //                 minute: '%H:%M',
+    //                 hour: '%H:%M',
+    //                 day: '%Y-%m-%d',
+    //                 week: '%m-%d',
+    //                 month: '%Y-%m',
+    //                 year: '%Y'
+    //             }
+    //         },
+    //         yAxis: {
+    //             title: {
+    //                 text: ''
+    //             }
+    //         },
+    //         legend: {
+    //             enabled: false
+    //         },
+    //         plotOptions: {
+    //             area: {
+    //                 fillColor: {
+    //                     linearGradient: {
+    //                         x1: 0,
+    //                         y1: 0,
+    //                         x2: 0,
+    //                         y2: 1
+    //                     },
+    //                     stops: [
+    //                         [0, new Highcharts.getOptions().colors[0]],
+    //                         [1, new Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+    //                     ]
+    //                 },
+    //                 marker: {
+    //                     radius: 2
+    //                 },
+    //                 lineWidth: 1,
+    //                 states: {
+    //                     hover: {
+    //                         lineWidth: 1
+    //                     }
+    //                 },
+    //                 threshold: null
+    //             }
+    //         },
+    //         series: [{
+    //             type: 'area',
+    //             name: 'Price',
+    //             data: data
+    //         }]
+    //     });
+    // });
     $(function () {
         $(" .headpage").load("control");
         $('#export').click(function () {
@@ -224,7 +224,6 @@
             url: "/block",
             data: "",
             success: function (result) {
-                console.log(result);
                 document.getElementById("blockStatus").innerHTML = result;
                 }
         }),
@@ -234,11 +233,22 @@
             url: "/cpu",
             data: "",
             success: function (result) {
-                console.log(result);
                 document.getElementById("cpuStatus").innerHTML = result;
             }
         })
     },1000);
+
+    var t3 = window.setInterval(function() {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/bifurcation",
+            data: "",
+            success: function (result) {
+                document.getElementById("bifurcation").innerHTML = result;
+            }
+        })
+    },10000);
 
     var role = [[role]];
 
@@ -249,27 +259,10 @@
             url: "/outageStatus",
             data: "",
             success: function (result) {
-                console.log(result);
                 if(result){
                     document.getElementById("outageStatus").innerHTML = "正常";
                 }else{
                     document.getElementById("outageStatus").innerHTML = "异常";
-                }
-            }
-        })
-    });
-    $(function () {
-        $.ajax({
-            type: "GET",
-            contentType: "application/json",
-            url: "/bifurcation",
-            data: "",
-            success: function (result) {
-                console.log(result);
-                if(result){
-                    document.getElementById("bifurcation").innerHTML = "正常";
-                }else{
-                    document.getElementById("bifurcation").innerHTML = "异常";
                 }
             }
         })

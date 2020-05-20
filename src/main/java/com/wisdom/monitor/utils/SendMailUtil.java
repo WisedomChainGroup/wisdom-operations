@@ -3,6 +3,8 @@ package com.wisdom.monitor.utils;
 import com.alibaba.fastjson.JSONObject;
 import com.wisdom.monitor.leveldb.Leveldb;
 import com.wisdom.monitor.model.Mail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
@@ -18,15 +20,16 @@ import javax.mail.internet.MimeMessage;
 @Component
 @EnableScheduling
 public class SendMailUtil {
-
-
-
+    private static final Logger logger = LoggerFactory.getLogger(SendMailUtil.class);
     public static boolean sendMailOutLook(String title, String body) throws IOException {
         Leveldb leveldb = new Leveldb();
         Mail mail = new Mail();
         Object read = JSONObject.parseObject(leveldb.readAccountFromSnapshot("mail"), Mail.class);
         if (read != null) {
             mail= (Mail) read;
+            logger.info("-------------sender------------"+mail.getSender());
+            logger.info("-------------Password------------"+mail.getPassword());
+            logger.info("-------------Receiver------------"+mail.getReceiver());
             //设置参数
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
@@ -96,5 +99,23 @@ public class SendMailUtil {
         System.out.println("发送完毕！");
 
         return true;
+    }
+
+    public static void main(String[] args) throws IOException {
+        StringBuffer messageText=new StringBuffer();//内容以html格式发送,防止被当成垃圾邮件
+        messageText.append("<span>警告:</span></br>");
+        messageText.append("<span>您绑定的节点出现分叉！</span></br>");
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.outlook.com");
+        props.put("mail.smtp.port", "587");
+        //自定义信息
+        props.put("username", "wdcserver@outlook.com");//你的邮箱
+        props.put("password", "Wisdom!@#123");//你的密码
+        props.put("to", "840043122@qq.com");//接收的邮箱
+        SendMailUtil.send(props,"通知",messageText.toString());
+
     }
 }

@@ -61,9 +61,15 @@ public class AsynchronousController {
     }
 
     @GetMapping(value = {"/bifurcation"})
-    public boolean bifurcation(){
+    public String bifurcation(){
         Monitor monitor = new Monitor();
-        boolean bifurcation = monitor.checkBifurcate();
-        return bifurcation;
+        int bifurcation = monitor.checkBifurcate();
+        if (bifurcation == -1){
+            return "分叉";
+        }else if (bifurcation == 0){
+            return "异常";
+        }else {
+            return "正常";
+        }
     }
 }

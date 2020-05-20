@@ -12,13 +12,13 @@
     <link th:href="@{/font-awesome-4.7.0/css/font-awesome.css}" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 </head>
 <body style="background: #EDF0F4;">
 <div class="headpage" style="border:0px solid #555555;"></div>
 <div class="control_cont" style="width: 87%;margin-left: 1%;float: left;margin-top: 1%;height: auto;">
     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
-            style="background:#61A0F2;margin-left: 2%;margin-top: 20px;border: 0px">
+            style="background:#61A0F2;margin-left: 2%;margin-top: 20px;border: 0px" id="add">
         +&nbsp;添加新的节点
     </button>
 
@@ -99,53 +99,244 @@
             var r = re.test($('#nodeIp').val());
             if (!r)
             {
-                swal("", "IP地址不正确", "error");
+                Swal.fire("", "IP地址不正确", "error");
                 return;
             }
             var urlData = {nodeIP: $('#nodeIp').val(),nodePort: $('#nodePort').val(), nodeType: $('#nodetype').val()};
-            $.get('addnode', urlData, function (result) {
-                $(".modal").css("display", "none");
-                $(".modal-backdrop").css("display", "none");
-                swal("", result.message, "success");
-                window.location.reload();
-                console.log(result);
-            }, 'json');
+
+            Swal.fire({
+                type: 'question', // 弹框类型
+                title: '', //标题
+                text: "是否添加！", //显示内容
+
+                confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                confirmButtonText: '确定',// 确定按钮的 文字
+                showCancelButton: true, // 是否显示取消按钮
+                cancelButtonColor: '#d33', // 取消按钮的 颜色
+                cancelButtonText: "取消", // 取消按钮的 文字
+
+                focusCancel: true, // 是否聚焦 取消按钮
+                reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+            }).then((isConfirm) => {
+                try {
+                    //判断 是否 点击的 确定按钮
+                    if (isConfirm.value) {
+                        $.get('addnode', urlData, function (result) {
+                            $(".modal").css("display", "none");
+                            $(".modal-backdrop").css("display", "none");
+                            if(result.code == 2000){
+                                Swal.fire({
+                                    type: 'success', // 弹框类型
+                                    title: '', //标题
+                                    text: "添加成功！", //显示内容
+
+                                    confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                                    confirmButtonText: '确定',// 确定按钮的 文字
+                                    showCancelButton: false, // 是否显示取消按钮
+                                    cancelButtonColor: '#d33', // 取消按钮的 颜色
+                                    cancelButtonText: "取消", // 取消按钮的 文字
+
+                                    focusCancel: true, // 是否聚焦 取消按钮
+                                    reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+                                }).then((isConfirm) => {
+                                    try {
+                                        //判断 是否 点击的 确定按钮
+                                        if (isConfirm.value) {
+                                            window.location.reload();
+                                        }
+                                    } catch (e) {
+                                        alert(e);
+                                    }
+                                });
+                            }
+                        }, 'json');
+
+                    }
+                    else {
+                        Swal.fire("取消", "点击了取消", "error");
+                    }
+                } catch (e) {
+                    alert(e);
+                }
+            });
+
         });
         //删除
         $(' .bt_delete').click(function () {
-            var r = confirm("是否删除该节点");
-            if (r == true) {
-                var urlData = {nodeStr: $(this).attr('id')};
-                $.get('deleteNode', urlData, function (result) {
-                    alert(result.message);
-                    window.location.reload();
-                    console.log(result);
-                }, 'json');
-            }
+            var urlData = {nodeStr: $(this).attr('id')};
+            Swal.fire({
+                type: 'question', // 弹框类型
+                title: '', //标题
+                text: "是否删除！", //显示内容
+
+                confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                confirmButtonText: '确定',// 确定按钮的 文字
+                showCancelButton: true, // 是否显示取消按钮
+                cancelButtonColor: '#d33', // 取消按钮的 颜色
+                cancelButtonText: "取消", // 取消按钮的 文字
+
+                focusCancel: true, // 是否聚焦 取消按钮
+                reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+            }).then((isConfirm) => {
+                try {
+                    //判断 是否 点击的 确定按钮
+                    if (isConfirm.value) {
+                        $.get('deleteNode', urlData, function (result) {
+                            $(".modal").css("display", "none");
+                            $(".modal-backdrop").css("display", "none");
+                            if(result.code == 2000){
+                                Swal.fire({
+                                    type: 'success', // 弹框类型
+                                    title: '', //标题
+                                    text: "删除成功！", //显示内容
+
+                                    confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                                    confirmButtonText: '确定',// 确定按钮的 文字
+                                    showCancelButton: false, // 是否显示取消按钮
+                                    cancelButtonColor: '#d33', // 取消按钮的 颜色
+                                    cancelButtonText: "取消", // 取消按钮的 文字
+
+                                    focusCancel: true, // 是否聚焦 取消按钮
+                                    reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+                                }).then((isConfirm) => {
+                                    try {
+                                        //判断 是否 点击的 确定按钮
+                                        if (isConfirm.value) {
+                                            window.location.reload();
+                                        }
+                                    } catch (e) {
+                                        alert(e);
+                                    }
+                                });
+                            }
+                        }, 'json');
+
+                    }
+                    else {
+                        Swal.fire("取消", "点击了取消", "error");
+                    }
+                } catch (e) {
+                    alert(e);
+                }
+            });
         });
+
         //绑定
         $(' .bt_bind').click(function () {
-            var r = confirm("是否绑定该节点");
-            if (r == true) {
-                var urlData = {nodeStr: $(this).attr('id')};
-                $.get('bindNode', urlData, function (result) {
-                    alert(result.message);
-                    window.location.reload();
-                    console.log(result);
-                }, 'json');
-            }
+            var urlData = {nodeStr: $(this).attr('id')};
+            Swal.fire({
+                type: 'question', // 弹框类型
+                title: '', //标题
+                text: "是否绑定！", //显示内容
+
+                confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                confirmButtonText: '确定',// 确定按钮的 文字
+                showCancelButton: true, // 是否显示取消按钮
+                cancelButtonColor: '#d33', // 取消按钮的 颜色
+                cancelButtonText: "取消", // 取消按钮的 文字
+
+                focusCancel: true, // 是否聚焦 取消按钮
+                reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+            }).then((isConfirm) => {
+                try {
+                    //判断 是否 点击的 确定按钮
+                    if (isConfirm.value) {
+                        $.get('bindNode', urlData, function (result) {
+                            $(".modal").css("display", "none");
+                            $(".modal-backdrop").css("display", "none");
+                            if(result.code == 2000){
+                                Swal.fire({
+                                    type: 'success', // 弹框类型
+                                    title: '', //标题
+                                    text: "绑定成功！", //显示内容
+
+                                    confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                                    confirmButtonText: '确定',// 确定按钮的 文字
+                                    showCancelButton: false, // 是否显示取消按钮
+                                    cancelButtonColor: '#d33', // 取消按钮的 颜色
+                                    cancelButtonText: "取消", // 取消按钮的 文字
+
+                                    focusCancel: true, // 是否聚焦 取消按钮
+                                    reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+                                }).then((isConfirm) => {
+                                    try {
+                                        //判断 是否 点击的 确定按钮
+                                        if (isConfirm.value) {
+                                            window.location.reload();
+                                        }
+                                    } catch (e) {
+                                        alert(e);
+                                    }
+                                });
+                            }
+                        }, 'json');
+
+                    }
+                    else {
+                        Swal.fire("取消", "点击了取消", "error");
+                    }
+                } catch (e) {
+                    alert(e);
+                }
+            });
         });
         //解绑
         $(' .bt_unbind').click(function () {
-            var r = confirm("是否解除绑定");
-            if (r == true) {
-                var urlData = {nodeStr: $(this).attr('id')};
-                $.get('unbindNode', urlData, function (result) {
-                    alert(result.message);
-                    window.location.reload();
-                    console.log(result);
-                }, 'json');
-            }
+            var urlData = {nodeStr: $(this).attr('id')};
+            Swal.fire({
+                type: 'question', // 弹框类型
+                title: '', //标题
+                text: "是否解绑！", //显示内容
+
+                confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                confirmButtonText: '确定',// 确定按钮的 文字
+                showCancelButton: true, // 是否显示取消按钮
+                cancelButtonColor: '#d33', // 取消按钮的 颜色
+                cancelButtonText: "取消", // 取消按钮的 文字
+
+                focusCancel: true, // 是否聚焦 取消按钮
+                reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+            }).then((isConfirm) => {
+                try {
+                    //判断 是否 点击的 确定按钮
+                    if (isConfirm.value) {
+                        $.get('unbindNode', urlData, function (result) {
+                            $(".modal").css("display", "none");
+                            $(".modal-backdrop").css("display", "none");
+                            if(result.code == 2000){
+                                Swal.fire({
+                                    type: 'success', // 弹框类型
+                                    title: '', //标题
+                                    text: "解绑成功！", //显示内容
+                                    confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                                    confirmButtonText: '确定',// 确定按钮的 文字
+                                    showCancelButton: false, // 是否显示取消按钮
+                                    cancelButtonColor: '#d33', // 取消按钮的 颜色
+                                    cancelButtonText: "取消", // 取消按钮的 文字
+
+                                    focusCancel: true, // 是否聚焦 取消按钮
+                                    reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+                                }).then((isConfirm) => {
+                                    try {
+                                        //判断 是否 点击的 确定按钮
+                                        if (isConfirm.value) {
+                                            window.location.reload();
+                                        }
+                                    } catch (e) {
+                                        alert(e);
+                                    }
+                                });
+                            }
+                        }, 'json');
+
+                    }
+                    else {
+                        Swal.fire("取消", "点击了取消", "error");
+                    }
+                } catch (e) {
+                    alert(e);
+                }
+            });
         });
 
         $(document).ready(function () {
@@ -154,9 +345,7 @@
                 $("#operation").attr("style","display:none;");//隐藏div
                 $("#add").attr("style","display:none;");//隐藏div
                 var aa = document.getElementsByClassName("operations");//获取到的是一个类数组
-                for(var i=0;i<aa.length;i++){
-                    aa[i].style.visibility = "hidden";
-                }
+                $(".operations").attr("style","display:none;");
             }
         });
     });

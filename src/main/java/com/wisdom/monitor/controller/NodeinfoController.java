@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.wisdom.monitor.model.Result;
 import com.wisdom.monitor.utils.HttpRequestUtil;
 import com.wisdom.monitor.utils.MapCacheUtil;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class NodeinfoController {
 
     public static Object getVersion(){

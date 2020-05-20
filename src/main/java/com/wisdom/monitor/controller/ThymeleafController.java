@@ -56,12 +56,17 @@ public class ThymeleafController {
             if (HttpRequestUtil.sendGet(String.format("http://%s/WisdomCore/ExplorerInfo", url_node), null)!=""){
                 get_info = JSON.parseObject(HttpRequestUtil.sendGet(String.format("http://%s/WisdomCore/ExplorerInfo", url_node), null)).getJSONObject("data");
             }
-            String get_price = "";
-            if (JSON.parseObject(HttpRequestUtil.sendGet(url_price, "market=wdc_qc")) != null){
-                get_price = JSON.parseObject(HttpRequestUtil.sendGet(url_price, "market=wdc_qc")).getJSONObject("data").getString("last");
+            if (get_info != null){
+                info = JSON.toJavaObject(get_info, WDCInfo.class);
+            }else {
+                info = JSON.toJavaObject((JSONObject)JSONObject.toJSON(new WDCInfo()), WDCInfo.class);
             }
-            info = JSON.toJavaObject(get_info, WDCInfo.class);
-            info.setPrice(get_price);
+
+//                      String get_price = "";
+//            if (JSON.parseObject(HttpRequestUtil.sendGet(url_price, "market=wdc_qc")) != null){
+//                get_price = JSON.parseObject(HttpRequestUtil.sendGet(url_price, "market=wdc_qc")).getJSONObject("data").getString("last");
+//            }
+//            info.setPrice(get_price);
         }
         map.addAttribute("result", info);
         map.addAttribute("role",customUserService.getRole());

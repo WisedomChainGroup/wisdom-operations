@@ -19,29 +19,19 @@ import java.util.Date;
 public class ImportDb {
     private static final Logger logger = LoggerFactory.getLogger(ImportDb.class);
 
-    //region zhangtong code
-       /*@Autowired
-        private JdbcTemplate tmpl;
-
-        @Value("${spring.datasource.url}")
-        public String DB_URL;
-        @Value("password")
-        public String password;*/
-    //endregion
-
-    @Value("${postgres.port}")
+//    @Value("${postgres.port}")
     private String postgres_port;
-    @Value("${sys.password}")
+//    @Value("${sys.password}")
     private String sys_password;
-    @Value("${core.name}")
+//    @Value("${core.name}")
     private String core_name;
-    @Value("${postgres.name}")
+//    @Value("${postgres.name}")
     private String postgres_name;
-    @Value("${import.valve}")
+//    @Value("${import.valve}")
     private String import_valve;
-    @Value("${postgres.ip}")
+//    @Value("${postgres.ip}")
     private String postgres_ip;
-    @Value("${postgres.pwd}")
+//    @Value("${postgres.pwd}")
     private String postgres_pwd;
 
 
@@ -84,18 +74,6 @@ public class ImportDb {
             return true;
         }
         return false;
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        logger.info("===========================in============================");
-        return "logout";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        logger.info("===========================out============================");
-        return "login";
     }
 }
 
