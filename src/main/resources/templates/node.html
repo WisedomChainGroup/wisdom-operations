@@ -11,7 +11,7 @@
     <link th:href="@{/css/public.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/font-awesome-4.7.0/css/font-awesome.css}" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 </head>
 <body style="background: #EDF0F4;">
@@ -57,24 +57,72 @@
                             远程连接信息
                         </h4>
                     </div>
-                        <div class="moda-le">
-                            <div class="">
-                                <h4 class="modal-title moda-root-info">
-                                    用户:
-                                </h4>
-                                <input class="form-control moda-in">
-                            </div>
-                            <div class="">
-                                <h4 class="modal-title moda-root-info">
-                                    密码:
-                                </h4>
-                                <input class="form-control moda-in">
-                            </div>
-                            <div class="ju-c">
-                                <button type="button" class="btn btn-primary">连接</button>
-                            </div>
+                    <div class="moda-le">
+                        <div class="">
+                            <h4 class="modal-title moda-root-info">
+                                用户:
+                            </h4>
+                            <input class="form-control moda-in" id="username">
                         </div>
+                        <div class="">
+                            <h4 class="modal-title moda-root-info">
+                                密码:
+                            </h4>
+                            <input class="form-control moda-in" id="password" type="password">
+                        </div>
+                        <div class="ju-c">
+                            <button type="button" class="btn btn-primary" id="connection">测试连接</button>
+                        </div>
+                    </div>
+                    <div class="moda-le">
+                        <h5 style="color: green;display: none" id="wait">请等待...</h5>
+                        <h5 style="color: green;display: none" id="success">连接成功</h5>
+                        <h5 style="color: red;display: none" id="fail">连接失败</h5>
+                    </div>
 
+
+                    <div class="moda moda-root">
+
+                        <h4 class="modal-title"style="width: 100%">
+                            数据库远程连接信息
+                        </h4>
+                    </div>
+                    <div class="moda-le">
+                        <div class="">
+                            <h4 class="modal-title moda-root-info">
+                                URL:
+                            </h4>
+                            <input class="form-control moda-in" id="url">
+                        </div>
+                        <div class="">
+                            <h4 class="modal-title moda-root-info">
+                                数据库名称:
+                            </h4>
+                            <input class="form-control moda-in" id="database">
+                        </div>
+                    </div>
+                    <div class="moda-le">
+                        <div class="">
+                            <h4 class="modal-title moda-root-info">
+                                用户:
+                            </h4>
+                            <input class="form-control moda-in" id="dbusername">
+                        </div>
+                        <div class="">
+                            <h4 class="modal-title moda-root-info">
+
+                            </h4>
+                            <input class="form-control moda-in" id="dbpassword">
+                        </div>
+                        <div class="ju-c">
+                            <button type="button" class="btn btn-primary" id="dbconnection">数据库连接测试</button>
+                        </div>
+                    </div>
+                    <div class="moda-le">
+                        <h5 style="color: green;display: none" id="dbwait">请等待...</h5>
+                        <h5 style="color: green;display: none" id="dbsuccess">连接成功</h5>
+                        <h5 style="color: red;display: none" id="dbfail">连接失败</h5>
+                    </div>
 
                 </div>
 
@@ -128,7 +176,7 @@
                 Swal.fire("", "IP地址不正确", "error");
                 return;
             }
-            var urlData = {nodeIP: $('#nodeIp').val(),nodePort: $('#nodePort').val(), nodeType: $('#nodetype').val()};
+            var urlData = {nodeIP: $('#nodeIp').val(),nodePort: $('#nodePort').val(), nodeType: $('#nodetype').val(), userName: $('#username').val(), password: $('#password').val()};
 
             Swal.fire({
                 type: 'question', // 弹框类型
@@ -143,7 +191,7 @@
 
                 focusCancel: true, // 是否聚焦 取消按钮
                 reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-            }).then((isConfirm) => {
+            }).then(function(isConfirm){
                 try {
                     //判断 是否 点击的 确定按钮
                     if (isConfirm.value) {
@@ -164,7 +212,7 @@
 
                                     focusCancel: true, // 是否聚焦 取消按钮
                                     reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-                                }).then((isConfirm) => {
+                                }).then(function(isConfirm){
                                     try {
                                         //判断 是否 点击的 确定按钮
                                         if (isConfirm.value) {
@@ -203,7 +251,7 @@
 
                 focusCancel: true, // 是否聚焦 取消按钮
                 reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-            }).then((isConfirm) => {
+            }).then(function(isConfirm){
                 try {
                     //判断 是否 点击的 确定按钮
                     if (isConfirm.value) {
@@ -224,7 +272,7 @@
 
                                     focusCancel: true, // 是否聚焦 取消按钮
                                     reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-                                }).then((isConfirm) => {
+                                }).then(function(isConfirm){
                                     try {
                                         //判断 是否 点击的 确定按钮
                                         if (isConfirm.value) {
@@ -263,7 +311,7 @@
 
                 focusCancel: true, // 是否聚焦 取消按钮
                 reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-            }).then((isConfirm) => {
+            }).then(function(isConfirm){
                 try {
                     //判断 是否 点击的 确定按钮
                     if (isConfirm.value) {
@@ -284,7 +332,7 @@
 
                                     focusCancel: true, // 是否聚焦 取消按钮
                                     reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-                                }).then((isConfirm) => {
+                                }).then(function(isConfirm){
                                     try {
                                         //判断 是否 点击的 确定按钮
                                         if (isConfirm.value) {
@@ -322,7 +370,7 @@
 
                 focusCancel: true, // 是否聚焦 取消按钮
                 reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-            }).then((isConfirm) => {
+            }).then(function(isConfirm){
                 try {
                     //判断 是否 点击的 确定按钮
                     if (isConfirm.value) {
@@ -342,7 +390,7 @@
 
                                     focusCancel: true, // 是否聚焦 取消按钮
                                     reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-                                }).then((isConfirm) => {
+                                }).then(function(isConfirm){
                                     try {
                                         //判断 是否 点击的 确定按钮
                                         if (isConfirm.value) {
@@ -373,6 +421,38 @@
                 var aa = document.getElementsByClassName("operations");//获取到的是一个类数组
                 $(".operations").attr("style","display:none;");
             }
+        });
+
+        $("#connection").click(function () {
+            $("#wait").css("display", "none");
+            $("#fail").css("display", "none");
+            var re = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/
+            var r = re.test($('#nodeIp').val());
+            if (!r)
+            {
+                Swal.fire("", "IP地址不正确", "error");
+                return;
+            }
+            var username = $('#username').val();
+            var password = $('#password').val();
+            if (username == "" || password == ""){
+                Swal.fire("", "请完善远程信息", "error");
+                return;
+            }
+            $("#wait").css("display", "table-row");
+            var urlData = {ip: $('#nodeIp').val(),username: $('#username').val(), password: $('#password').val()};
+            $.get('connectionTest', urlData, function (result) {
+
+                if(result.code == 2000){
+                    $("#wait").css("display", "none");
+                    $("#fail").css("display", "none");
+                    $("#success").css("display", "table-row");
+                }else {
+                    $("#fail").css("display", "table-row");
+                    $("#wait").css("display", "none");
+                    $("#success").css("display", "none");
+                }
+            });
         });
     });
 </script>

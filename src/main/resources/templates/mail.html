@@ -75,7 +75,7 @@
 
                 focusCancel: true, // 是否聚焦 取消按钮
                 reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-            }).then((isConfirm) => {
+            }).then(function(isConfirm){
                 try {
                     //判断 是否 点击的 确定按钮
                     if (isConfirm.value) {
@@ -96,7 +96,7 @@
 
                                     focusCancel: true, // 是否聚焦 取消按钮
                                     reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
-                                }).then((isConfirm) => {
+                                }).then(function(isConfirm){
                                     try {
                                         //判断 是否 点击的 确定按钮
                                         if (isConfirm.value) {
