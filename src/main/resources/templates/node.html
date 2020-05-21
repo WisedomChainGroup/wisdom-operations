@@ -13,6 +13,12 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <!--    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <style type="text/css">
+            .modal-dialog {
+                width: 680px;
+                margin: 30px auto;
+            }
+    </style>
 </head>
 <body style="background: #EDF0F4;">
 <div class="headpage" style="border:0px solid #555555;"></div>
@@ -88,19 +94,44 @@
                         </h4>
                     </div>
                     <div class="moda-le">
+                        <h4 class="modal-title moda-root-info">
+                            IP:
+                        </h4>
+                        <input class="form-control" style="width: 70%" >
+                    </div>
+                    <div class="moda-le">
+<!--                        <div class="">-->
+<!--                            <h4 class="modal-title moda-root-info">-->
+<!--                                IP:-->
+<!--                            </h4>-->
+<!--                            <input class="form-control moda-in" id="url">-->
+<!--                        </div>-->
                         <div class="">
                             <h4 class="modal-title moda-root-info">
-                                URL:
+                                PORT:
                             </h4>
-                            <input class="form-control moda-in" id="url">
+                            <input class="form-control moda-in">
                         </div>
                         <div class="">
-                            <h4 class="modal-title moda-root-info">
+                            <h4 class="modal-title moda-name-info">
                                 数据库名称:
                             </h4>
                             <input class="form-control moda-in" id="database">
                         </div>
                     </div>
+
+<!--                    <div class="moda">-->
+<!--                        <h4 class="modal-title moda_info">-->
+<!--                            PORT:-->
+<!--                        </h4>-->
+<!--                        <input class="form-control" style="width: 67%" >-->
+<!--                    </div>-->
+<!--                    <div class="moda">-->
+<!--                        <h4 class="modal-title moda_info">-->
+<!--                            数据库链接:-->
+<!--                        </h4>-->
+<!--                        <input class="form-control" style="width: 67%" >-->
+<!--                    </div>-->
                     <div class="moda-le">
                         <div class="">
                             <h4 class="modal-title moda-root-info">
@@ -110,7 +141,7 @@
                         </div>
                         <div class="">
                             <h4 class="modal-title moda-root-info">
-
+                                密码:
                             </h4>
                             <input class="form-control moda-in" id="dbpassword">
                         </div>

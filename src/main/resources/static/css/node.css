@@ -125,11 +125,18 @@ select::-ms-expand { display: none; }
 .moda-root-info{
 	height: 40px;
 	float: left;
-	width: 30%;
+	/*width: 30%;*/
 	line-height: 40px;
+	width: 55px;
 }
 .ju-c{
 	justify-items: center;
 	height: 35px;
+}
+.moda-name-info{
+	height: 40px;
+	float: left;
+	width: 40%;
+	line-height: 40px;
 }
 
