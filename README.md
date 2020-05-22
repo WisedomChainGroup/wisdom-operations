@@ -3,7 +3,7 @@
 *wisdom-operations for monitoring Nodes*
 
 ## Use
-*Download the latest wisdom-operation.zip in the releaseAnd decompress, run monitor.jar。Refer to operation instruction in wisdom-operation.zip for details*
+*Download the latest wisdom-operation.zip in the release And decompress, run monitor.jar。Refer to operation instruction in wisdom-operation.zip for details*
 
 ```
 java -jar monitor
@@ -14,4 +14,5 @@ java -jar monitor
 * Basic data display
 * Blockchain fork repair
 * Operation node
+
 
