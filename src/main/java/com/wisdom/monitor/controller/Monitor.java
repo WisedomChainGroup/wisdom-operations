@@ -6,6 +6,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wisdom.monitor.leveldb.Leveldb;
 import com.wisdom.monitor.model.Mail;
+import com.wisdom.monitor.model.Nodes;
+import com.wisdom.monitor.model.Result;
 import com.wisdom.monitor.model.ResultCode;
 import com.wisdom.monitor.service.Impl.NodeServiceImpl;
 import com.wisdom.monitor.service.TransactionService;
@@ -29,8 +31,6 @@ public class Monitor {
     private Leveldb leveldb;
     @Autowired
     TransactionService transactionService;
-    @Value("${System_Password}")
-    private String password;
     @Value("${Image}")
     private String image;
     @Autowired
@@ -72,9 +72,8 @@ public class Monitor {
 
     //分叉修复
     public  void recoveryBifurcate(boolean ismail){
+        MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
         try {
-            logger.info("----------------------ismail--------------------------: "+ ismail);
-            MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
             if (mapCacheUtil.getCacheItem("bindNode") != null) {
                 String ip = mapCacheUtil.getCacheItem("bindNode").toString();
                 //获取当前高度
@@ -85,27 +84,53 @@ public class Monitor {
                     nHeight  = result.getLong("data");
                 }
                 if(checkBifurcate() == -1){
-                    logger.info("----------------------分叉了--------------------------: ");
                     logger.info("Wrong Block Height: "+ nHeight);
-//                    String stopShell = "echo "+password+" |sudo -S docker stop "+image;
-//                    JavaShellUtil.executeShell(stopShell);
-                    List<String> list = nodeService.stop();
-                    if (list == null){
-                        logger.warn("stop node failed,System_Password is error");
+                    //查看数据库是否连接
+                    Leveldb leveldb = new Leveldb();
+                    Object read = JSONObject.parseArray(leveldb.readAccountFromSnapshot("node"), Nodes.class);
+                    List<Nodes> nodeList = new ArrayList<Nodes>();
+                    String dbIp = "";
+                    String dbPort = "";
+                    String dbname = "";
+                    String dbusername = "";
+                    String dbpassword = "";
+                    if (read != null) {
+                        nodeList = (List<Nodes>) read;
+                        for (int i = 0; i < nodeList.size(); i++) {
+                            if (nodeList.get(i).getNodeIP().equals(mapCacheUtil.getCacheItem("bindNode").toString().split(":")[0]) && nodeList.get(i).getNodePort().equals(mapCacheUtil.getCacheItem("bindNode").toString().split(":")[1])) {
+                                dbIp = nodeList.get(i).getDbIP();
+                                dbPort = nodeList.get(i).getDbPort();
+                                dbname = nodeList.get(i).getDatabaseName();
+                                dbusername = nodeList.get(i).getDbUsername();
+                                dbpassword = nodeList.get(i).getDbPassword();
+                                break;
+                            }
+                        }
+                        ConnectionDbUtil connectionDbUtil = new ConnectionDbUtil(dbIp+":"+dbPort,dbname,dbusername,dbpassword);
+                        Result connectResult = (Result) connectionDbUtil.login();
+                        if (connectResult.getCode() == 5000){
+                            logger.warn("connection db failed");
+                            return;
+                        }
+                    }else{
+                        logger.warn("connection db failed");
                         return;
                     }
-                    if (list.get(0).equals(image)){
-                        Thread.sleep(3000);
-                        //删数据
-                        tmpl.batchUpdate(
-                                "delete from transaction t where t.tx_hash in(select h.tx_hash from transaction_index h where h.block_hash in(select h.block_hash from header h where h.height>=" + nHeight + "))",
-                                "delete from transaction_index h where h.block_hash in(select h.block_hash from header h where h.height>=" + nHeight + ")",
-                                "delete from header h where h.height>=" + nHeight);
-                        //重启容器
-//                        String restartShell = "echo "+password+" |sudo -S docker restart "+image;
-//                        JavaShellUtil.executeShell(restartShell);
-                        nodeService.restart();
-                        if (ismail){
+                    Result bindNode = (Result) nodeService.stop(mapCacheUtil.getCacheItem("bindNode").toString());
+                    if (bindNode.getCode() == 5000){
+                        logger.info("stop node failed");
+                        return;
+                    }
+                    if (bindNode.getCode() == 2000){
+                        logger.info("stop node success");
+                        Result deletResult = (Result) nodeService.deleteData(nHeight);
+                        Result bindNode2 = (Result) nodeService.restart(mapCacheUtil.getCacheItem("bindNode").toString());
+                        if (bindNode2.getCode() == 2000){
+                            logger.info("restart node success");
+                        }else{
+                            logger.info("restart node failed");
+                        }
+                        if (ismail && deletResult.getCode() == 2000){
                             StringBuffer messageText=new StringBuffer();//内容以html格式发送,防止被当成垃圾邮件
                             messageText.append("<span>通知:</span></br>");
                             messageText.append("<span>您绑定的节点出现分叉，分叉区块已修复！</span></br>");
@@ -117,9 +142,8 @@ public class Monitor {
                     }
                 }
             }
-        }catch (InterruptedException e) {
-            logger.error("InterruptedException when recoveryBifurcate",e);
         } catch (IOException e) {
+            nodeService.restart(mapCacheUtil.getCacheItem("bindNode").toString());
             logger.error("IOException when sendEmail",e);
         }
 

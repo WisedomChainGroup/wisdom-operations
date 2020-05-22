@@ -3,6 +3,9 @@ package com.wisdom.monitor.service;
 import java.util.List;
 
 public interface NodeService {
-    List<String> stop();
-    List<String> restart();
+    Object stop(String ipPort);
+    Object restart(String ipPort);
+    Object deleteData(long height);
+
+
 }

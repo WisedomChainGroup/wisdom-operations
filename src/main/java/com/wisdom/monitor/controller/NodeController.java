@@ -32,31 +32,8 @@ public class NodeController {
         Result result = new Result();
         MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
         try {
-            InetAddress ip4 = Inet4Address.getLocalHost();
-            logger.info("Node will stop");
             if (mapCacheUtil.getCacheItem("bindNode") != null){
-                if (!mapCacheUtil.getCacheItem("bindNode").toString().split(":")[0].equals(ip4.getHostAddress())){
-                    result.setMessage("失败，请操作部署在同一服务器上节点");
-                    result.setCode(ResultCode.FAIL);
-                    return result;
-                }
-                logger.info("bindNode is :"+mapCacheUtil.getCacheItem("bindNode"));
-                List<String> list = nodeService.stop();
-                logger.info("stop result is :"+list);
-                if (list == null){
-                    result.setMessage("失败");
-                    result.setCode(ResultCode.FAIL);
-                    return result;
-                }
-                if (list.get(0).equals(image)){
-                    result.setMessage("成功");
-                    result.setCode(ResultCode.SUCCESS);
-                    return result;
-                }else{
-                    result.setMessage("失败");
-                    result.setCode(ResultCode.FAIL);
-                    return result;
-                }
+                return nodeService.stop(mapCacheUtil.getCacheItem("bindNode").toString());
             }
         }catch (Exception e){
             result.setMessage("失败");
@@ -73,26 +50,13 @@ public class NodeController {
         Result result = new Result();
         MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
         try {
-            InetAddress ip4 = Inet4Address.getLocalHost();
-        if (mapCacheUtil.getCacheItem("bindNode") != null){
-            List<String> list = nodeService.restart();
-            if (list == null){
-                result.setMessage("失败");
-                result.setCode(ResultCode.FAIL);
-                return result;
+            if (mapCacheUtil.getCacheItem("bindNode") != null){
+                return nodeService.restart(mapCacheUtil.getCacheItem("bindNode").toString());
             }
-            if (list.get(0).equals(image)){
-                result.setMessage("成功");
-                result.setCode(ResultCode.SUCCESS);
-                return result;
-            }else{
-                result.setMessage("失败");
-                result.setCode(ResultCode.FAIL);
-                return result;
-            }
-        }
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+        }catch (Exception e){
+            result.setMessage("失败");
+            result.setCode(ResultCode.FAIL);
+            return result;
         }
         result.setMessage("请绑定节点");
         result.setCode(ResultCode.FAIL);

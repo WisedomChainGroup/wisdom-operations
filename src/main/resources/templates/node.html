@@ -13,6 +13,7 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <!--    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://cdn.bootcss.com/es6-promise/4.1.1/es6-promise.auto.min.js"></script>
     <style type="text/css">
             .modal-dialog {
                 width: 680px;
@@ -60,7 +61,7 @@
                     <div class="moda moda-root">
 
                         <h4 class="modal-title"style="width: 100%">
-                            远程连接信息
+                            SSH远程连接信息
                         </h4>
                     </div>
                     <div class="moda-le">
@@ -97,20 +98,14 @@
                         <h4 class="modal-title moda-root-info">
                             IP:
                         </h4>
-                        <input class="form-control" style="width: 70%" >
+                        <input class="form-control" style="width: 70%" id="dbip">
                     </div>
                     <div class="moda-le">
-<!--                        <div class="">-->
-<!--                            <h4 class="modal-title moda-root-info">-->
-<!--                                IP:-->
-<!--                            </h4>-->
-<!--                            <input class="form-control moda-in" id="url">-->
-<!--                        </div>-->
                         <div class="">
                             <h4 class="modal-title moda-root-info">
                                 PORT:
                             </h4>
-                            <input class="form-control moda-in">
+                            <input class="form-control moda-in" id="dbport">
                         </div>
                         <div class="">
                             <h4 class="modal-title moda-name-info">
@@ -119,19 +114,6 @@
                             <input class="form-control moda-in" id="database">
                         </div>
                     </div>
-
-<!--                    <div class="moda">-->
-<!--                        <h4 class="modal-title moda_info">-->
-<!--                            PORT:-->
-<!--                        </h4>-->
-<!--                        <input class="form-control" style="width: 67%" >-->
-<!--                    </div>-->
-<!--                    <div class="moda">-->
-<!--                        <h4 class="modal-title moda_info">-->
-<!--                            数据库链接:-->
-<!--                        </h4>-->
-<!--                        <input class="form-control" style="width: 67%" >-->
-<!--                    </div>-->
                     <div class="moda-le">
                         <div class="">
                             <h4 class="modal-title moda-root-info">
@@ -143,7 +125,7 @@
                             <h4 class="modal-title moda-root-info">
                                 密码:
                             </h4>
-                            <input class="form-control moda-in" id="dbpassword">
+                            <input class="form-control moda-in" id="dbpassword" type="password">
                         </div>
                         <div class="ju-c">
                             <button type="button" class="btn btn-primary" id="dbconnection">数据库连接测试</button>
@@ -207,7 +189,14 @@
                 Swal.fire("", "IP地址不正确", "error");
                 return;
             }
-            var urlData = {nodeIP: $('#nodeIp').val(),nodePort: $('#nodePort').val(), nodeType: $('#nodetype').val(), userName: $('#username').val(), password: $('#password').val()};
+            var port = $('#nodePort').val();
+            if (port == "" || port == null){
+                Swal.fire("", "请输入port", "error");
+                return;
+            }
+            var urlData = {nodeIP: $('#nodeIp').val(),nodePort: $('#nodePort').val(), nodeType: $('#nodetype').val(), userName: $('#username').val(),
+                            password: $('#password').val(), dbIP: $('#dbip').val(), dbPort: $('#dbport').val(), databaseName: $('#database').val(),
+                            dbUsername: $('#dbusername').val(), dbPassword: $('#dbpassword').val()};
 
             Swal.fire({
                 type: 'question', // 弹框类型
@@ -466,13 +455,13 @@
             }
             var username = $('#username').val();
             var password = $('#password').val();
-            if (username == "" || password == ""){
+            if (username == ""){
                 Swal.fire("", "请完善远程信息", "error");
                 return;
             }
             $("#wait").css("display", "table-row");
             var urlData = {ip: $('#nodeIp').val(),username: $('#username').val(), password: $('#password').val()};
-            $.get('connectionTest', urlData, function (result) {
+            $.get('connection', urlData, function (result) {
 
                 if(result.code == 2000){
                     $("#wait").css("display", "none");
@@ -482,6 +471,35 @@
                     $("#fail").css("display", "table-row");
                     $("#wait").css("display", "none");
                     $("#success").css("display", "none");
+                }
+            });
+        });
+
+        $("#dbconnection").click(function () {
+            $("#dbwait").css("display", "none");
+            $("#dbfail").css("display", "none");
+            var ip = $('#dbip').val();
+            var port = $('#dbport').val();
+            var database = $('#database').val();
+            var username = $('#dbusername').val();
+            var password = $('#dbpassword').val();
+            if (username == "" || database == "" || ip == "" || port == ""){
+                Swal.fire("", "请完善远程信息", "error");
+                return;
+            }
+            $("#dbwait").css("display", "table-row");
+            var urlData = {ip: ip,port: port,database: database, username: username, password: password};
+            $.get('connectionDB', urlData, function (result) {
+
+                if(result.code == 2000){
+                    $("#dbwait").css("display", "none");
+                    $("#dbfail").css("display", "none");
+                    $("#dbsuccess").css("display", "table-row");
+                }else {
+                    $("#dbfail").html(result.message);
+                    $("#dbfail").css("display", "table-row");
+                    $("#dbwait").css("display", "none");
+                    $("#dbsuccess").css("display", "none");
                 }
             });
         });

@@ -8,6 +8,11 @@ public class Nodes {
     private String nodeVersion;
     private String userName;
     private String password;
+    private String dbIP;
+    private String dbPort;
+    private String databaseName;
+    private String dbUsername;
+    private String dbPassword;
 
     public String getNodeIP() {
         return nodeIP;
@@ -49,5 +54,59 @@ public class Nodes {
         this.nodeVersion = nodeVersion;
     }
 
+    public String getDbIP() {
+        return dbIP;
+    }
 
+    public void setDbIP(String dbIP) {
+        this.dbIP = dbIP;
+    }
+
+    public String getDbPort() {
+        return dbPort;
+    }
+
+    public void setDbPort(String dbPort) {
+        this.dbPort = dbPort;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
+    }
+
+    public String getDbUsername() {
+        return dbUsername;
+    }
+
+    public void setDbUsername(String dbUsername) {
+        this.dbUsername = dbUsername;
+    }
+
+    public String getDbPassword() {
+        return dbPassword;
+    }
+
+    public void setDbPassword(String dbPassword) {
+        this.dbPassword = dbPassword;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
