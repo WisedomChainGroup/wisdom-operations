@@ -1,7 +1,10 @@
-# wisdom-operations for monitoring Nodes
+# wisdom-operations 
 
-### 一、 部署使用
+*wisdom-operations for monitoring Nodes*
 
+## Use
+*Download the latest wisdom-operation.zip in the releaseAnd decompress, run monitor.jar。Refer to operation instruction in wisdom-operation.zip for details*
 
-##### 下载Release里最新的wisdom-operation.zip并解压，运行monitor.jar。
-##### 如:java -jar monitor.jar。使用详情参考wisdom-operation.zip里的操作说明。
+```
+java -jar monitor
+```
