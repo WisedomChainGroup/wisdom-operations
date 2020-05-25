@@ -3,7 +3,7 @@
 *wisdom-operations for monitoring Nodes*
 
 ## Illustrate
-*Refer to operation instruction in wisdom-operation.zip for details.*
+*Refer to the instructions in the latest wisdom-operation.zip in the release.*
 
 ## Use
 *Download the latest wisdom-operation.zip in the release And decompress, run monitor.jar.*
