@@ -13,9 +13,6 @@ java -jar monitor
 * Authentication settings
 * Basic data display
 * Blockchain fork repair
-
-*Detect the data synchronization in real time, delete the corresponding fork if any, and continue to synchronize the data. For 10s / time listening to the bound node, when the block hash is found to be inconsistent with the 2 / 3 neighbor node, stop the node image to delete the corresponding block and restart the node to resynchronize.*
-
 * Operation node
 
 
