@@ -14,7 +14,8 @@ java -jar monitor
 * Basic data display
 * Blockchain fork repair
 
-*实时检测数据同步情况，如果发现有分叉的情况出现则删除对应的分叉，数据继续同步。10s/次监听绑定的节点，当发现区块哈希不满足与 2/3 邻居节点一致时，停止节点镜像删除对应区块并重启节点重新同步。*
+*Detect the data synchronization in real time, delete the corresponding fork if any, and continue to synchronize the data. For 10s / time listening to the bound node, when the block hash is found to be inconsistent with the 2 / 3 neighbor node, stop the node image to delete the corresponding block and restart the node to resynchronize.*
+
 * Operation node
 
 
