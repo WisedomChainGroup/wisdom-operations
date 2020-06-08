@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -96,6 +97,8 @@ public class HttpRequestUtil {
             while ((line = in.readLine()) != null) {
                 result += line;
             }
+        }catch (ConnectException e){
+
         } catch (Exception e) {
             e.printStackTrace();
         }
