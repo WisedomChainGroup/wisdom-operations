@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>分叉修复</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="css/fork.css"/>
+	</head>
+	<body>
+		<div class="headpage"></div>
+		<div style="width: 87%;margin-left: 1%;float: left;margin-top: 0.5%;">
+			<div class="frok_cont" style="height: auto;">
+				<div class="fork_mail">
+					<div class="fork_mail_blue"></div>
+					<div class="fork_mail_send">修改邮箱信息</div>
+				</div>
+				<div id="" class="frok_restore" style="display: none;">
+					<div class="fa fa-exclamation-circle fa-3x" aria-hidden="true" style="color: #E57373;text-align: center;margin-top: 30px;"></div>
+					<div class="flex-align-justify restore_text">
+						当前节点：192.168.1.12:19585	 节点于2020-06-08 10::20发生分叉
+					</div>
+					<div class="restore_but flex-align-justify">
+						确认恢复
+					</div>
+				</div>
+				<div class="flex align-center flex-column my-3">
+					<div class="fa fa-check-circle fa-5x" style="color: #90E58A;"></div>
+					<div class="normal_text">
+						当前节点正常！
+					</div>
+				</div>
+			</div>
+			<div class="frok_cont" style="height: auto;">
+				<div class="fork_mail">
+					<div class="fork_mail_blue"></div>
+					<div class="fork_mail_send">修改邮箱信息</div>
+				</div>
+				<div class="frok_kv">
+					<div class="restore_text">
+						<span>请输入区块高度:</span>
+						<input type="" class="frok_input"/>
+					</div>
+					<div class="tips">
+						（温馨提示：请正确的输入内容）
+					</div>
+					<div class="restore_but flex-align-justify">
+						确认删除
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+				$(function(){
+					$(".headpage").load("public-top.html");
+				});
+		</script>
+	</body>
+</html>

@@ -35,6 +35,7 @@
         <div id="mail_link"><a href="mail"><i class="fa fa-wpexplorer"></i>&emsp;预警信息</a></div>
         <div id="user_link"><a href="user"><i class="fa fa-key"></i>&emsp;鉴权设置</a></div>
 <!--        <div id="deal_link"><a href="deal"><i class="fa fa-envelope-open-o"></i>&emsp;合约部署</a></div>-->
+        <div id="fork_link"><a href="fork"><i class="fa fa-repeat"></i>&emsp;分叉修复</a></div>
     </div>
 <!--    <div class="inner3">-->
 <!--        <div><i class="fa fa-angle-double-left fa-2x"></i></div>-->
@@ -221,6 +222,9 @@
             $("#home_link").removeClass("current");
         }else if(u.indexOf('deal')>-1){
             $('#deal_link').css('background','#61A0F2');
+            $("#home_link").removeClass("current");
+        }else if(u.indexOf('fork')>-1){
+            $('#fork_link').css('background','#61A0F2');
             $("#home_link").removeClass("current");
         }
     });

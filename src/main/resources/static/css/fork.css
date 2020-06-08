@@ -1,0 +1,123 @@
+*{margin: 0;padding: 0;}
+body{background: #EDF0F4;}
+.frok_cont{
+	background:rgba(243,243,243,1);
+	border:1px solid rgba(212,211,211,1);
+	border-radius:5px;
+	margin-top: 1em;
+	padding-bottom: 3em;
+}
+.fork_mail{
+	display: flex;
+	min-width: 96%;
+	height: 38px;
+	margin-top: 20px;
+	padding: 0 20px;
+}
+.fork_mail_blue{
+	min-width: 1%;
+	height: 38px;
+	background: #519BFD;
+}
+.fork_mail_send{
+	flex: 1;
+	min-width: 25%;
+	padding-top: 10px;
+	font-size:16px;
+	font-family:Microsoft YaHei;
+	font-weight:bold;
+	color:#555555;
+	background: #E2E8F2;
+	padding-left: 10px;
+}
+.frok_restore{
+	background:rgba(243,243,243,1);
+	border:1px solid rgba(212,211,211,1);
+	border-radius:5px;
+	margin: 0 auto;
+	margin-top: 3em;
+	padding-bottom: 1em;
+	width: 40%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	box-shadow:0 0 9px 3px #999;
+}
+.restore_text{
+	font-size: 16px;
+	margin-top: 30px;
+}
+.restore_but{
+	margin: 0 auto;
+	margin-top: 30px;
+	padding: 10px;
+	color: #FFFFFF;
+	background-color: #61A0F2;
+	border-radius: 5px;
+	display: flex;
+	cursor:pointer;
+	font-size: 16px;
+	font-weight: normal;
+}
+.frok_kv{
+	margin: 0 auto;
+	margin-top: 3em;
+	padding-bottom: 1em;
+	width: 40%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	font-weight: bold;
+	font-size: 16px;
+}
+.frok_input{
+	border-radius:5px;
+	border:1px solid rgba(219,219,219,1);
+	background:#FFFFFF;
+	height: 42px;
+	width: 70%;
+	padding: 0 5px;
+	margin-left: 10px;
+}
+.frok_input:focus {
+	outline:none;
+	border: 1px solid #61A0F2;
+}
+.tips{
+	margin-top: 20px;
+	color: #C6C4C4;
+	font-size: 16px;
+	font-weight: normal;
+}
+.my-3{
+	margin-top: 5em;
+}
+.normal_text{
+	margin-top: 30px;
+	margin-left: 20px;
+	font-size: 24px;
+}
+
+.flex{
+	display: flex;
+}
+.flex-1{
+	flex: 1;
+}
+.align-center{
+	align-items: center;
+}
+.justify-content{
+	justify-content: center;
+}
+.justify-between{
+	justify-content: space-between;
+}
+.flex-column{
+	flex-direction: column;
+}
+.flex-align-justify{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.tdf.common.store.DBSettings;
 import org.tdf.common.store.LevelDb;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -64,7 +65,7 @@ public class DBUtil {
      * @param height block height
      */
     @SneakyThrows
-    public void removeBlocksAfter(long height) {
+    public void removeBlocksAfter(long height) throws SQLException {
         JdbcTemplate template = template();
         List<byte[]> hashes =
                 template.query(HASH_QUERY, new Object[]{height}, new SingleColumnRowMapper<>(byte[].class));
@@ -109,18 +110,18 @@ public class DBUtil {
                 new JdbcTemplate(ds);
     }
 
-    public static void main(String[] args) {
-        DBUtil util = DBUtil
-                .builder()
-                .host("192.168.1.123")
-                .port(5433)
-                .username("postgres")
-                .password("password")
-                .database("ddl")
-                .leveldbDirectory("/opt/leveldb_1")
-                .build();
-
-        // remove blocks whose height >= 12345678 (inclusive)
-        util.removeBlocksAfter(12345678);
-    }
+//    public static void main(String[] args) {
+//        DBUtil util = DBUtil
+//                .builder()
+//                .host("192.168.1.123")
+//                .port(5433)
+//                .username("postgres")
+//                .password("password")
+//                .database("ddl")
+//                .leveldbDirectory("/opt/leveldb_1")
+//                .build();
+//
+//        // remove blocks whose height >= 12345678 (inclusive)
+//        util.removeBlocksAfter(12345678);
+//    }
 }
