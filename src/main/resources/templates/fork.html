@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<title>分叉修复</title>
+		<link rel="stylesheet" type="text/css" href="css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="css/fork.css"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-		<link rel="stylesheet" type="text/css" href="css/public.css"/>
-		<link rel="stylesheet" type="text/css" href="css/fork.css"/>
 	</head>
 	<body>
 		<div class="headpage"></div>
@@ -44,7 +44,7 @@
 						<input type="" class="frok_input"/>
 					</div>
 					<div class="tips">
-						（温馨提示：请正确的输入内容）
+						警告：该动作为删除区块，请谨慎操作。
 					</div>
 					<div class="restore_but flex-align-justify">
 						确认删除
@@ -54,7 +54,7 @@
 		</div>
 		<script type="text/javascript">
 				$(function(){
-					$(".headpage").load("public-top.html");
+					$(" .headpage").load("control");
 				});
 		</script>
 	</body>

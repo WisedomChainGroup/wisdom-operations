@@ -1,5 +1,6 @@
 *{margin: 0;padding: 0;}
 body{background: #EDF0F4;}
+a{ text-decoration:none;}
 .frok_cont{
 	background:rgba(243,243,243,1);
 	border:1px solid rgba(212,211,211,1);
@@ -85,7 +86,7 @@ body{background: #EDF0F4;}
 }
 .tips{
 	margin-top: 20px;
-	color: #C6C4C4;
+	color: #e57373;
 	font-size: 16px;
 	font-weight: normal;
 }
