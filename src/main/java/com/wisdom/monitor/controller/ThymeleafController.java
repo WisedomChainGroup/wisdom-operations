@@ -354,4 +354,13 @@ public class ThymeleafController {
     }
 
     private static String url_price = "https://api.ceobi.com/api/market/ticker";
+
+    @RequestMapping("/fork")
+    public String fork(ModelMap map) throws IOException {
+        Leveldb leveldb = new Leveldb();
+//        List<User> userList = JSONObject.parseArray(leveldb.readAccountFromSnapshot("user"), User.class);
+//        map.addAttribute(userList);
+//        map.addAttribute("role",customUserService.getRole());
+        return "fork";
+    }
 }
