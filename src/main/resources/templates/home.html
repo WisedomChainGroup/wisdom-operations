@@ -238,17 +238,23 @@
         })
     },1000);
 
-    var t3 = window.setInterval(function() {
+    var t3 = window.setInterval(function () {
         $.ajax({
             type: "GET",
             contentType: "application/json",
             url: "/bifurcation",
             data: "",
             success: function (result) {
-                document.getElementById("bifurcation").innerHTML = result;
+                if (result.code == -1) {
+                    document.getElementById("bifurcation").innerHTML = "分叉";
+                } else if (result.code  == 0) {
+                    document.getElementById("bifurcation").innerHTML = "异常";
+                } else {
+                    document.getElementById("bifurcation").innerHTML = "正常";
+                }
             }
         })
-    },10000);
+    },5000);
 
     var role = [[role]];
 

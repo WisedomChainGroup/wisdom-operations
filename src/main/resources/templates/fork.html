@@ -1,61 +1,228 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>分叉修复</title>
-		<link rel="stylesheet" type="text/css" href="css/public.css"/>
-		<link rel="stylesheet" type="text/css" href="css/fork.css"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
-		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	</head>
-	<body>
-		<div class="headpage"></div>
-		<div style="width: 87%;margin-left: 1%;float: left;margin-top: 0.5%;">
-			<div class="frok_cont" style="height: auto;">
-				<div class="fork_mail">
-					<div class="fork_mail_blue"></div>
-					<div class="fork_mail_send">修改邮箱信息</div>
-				</div>
-				<div id="" class="frok_restore" style="display: none;">
-					<div class="fa fa-exclamation-circle fa-3x" aria-hidden="true" style="color: #E57373;text-align: center;margin-top: 30px;"></div>
-					<div class="flex-align-justify restore_text">
-						当前节点：192.168.1.12:19585	 节点于2020-06-08 10::20发生分叉
-					</div>
-					<div class="restore_but flex-align-justify">
-						确认恢复
-					</div>
-				</div>
-				<div class="flex align-center flex-column my-3">
-					<div class="fa fa-check-circle fa-5x" style="color: #90E58A;"></div>
-					<div class="normal_text">
-						当前节点正常！
-					</div>
-				</div>
-			</div>
-			<div class="frok_cont" style="height: auto;">
-				<div class="fork_mail">
-					<div class="fork_mail_blue"></div>
-					<div class="fork_mail_send">修改邮箱信息</div>
-				</div>
-				<div class="frok_kv">
-					<div class="restore_text">
-						<span>请输入区块高度:</span>
-						<input type="" class="frok_input"/>
-					</div>
-					<div class="tips">
-						警告：该动作为删除区块，请谨慎操作。
-					</div>
-					<div class="restore_but flex-align-justify">
-						确认删除
-					</div>
-				</div>
-			</div>
-		</div>
-		<script type="text/javascript">
-				$(function(){
-					$(" .headpage").load("control");
-				});
-		</script>
-	</body>
+<head>
+    <meta charset="utf-8">
+    <title>分叉修复</title>
+    <link rel="stylesheet" type="text/css" href="css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="css/fork.css"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
+    <script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+</head>
+<body>
+<div class="headpage"></div>
+<div style="width: 87%;margin-left: 1%;float: left;margin-top: 0.5%;">
+    <div class="frok_cont" style="height: auto;">
+        <div class="fork_mail">
+            <div class="fork_mail_blue"></div>
+            <div class="fork_mail_send">分叉监控</div>
+        </div>
+        <div class="fa fa-exclamation-circle fa-3x" aria-hidden="true"
+             style="color: #E57373;text-align: center;margin-top: 30px;"></div>
+        <div class="flex-align-justify restore_text">
+            <span id="info"></span>
+        </div>
+        <button class="restore_but flex-align-justify" id="restore">
+            确认恢复
+        </button>
+        <input id="height" style="display: none"/>
+    </div>
+    <div class="flex align-center flex-column my-3" id="right">
+        <div class="fa fa-check-circle fa-5x" style="color: #90E58A;"></div>
+        <div class="normal_text">
+            当前节点正常！
+        </div>
+    </div>
+    <div class="flex align-center flex-column my-3" id="wait">
+        <div class="fa fa-exclamation-circle fa-3x" aria-hidden="true"
+             style="color: #E57373;text-align: center;margin-top: 30px;"></div>
+        <div class="normal_text">
+            请先绑定节点！
+        </div>
+    </div>
+</div>
+<div class="frok_cont" style="height: auto;">
+    <div class="fork_mail">
+        <div class="fork_mail_blue"></div>
+        <div class="fork_mail_send">区块删除</div>
+    </div>
+    <div class="frok_kv">
+        <div class="restore_text">
+            <span>请输入区块高度:</span>
+            <input type="" class="frok_input" id="deleteHeight"/>
+        </div>
+        <div class="tips">
+            警告：该动作为删除区块，请谨慎操作。
+        </div>
+        <button class="restore_but flex-align-justify" id="delete">
+            确认删除
+        </button>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(" .headpage").load("control");
+    });
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/bifurcation",
+        data: "",
+        success: function (result) {
+            if (result.code == -1) {
+                // document.getElementById("bifurcation").innerHTML = "分叉";
+                $("height").val(result.message)
+                $("#error").hide();
+                $("#wait").hide();
+            } else if (result.code == 0) {
+                // document.getElementById("bifurcation").innerHTML = "异常";
+                // $("#error").hide();
+                // $("#right").hide();
+            } else {
+                document.getElementById("info").innerHTML = "error";
+                // $("#error").hide();
+                // $("#wait").hide();
+            }
+        }
+    })
+
+    $('#restore').click(function () {
+        Swal.fire({
+            type: 'question', // 弹框类型
+            title: '', //标题
+            text: "是否修复！", //显示内容
+
+            confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+            confirmButtonText: '确定',// 确定按钮的 文字
+            showCancelButton: true, // 是否显示取消按钮
+            cancelButtonColor: '#d33', // 取消按钮的 颜色
+            cancelButtonText: "取消", // 取消按钮的 文字
+
+            focusCancel: true, // 是否聚焦 取消按钮
+            reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+        }).then(function (isConfirm) {
+            try {
+                var height = $("height").val();
+                //判断 是否 点击的 确定按钮
+                if (isConfirm.value) {
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/restore",
+                        data: {height:100},
+                        success: function (result) {
+                            $(".modal").css("display", "none");
+                            $(".modal-backdrop").css("display", "none");
+                            if (result.code == 2000) {
+                                Swal.fire({
+                                    type: 'success', // 弹框类型
+                                    title: '', //标题
+                                    text: "删除成功！", //显示内容
+
+                                    confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                                    confirmButtonText: '确定',// 确定按钮的 文字
+                                    showCancelButton: false, // 是否显示取消按钮
+                                    cancelButtonColor: '#d33', // 取消按钮的 颜色
+                                    cancelButtonText: "取消", // 取消按钮的 文字
+
+                                    focusCancel: true, // 是否聚焦 取消按钮
+                                    reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+                                }).then(function (isConfirm) {
+                                    try {
+                                        //判断 是否 点击的 确定按钮
+                                        if (isConfirm.value) {
+                                            window.location.reload();
+                                        }
+                                    } catch (e) {
+                                        alert(e);
+                                    }
+                                });
+                            } else {
+                                console.log(result)
+                                Swal.fire("", result.message, "error");
+                                return;
+                            }
+                        }
+                    })
+
+                } else {
+                    Swal.fire("取消", "点击了取消", "error");
+                }
+            } catch (e) {
+                alert(e);
+            }
+        });
+    });
+
+    $('#delete').click(function () {
+        Swal.fire({
+            type: 'question', // 弹框类型
+            title: '', //标题
+            text: "是否删除！", //显示内容
+
+            confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+            confirmButtonText: '确定',// 确定按钮的 文字
+            showCancelButton: true, // 是否显示取消按钮
+            cancelButtonColor: '#d33', // 取消按钮的 颜色
+            cancelButtonText: "取消", // 取消按钮的 文字
+
+            focusCancel: true, // 是否聚焦 取消按钮
+            reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+        }).then(function (isConfirm) {
+            try {
+                var height = $("height").val();
+                //判断 是否 点击的 确定按钮
+                if (isConfirm.value) {
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json",
+                        url: "/restore",
+                        data: {height:100},
+                        success: function (result) {
+                            $(".modal").css("display", "none");
+                            $(".modal-backdrop").css("display", "none");
+                            if (result.code == 2000) {
+                                Swal.fire({
+                                    type: 'success', // 弹框类型
+                                    title: '', //标题
+                                    text: "删除成功！", //显示内容
+
+                                    confirmButtonColor: '#3085d6',// 确定按钮的 颜色
+                                    confirmButtonText: '确定',// 确定按钮的 文字
+                                    showCancelButton: false, // 是否显示取消按钮
+                                    cancelButtonColor: '#d33', // 取消按钮的 颜色
+                                    cancelButtonText: "取消", // 取消按钮的 文字
+
+                                    focusCancel: true, // 是否聚焦 取消按钮
+                                    reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
+                                }).then(function (isConfirm) {
+                                    try {
+                                        //判断 是否 点击的 确定按钮
+                                        if (isConfirm.value) {
+                                            window.location.reload();
+                                        }
+                                    } catch (e) {
+                                        alert(e);
+                                    }
+                                });
+                            } else {
+                                Swal.fire("", result.message, "error");
+                                return;
+                            }
+                        }
+                    })
+                } else {
+                    Swal.fire("取消", "点击了取消", "error");
+                }
+            } catch (e) {
+                alert(e);
+            }
+        });
+    });
+
+</script>
+</body>
 </html>

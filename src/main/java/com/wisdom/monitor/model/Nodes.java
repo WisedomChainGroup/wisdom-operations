@@ -13,6 +13,7 @@ public class Nodes {
     private String databaseName;
     private String dbUsername;
     private String dbPassword;
+    private String leveldbPath;
 
     public String getNodeIP() {
         return nodeIP;
@@ -108,5 +109,13 @@ public class Nodes {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getLeveldbPath() {
+        return leveldbPath;
+    }
+
+    public void setLeveldbPath(String leveldbPath) {
+        this.leveldbPath = leveldbPath;
     }
 }

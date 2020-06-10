@@ -1,5 +1,6 @@
 package com.wisdom.monitor.service.Impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wisdom.monitor.leveldb.Leveldb;
 import com.wisdom.monitor.model.Nodes;
@@ -26,6 +27,7 @@ public class NodeServiceImpl implements NodeService {
     @Value("${Image}")
     private String image;
     private static final Logger logger = LoggerFactory.getLogger(NodeServiceImpl.class);
+
     @Override
     public Object stop(String ipPort) {
         List<String> strList = new ArrayList<String>();
@@ -35,17 +37,17 @@ public class NodeServiceImpl implements NodeService {
             String username = getNodeinfo.getUsername();
             String usepassword = getNodeinfo.getUsepassword();
             String ip = getNodeinfo.getIp();
-            if(username == null || usepassword == null){
+            if (username == null || usepassword == null) {
                 result.setMessage("失败，请完善远程连接信息。");
                 result.setCode(ResultCode.FAIL);
                 return result;
             }
-            ConnectionUtil connectionUtil = new ConnectionUtil(ip,username,usepassword);
-            if(connectionUtil.login()){
+            ConnectionUtil connectionUtil = new ConnectionUtil(ip, username, usepassword);
+            if (connectionUtil.login()) {
 
-                if(connectionUtil.login()){
-                    String shellResult = connectionUtil.executeSuccess("echo "+usepassword+" |sudo -S docker stop "+image);
-                    if(StringUtils.isBlank(shellResult)){
+                if (connectionUtil.login()) {
+                    String shellResult = connectionUtil.executeSuccess("echo " + usepassword + " |sudo -S docker stop " + image);
+                    if (StringUtils.isBlank(shellResult)) {
                         result.setMessage("停止失败");
                         result.setCode(ResultCode.FAIL);
                         return result;
@@ -53,7 +55,7 @@ public class NodeServiceImpl implements NodeService {
                     result.setMessage("成功");
                     result.setCode(ResultCode.SUCCESS);
                     return result;
-                }else {
+                } else {
                     result.setMessage("连接失败");
                     result.setCode(ResultCode.FAIL);
                     return result;
@@ -80,17 +82,17 @@ public class NodeServiceImpl implements NodeService {
             String username = getNodeinfo.getUsername();
             String usepassword = getNodeinfo.getUsepassword();
             String ip = getNodeinfo.getIp();
-            if(username == null || usepassword == null){
+            if (username == null || usepassword == null) {
                 result.setMessage("失败，请完善远程连接信息。");
                 result.setCode(ResultCode.FAIL);
                 return result;
             }
-            ConnectionUtil connectionUtil = new ConnectionUtil(ip,username,usepassword);
-            if(connectionUtil.login()){
+            ConnectionUtil connectionUtil = new ConnectionUtil(ip, username, usepassword);
+            if (connectionUtil.login()) {
 
-                if(connectionUtil.login()){
-                    String shellResult = connectionUtil.executeSuccess("echo "+usepassword+" |sudo -S docker restart "+image);
-                    if(StringUtils.isBlank(shellResult)){
+                if (connectionUtil.login()) {
+                    String shellResult = connectionUtil.executeSuccess("echo " + usepassword + " |sudo -S docker restart " + image);
+                    if (StringUtils.isBlank(shellResult)) {
                         result.setMessage("重启失败");
                         result.setCode(ResultCode.FAIL);
                         return result;
@@ -98,7 +100,7 @@ public class NodeServiceImpl implements NodeService {
                     result.setMessage("成功");
                     result.setCode(ResultCode.SUCCESS);
                     return result;
-                }else {
+                } else {
                     result.setMessage("连接失败");
                     result.setCode(ResultCode.FAIL);
                     return result;
@@ -120,12 +122,12 @@ public class NodeServiceImpl implements NodeService {
     public Object deleteData(long height) {
         Result result = new Result();
         MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
-        if (mapCacheUtil.getCacheItem("bindNode") != null){
+        if (mapCacheUtil.getCacheItem("bindNode") != null) {
             try {
                 GetNodeinfo getNodeinfo = new GetNodeinfo(mapCacheUtil.getCacheItem("bindNode").toString()).invoke();
-                ConnectionDbUtil connectionDbUtil = new ConnectionDbUtil(getNodeinfo.getDbip()+":"+getNodeinfo.getDbPort(),getNodeinfo.getDbname(),getNodeinfo.getDbusername(),getNodeinfo.getDbpassword());
+                ConnectionDbUtil connectionDbUtil = new ConnectionDbUtil(getNodeinfo.getDbip() + ":" + getNodeinfo.getDbPort(), getNodeinfo.getDbname(), getNodeinfo.getDbusername(), getNodeinfo.getDbpassword());
                 Result connectResult = (Result) connectionDbUtil.login();
-                if (connectResult.getCode() == 2000){
+                if (connectResult.getCode() == 2000) {
                     String sql = "delete from transaction t where t.tx_hash in(select h.tx_hash from transaction_index h where h.block_hash in(select h.block_hash from header h where h.height>=" + height + "))";
                     connectionDbUtil.getStatement().executeUpdate(sql);
                     String sql2 = "delete from transaction_index h where h.block_hash in(select h.block_hash from header h where h.height>=" + height + ")";
@@ -135,7 +137,7 @@ public class NodeServiceImpl implements NodeService {
                     result.setMessage("成功");
                     result.setCode(ResultCode.SUCCESS);
                     return result;
-                }else {
+                } else {
                     logger.error("deleteData warn:connection failed");
                     result.setMessage("数据库连接失败");
                     result.setCode(ResultCode.FAIL);
@@ -143,12 +145,12 @@ public class NodeServiceImpl implements NodeService {
                 }
 
             } catch (IOException e) {
-                logger.error("deleteData error:"+e.getMessage());
+                logger.error("deleteData error:" + e.getMessage());
                 result.setMessage("失败");
                 result.setCode(ResultCode.FAIL);
                 return result;
             } catch (SQLException e) {
-                logger.error("deleteData SQL error:"+e.getMessage());
+                logger.error("deleteData SQL error:" + e.getMessage());
                 result.setMessage("失败");
                 result.setCode(ResultCode.FAIL);
                 return result;
@@ -159,6 +161,56 @@ public class NodeServiceImpl implements NodeService {
         result.setCode(ResultCode.FAIL);
         logger.warn("deleteData warn:please Bind node");
         return result;
+    }
+
+    @Override
+    public Nodes searchNode(String ipPort) {
+        Nodes nodes = new Nodes();
+        try {
+            Leveldb leveldb = new Leveldb();
+            List<Nodes> nodeList = new ArrayList<Nodes>();
+            Object read = null;
+            read = JSONObject.parseArray(leveldb.readAccountFromSnapshot("node"), Nodes.class);
+            if (read != null) {
+                nodeList = (List<Nodes>) read;
+                for (int i = 0; i < nodeList.size(); i++) {
+                    if (nodeList.get(i).getNodeIP().equals(ipPort.split(":")[0]) && nodeList.get(i).getNodePort().equals(ipPort.split(":")[1])) {
+                        nodes = nodeList.get(i);
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return nodes;
+    }
+
+    @Override
+    public boolean updateNode(Nodes nodes) {
+        boolean t = false;
+        try {
+            Leveldb leveldb = new Leveldb();
+            List<Nodes> nodeList = new ArrayList<Nodes>();
+            Object read = null;
+            read = JSONObject.parseArray(leveldb.readAccountFromSnapshot("node"), Nodes.class);
+            if (read != null) {
+                nodeList = (List<Nodes>) read;
+                for (int i = 0; i < nodeList.size(); i++) {
+                    if (nodeList.get(i).getNodeIP().equals(nodes.getNodeIP()) && nodeList.get(i).getNodePort().equals(nodes.getNodePort())) {
+                        nodeList.remove(i);
+                        nodeList.add(nodes);
+                        leveldb.addAccount("node", JSON.toJSONString(nodeList));
+                        t = true;
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return t;
+        }
+        return t;
     }
 
 

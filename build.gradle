@@ -41,6 +41,13 @@ repositories {
     mavenCentral()
 }
 
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 dependencies {
     compile "com.google.guava:guava:24.1-jre"
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter
@@ -109,6 +116,8 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
     compile fileTree(dir:'libs',include:['*.jar'])
     compile group: 'org.ethereum', name: 'leveldbjni-all', version: '1.18.3'
+
+
 
 }
 
