@@ -129,6 +129,19 @@ select::-ms-expand { display: none; }
 	line-height: 40px;
 	width: 55px;
 }
+.moda-root-love{
+	height: 40px;
+	float: left;
+	/*width: 30%;*/
+	line-height: 40px;
+	width: 140px;
+}{
+	height: 40px;
+	float: left;
+	/*width: 30%;*/
+	line-height: 40px;
+	width: 55px;
+}
 .ju-c{
 	justify-items: center;
 	height: 35px;

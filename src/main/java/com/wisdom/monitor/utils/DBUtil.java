@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.tdf.common.store.DBSettings;
 import org.tdf.common.store.LevelDb;
 
+import javax.mail.MailSessionDefinition;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,6 +54,8 @@ public class DBUtil {
 
     @Builder.Default
     private LevelDBType levelDBType = LevelDBType.JNI;
+
+
 
     enum LevelDBType {
         IQ80,
