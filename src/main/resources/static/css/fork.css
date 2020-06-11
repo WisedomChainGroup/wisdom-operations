@@ -33,7 +33,7 @@ a{ text-decoration:none;}
 }
 .frok_restore{
 	background:rgba(243,243,243,1);
-	/*border:1px solid rgba(212,211,211,1);*/
+	border:1px solid rgba(212,211,211,1);
 	border-radius:5px;
 	margin: 0 auto;
 	margin-top: 3em;
@@ -42,8 +42,20 @@ a{ text-decoration:none;}
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	/*box-shadow:0 0 9px 3px #999;*/
+	box-shadow:0 0 9px 3px #999;
 	text-align: center;
+}
+.frok_restore2{
+	border-radius: 5px;
+	margin: 0 auto;
+	margin-top: 3em;
+	width: 40%;
+	display: flex;
+	justify-content: center;
+	box-shadow: 0 0 27px -1px #999;
+}
+.ma-y4{
+	margin: 40px 0;
 }
 .restore_text{
 	font-size: 16px;
