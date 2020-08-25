@@ -1,5 +1,11 @@
 package com.wisdom.monitor.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wisdom.monitor.dao.NodeDao;
+import com.wisdom.monitor.leveldb.Leveldb;
+import com.wisdom.monitor.model.Nodes;
+import com.wisdom.monitor.service.Impl.NodeServiceImpl;
+import com.wisdom.monitor.service.NodeService;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
@@ -9,18 +15,20 @@ import lombok.SneakyThrows;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.DBFactory;
 import org.iq80.leveldb.impl.Iq80DBFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SingleColumnRowMapper;
-import org.tdf.common.store.DBSettings;
-import org.tdf.common.store.LevelDb;
+import org.springframework.stereotype.Component;
 
 import javax.mail.MailSessionDefinition;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
+@Component
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -30,6 +38,12 @@ public class DBUtil {
     private static final String SQL_0 = "delete from transaction t where t.tx_hash in(select h.tx_hash from transaction_index h where h.block_hash in(select h.block_hash from header h where h.height >= ? ))";
     private static final String SQL_1 = "delete from transaction_index h where h.block_hash in(select h.block_hash from header h where h.height >= ? )";
     private static final String SQL_2 = "delete from header h where h.height >= ?";
+
+    @Autowired
+    private NodeDao nodeDao;
+
+    @Autowired
+    public NodeServiceImpl nodeService;
 
     @Builder.Default
     private String host = "localhost";
@@ -55,6 +69,9 @@ public class DBUtil {
     @Builder.Default
     private LevelDBType levelDBType = LevelDBType.JNI;
 
+    @Value("${Image}")
+    private String image;
+
 
 
     enum LevelDBType {
@@ -68,36 +85,44 @@ public class DBUtil {
      * @param height block height
      */
     @SneakyThrows
-    public void removeBlocksAfter(long height) throws SQLException {
+    public void removeBlocksAfter(long height) throws Exception{
+        MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
         JdbcTemplate template = template();
         List<byte[]> hashes =
                 template.query(HASH_QUERY, new Object[]{height}, new SingleColumnRowMapper<>(byte[].class));
         template.update(SQL_0, height);
         template.update(SQL_1, height);
         template.update(SQL_2, height);
-
-        DBFactory factory =
-                levelDBType == LevelDBType.IQ80 ?
-                        Iq80DBFactory.factory :
-                        JniDBFactory.factory;
-
-
-        List<LevelDb> levelDbs =
-                Stream.of("account", "asset-code", "candidate", "lock-gettransfer", "validator")
-                        .map(n -> new LevelDb(factory, leveldbDirectory, n + "-trie-roots"))
-                        .collect(Collectors.toList());
-
-        for (LevelDb db : levelDbs) {
-            db.init(DBSettings.newInstance()
-                    .withMaxOpenFiles(leveldbMaxFiles)
-                    .withMaxThreads(Math.max(1, Runtime.getRuntime().availableProcessors() / 2)));
-            for (byte[] hash : hashes) {
-                db.remove(hash);
-            }
-        }
-
-        levelDbs.forEach(LevelDb::close);
-        template.getDataSource().getConnection().close();
+        String ipPort = mapCacheUtil.getCacheItem("bindNode").toString();
+        Nodes node = nodeDao.findNodesByNodeIPAndNodePort(ipPort.split(":")[0],ipPort.split(":")[1]).get();
+        ConnectionDbUtil connectionDbUtil = new ConnectionDbUtil(node.getDbIP() + ":" + node.getDbPort(), node.getDatabaseName(), node.getDbUsername(), node.getDbPassword());
+        String ssh_username = node.getUserName();
+        String ssh_usepassword = node.getPassword();
+        String ssh_ip = node.getNodeIP();
+        ConnectionUtil connectionUtil = new ConnectionUtil(ssh_ip, ssh_username, ssh_usepassword);
+        String shellResult = connectionUtil.executeSuccess("echo " + ssh_usepassword + " |sudo -S rm -rf "+ leveldbDirectory);
+//        DBFactory factory =
+//                levelDBType == LevelDBType.IQ80 ?
+//                        Iq80DBFactory.factory :
+//                        JniDBFactory.factory;
+//
+//
+//        List<LevelDb> levelDbs =
+//                Stream.of("account", "asset-code", "candidate", "lock-gettransfer", "validator")
+//                        .map(n -> new LevelDb(factory, leveldbDirectory, n + "-trie-roots"))
+//                        .collect(Collectors.toList());
+//
+//        for (LevelDb db : levelDbs) {
+//            db.init(DBSettings.newInstance()
+//                    .withMaxOpenFiles(leveldbMaxFiles)
+//                    .withMaxThreads(Math.max(1, Runtime.getRuntime().availableProcessors() / 2)));
+//            for (byte[] hash : hashes) {
+//                db.remove(hash);
+//            }
+//        }
+////
+//        levelDbs.forEach(LevelDb::close);
+//        template.getDataSource().getConnection().close();
     }
 
     private JdbcTemplate template(){
@@ -127,4 +152,5 @@ public class DBUtil {
 //        // remove blocks whose height >= 12345678 (inclusive)
 //        util.removeBlocksAfter(12345678);
 //    }
+
 }

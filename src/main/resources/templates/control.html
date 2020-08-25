@@ -45,16 +45,16 @@
     <table>
         <tr >
             <td class="tdnode"style="font-size: 16px;"><i class="fa fa-circle" style="color: #90E58A;"></i>&nbsp;当前节点：
-                <span th:text="${info.getNodeIP()}"></span>
+                <span th:text="${info.getNodeIP()}" id="ip"></span>
             </td>
             <td class="tdnode-version"><i class="fa fa-unsorted" style="color: #90E58A;"></i>&nbsp;节点版本：
-                <span th:text="${version}"></span>
+                <span th:text="${version}" id="version"></span>
             </td>
             <td class="tdnode-status">运行状态：
-                <span th:text="${isrun}"></span>
+                <span th:text="${isrun}" id="isrun"></span>
             </td>
             <td style="color: #519BFD;">节点类型：
-                <span th:text="${info.getNodeType()}"></span>
+                <span th:text="${info.getNodeType()}" id="type"></span>
             </td>
             <td class="tdstop" id="stop"><button class="header-two-button"><i class="fa fa-stop"></i>&nbsp;停止</button></td>
             <td class="tdstop" id="restart"><button class="header-two-button"><i class="fa fa-undo"></i>&nbsp;重启</button></td>
@@ -230,13 +230,46 @@
     });
 
     $(document).ready(function () {
-        let role = [[${role}]];
+        var role = [[${role}]];
         if(role == "ROLE_REVIEWER"){//仅查询
             // document.getElementById("start").style.visibility="hidden";//隐藏
             // document.getElementById("stop").style.visibility="hidden";//隐藏
             $("#restart").attr("style","display:none;");
             $("#stop").attr("style","display:none;");
+            $("#fork_link").attr("style","display:none;");
         }
     });
+
+    var t2 = window.setInterval(function() {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/getBindNode",
+            data: "",
+            success: function (result) {
+                if (result.code == 5000){
+                    $("#ip").html("请绑定节点");
+                    $("#version").val("");
+                    $("#isrun").val("");
+                    $("#type").val("");
+                }else if (result.code == 3000) {
+                    $("#ip").html("连接超时");
+                    $("#version").val("");
+                    $("#isrun").val("");
+                    $("#type").val("");
+                }else {
+                    $("#ip").html(result.ip);
+                    $("#version").html(result.version);
+                    $("#isrun").html(result.status);
+                    if (result.type == 1){
+                        $("#type").html("全节点");
+                    }else {
+                        $("#type").html("矿工节点");
+                    }
+
+                }
+            }
+        })
+    },3000);
 </script>
 </html>

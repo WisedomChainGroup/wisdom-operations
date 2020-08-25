@@ -12,7 +12,7 @@ import java.io.IOException;
 
 class MonitorApplicationTests {
 
-    @Value("${password}")
+    @Value("${applica}")
     private String password;
     @Autowired
     private JdbcTemplate tmpl;

@@ -24,12 +24,12 @@ public class ExportDb {
     @Autowired
     TransactionService transactionService;
 
-    @ResponseBody
-    @RequestMapping("/hello")
-    public String hello(Model model) {
-        model.addAttribute("name", "thymeleaf");
-        return "test-push";
-    }
+//    @ResponseBody
+//    @RequestMapping("/hello")
+//    public String hello(Model model) {
+//        model.addAttribute("name", "thymeleaf");
+//        return "test-push";
+//    }
 
     @GetMapping("/export/txrecordFromAddress")
     public void export(HttpServletResponse response, @RequestParam("json") String json){

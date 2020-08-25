@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
 }
@@ -64,7 +64,7 @@ dependencies {
     compile('org.apache.tomcat.embed:tomcat-embed-jasper')
     compile('org.springframework.boot:spring-boot-starter-tomcat')
 
-    implementation 'org.springframework.boot:spring-boot-starter-security:2.1.1.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.1.6.RELEASE'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
 
     // https://mvnrepository.com/artifact/com.alibaba/fastjson
@@ -114,13 +114,43 @@ dependencies {
     compile group: 'ch.ethz.ganymed', name: 'ganymed-ssh2', version: 'build210'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
-    compile fileTree(dir:'libs',include:['*.jar'])
+    compile fileTree(dir:'lib',include:['*.jar'])
     compile group: 'org.ethereum', name: 'leveldbjni-all', version: '1.18.3'
-
-
-
+//    implementation 'com.github.WisedomChainGroup:java-sdk:0.3.0'
+    compile group: 'org.iq80.leveldb', name: 'leveldb', version: '0.7'
+// https://mvnrepository.com/artifact/org.iq80.leveldb/leveldb-api
+    compile group: 'org.iq80.leveldb', name: 'leveldb-api', version: '0.7'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.187'
+    // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
+    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '1.3.2'
 }
+
 
 test {
     useJUnitPlatform()
+}
+
+
+task copyDependencies(type: Copy) {
+    from configurations.runtime
+    destinationDir = file('build/libs/lib')
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class' : mainClassName
+        attributes 'Class-Path' : '. ' + configurations.compile.collect { 'lib/' + it.getName() }.join(' ')
+    }
+}
+jar.dependsOn += copyDependencies
+
+task fatJar(type: Jar) {
+    classifier = 'all'
+    manifest {
+        attributes 'Main-Class' : mainClassName
+        attributes 'Class-Path' : configurations.compile.collect { 'lib/' + it.getName() }.join(' ')
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }

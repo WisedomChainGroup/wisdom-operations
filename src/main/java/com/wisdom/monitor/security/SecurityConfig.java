@@ -27,6 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    private FailureAuthenticationHandler failureHandler;
+
+    @Autowired
+    private SuccessAuthenticationHandler successHandler;
+
     /**
      * 必须有此方法，Spring Security官方规定必须要有一个密码加密方式。
      * 注意：例如这里用了BCryptPasswordEncoder()的加密方法，那么在保存用户密码的时候也必须使用这种方法，确保前后一致。
@@ -50,24 +56,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 //.loginPage("/login") // 自定义用户登入页面
                 .failureUrl("/login?error") // 自定义登入失败页面，前端可以通过url中是否有error来提供友好的用户登入提示
-                .and()
+//                .and()
 //                .rememberMe()// 开启记住密码功能
 //                .rememberMeServices(getRememberMeServices()) // 必须提供
 //                .key(SECRET_KEY) // 此SECRET需要和生成TokenBasedRememberMeServices的密钥相同
-//                .and()
+                .and()
+                .logout()
+                .deleteCookies()
+                .and()
+                .authorizeRequests().antMatchers("/h2-console/**").permitAll()
+                .and().headers().frameOptions().sameOrigin()
+                .and().csrf().disable();
                 /*
                  * 默认允许所有路径所有人都可以访问，确保静态资源的正常访问。
                  * 后面再通过方法注解的方式来控制权限。
                  */
-                .authorizeRequests().anyRequest().permitAll()
-                .and()
-                .logout()
-                .deleteCookies()
-                .permitAll();
 //                .logoutUrl("/logout")// 自定义用户登出页面
 //                .logoutSuccessUrl("/")
 //                .and()
 //                .exceptionHandling().accessDeniedPage("/403"); // 权限不足自动跳转403
+
+
+
+//                .loginPage("/login")
+//                // .loginProcessingUrl("/login) //form 表单action
+//                .failureHandler(failureHandler)
+//                .successHandler(successHandler)
+//                //.usernameParameter("uname")
+//                //.passwordParameter("psd")
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/login").permitAll()
+//                // 除了login.html页面以外都需要身份认证 （一定要记得添加这一句，否则就是死循环）
+//                .anyRequest()
+//                .authenticated();
     }
 
     /**
@@ -79,4 +101,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         services.setTokenValiditySeconds(100); // 默认14天
         return services;
     }
+
+
 }

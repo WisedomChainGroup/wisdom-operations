@@ -9,7 +9,7 @@ public class UserService {
 
     private Database database = new Database();
 
-    public UserService() throws IOException {
+    public UserService() {
     }
 
     public CustomUser getUserByUsername(String username) {

@@ -79,4 +79,28 @@ public class NodeController {
     public boolean updateNode(@ModelAttribute Nodes node) {
         return nodeService.updateNode(node);
     }
+
+    @GetMapping(value = {"/getBindNode"})
+    public JSONObject getBindNode() {
+        JSONObject jsonObject = new JSONObject();
+        MapCacheUtil mapCacheUtil = MapCacheUtil.getInstance();
+        if (mapCacheUtil.getCacheItem("bindNode") != null){
+            Nodes nodes = nodeService.searchNode(mapCacheUtil.getCacheItem("bindNode").toString());
+            jsonObject.put("ip",nodes.getNodeIP()+":"+nodes.getNodePort());
+            JSONObject jo = (JSONObject) JSONObject.toJSON(NodeinfoController.getVersion());
+            if ((int)jo.get("code") == 2000){
+                JSONObject result = (JSONObject) jo.get("data");
+                String version = result.get("version").toString();
+                jsonObject.put("code","2000");
+                jsonObject.put("status","运行中");
+                jsonObject.put("version",version);
+                jsonObject.put("type",nodes.getNodeType());
+                return jsonObject;
+            }
+            jsonObject.put("code","3000");
+            return jsonObject;
+        }
+        jsonObject.put("code","5000");
+        return jsonObject;
+    }
 }

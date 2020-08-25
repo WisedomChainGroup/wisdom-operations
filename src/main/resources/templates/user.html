@@ -77,7 +77,7 @@
                         <p th:case="'ROLE_REVIEWER'">仅查询</p>
                     </td>
                     <td class="operations">
-                        <button class="do bt_delete" th:if="${user.getName()} != 'admin' " th:id="${user.getName()}">删除</button>
+                        <button class="do bt_delete" th:if="${user.getName()} != 'admin' and ${customUser.getUsername()} != ${user.getName()}" th:id="${user.getName()}">删除</button>
                     </td>
                 </tr>
             </table>
@@ -120,6 +120,7 @@
             }
         });
         $(document).ready(function () {
+
             var role = [[${role}]];
             if(role == "ROLE_REVIEWER" || role == "ROLE_EDITOR"){
                 $("#add").attr("style","display:none;");

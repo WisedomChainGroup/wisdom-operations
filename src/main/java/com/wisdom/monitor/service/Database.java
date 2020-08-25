@@ -1,40 +1,53 @@
 package com.wisdom.monitor.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.wisdom.monitor.leveldb.Leveldb;
+import com.wisdom.monitor.dao.UserDao;
 import com.wisdom.monitor.model.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import javax.annotation.PostConstruct;
 import java.util.*;
 
+@Component
 public class Database {
 
     private Map<String, CustomUser> data;
     private List<User> userList;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public static Database database;
 
-    public Database() throws IOException {
+
+    @Autowired
+    private UserDao userDao;
+
+
+//    @PostConstruct
+//    public void init(){
+//        database = this;
+//        database.userDao = this.userDao;
+//    }
+
+    public Database() {
         data = new HashMap<>();
-        Leveldb leveldb = new Leveldb();
-        String account = leveldb.readAccountFromSnapshot("user");
-        if (account.length() > 0) {
-            userList = JSONObject.parseArray(account, User.class);
-            for (int i = 0; i < userList.size(); i++) {
-                CustomUser customUser = new CustomUser(i, userList.get(i).getName(), userList.get(i).getPassword(), getGrants(userList.get(i).getRole()));
-                data.put(userList.get(i).getName(), customUser);
-            }
-        } else {
-            userList = new ArrayList<>();
-            User user = new User("admin", getPassword("admin"), "ROLE_ADMIN");
-            userList.add(user);
-            leveldb.addAccount("user",JSON.toJSONString(userList));
+        List<User> list = userDao.findAll();
+        if (list.isEmpty()) {
+            User user = new User(0L, "admin", getPassword("admin"), "ROLE_ADMIN");
+            userDao.save(user);
             CustomUser customUser = new CustomUser(0, user.getName(), user.getPassword(), getGrants(user.getRole()));
             data.put(user.getName(), customUser);
+        }else {
+            for (int i = 0; i < list.size(); i++) {
+                CustomUser customUser = new CustomUser(i, list.get(i).getName(), list.get(i).getPassword(), getGrants(list.get(i).getRole()));
+                data.put(userList.get(i).getName(), customUser);
+            }
         }
     }
 

@@ -5,10 +5,13 @@ import com.wisdom.monitor.leveldb.Leveldb;
 import com.wisdom.monitor.model.Mail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
+import org.tdf.common.store.LevelDb;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -21,15 +24,14 @@ import javax.mail.internet.MimeMessage;
 @EnableScheduling
 public class SendMailUtil {
     private static final Logger logger = LoggerFactory.getLogger(SendMailUtil.class);
-    public static boolean sendMailOutLook(String title, String body) throws IOException {
-        Leveldb leveldb = new Leveldb();
+    @Autowired
+    private LevelDb levelDb;
+
+    public boolean sendMailOutLook(String title, String body){
         Mail mail = new Mail();
-        Object read = JSONObject.parseObject(leveldb.readAccountFromSnapshot("mail"), Mail.class);
-        if (read != null) {
+        if (levelDb.get("mail".getBytes(StandardCharsets.UTF_8)).isPresent()){
+            Object read = JSONObject.parseObject(new String(levelDb.get("mail".getBytes(StandardCharsets.UTF_8)).get(),StandardCharsets.UTF_8), Mail.class);
             mail= (Mail) read;
-            logger.info("-------------sender------------"+mail.getSender());
-            logger.info("-------------Password------------"+mail.getPassword());
-            logger.info("-------------Receiver------------"+mail.getReceiver());
             //设置参数
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");

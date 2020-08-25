@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>分叉修复</title>
@@ -8,7 +8,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
-    <script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 </head>
 <body>
@@ -31,24 +31,24 @@
             <input id="height" style="display: none"/>
         </div>
         <div class="frok_restore2">
-        <div class="flex align-center flex-column ma-y4" id="wait">
-            <div class="fa fa-exclamation-circle fa-5x" aria-hidden="true"
-                 style="color: #E57373;text-align: center;"></div>
-            <div class="normal_text">
-                请先绑定节点！
+            <div class="flex align-center flex-column ma-y4" id="wait">
+                <div class="fa fa-exclamation-circle fa-5x" aria-hidden="true"
+                     style="color: #E57373;text-align: center;"></div>
+                <div class="normal_text">
+                    请先绑定节点！
+                </div>
             </div>
-        </div>
         </div>
         <div class="frok_restore2">
-        <div class="flex align-center flex-column ma-y4" id="right">
-            <div class="fa fa-check-circle fa-5x" style="color: #90E58A;"></div>
-            <div class="normal_text">
-                当前节点正常！
+            <div class="flex align-center flex-column ma-y4" id="right">
+                <div class="fa fa-check-circle fa-5x" style="color: #90E58A;"></div>
+                <div class="normal_text">
+                    当前节点正常！
+                </div>
             </div>
         </div>
-        </div>
     </div>
-    <div class="frok_cont" style="height: auto;">
+    <div class="frok_cont" style="height: auto;" id="delete_div">
         <div class="fork_mail">
             <div class="fork_mail_blue"></div>
             <div class="fork_mail_send">区块删除</div>
@@ -69,37 +69,40 @@
 </div>
 
 </div>
-<script type="text/javascript">
+<script th:inline="javascript">
+    var t2 = window.setInterval(function () {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/bifurcation",
+            data: "",
+            success: function (result) {
+                if (result.code == -1) {
+                    $("#info").html("出现分叉，错误的区块高度为:" + result.message);
+                    $("#height").val(result.message);
+                    $("#right").hide();
+                    $("#wait").hide();
+                    $("#error").show();
+                } else if (result.code == 0) {
+                    $("#right").hide();
+                    $("#error").hide();
+                    $("#wait").show();
+                } else {
+                    $("#error").hide();
+                    $("#wait").hide();
+                    $("#right").show();
+                }
+            }
+        })
+    }, 3000);
+
     $(function () {
         $(" .headpage").load("control");
     });
-    $.ajax({
-        type: "GET",
-        contentType: "application/json",
-        url: "/bifurcation",
-        data: "",
-        success: function (result) {
-            if (result.code == -1) {
-                console.log(1)
-                // document.getElementById("bifurcation").innerHTML = "分叉";
-                $("height").val(result.message)
-                $("#error").hide();
-                $("#wait").hide();
-            } else if (result.code == 0) {
-                console.log(2)
+    $("#right").hide();
+    $("#wait").hide();
+    $("#error").hide();
 
-                // document.getElementById("bifurcation").innerHTML = "异常";
-                $("#error").hide();
-                $("#right").hide();
-            } else {
-                console.log(3)
-
-                document.getElementById("info").innerHTML = "error";
-                $("#error").hide();
-                $("#wait").hide();
-            }
-        }
-    })
 
     $('#restore').click(function () {
         Swal.fire({
@@ -117,14 +120,15 @@
             reverseButtons: true  // 是否 反转 两个按钮的位置 默认是  左边 确定  右边 取消
         }).then(function (isConfirm) {
             try {
-                var height = $("height").val();
+                var height = $("#height").val();
+                console.log(height);
                 //判断 是否 点击的 确定按钮
                 if (isConfirm.value) {
                     $.ajax({
                         type: "GET",
                         contentType: "application/json",
                         url: "/restore",
-                        data: {height:100},
+                        data: {height: height},
                         success: function (result) {
                             $(".modal").css("display", "none");
                             $(".modal-backdrop").css("display", "none");
@@ -170,8 +174,8 @@
     });
 
     $('#delete').click(function () {
-        var height = $("height").val();
-        if (height == "" || height == null){
+        var height = $("#deleteHeight").val();
+        if (height == "" || height == null) {
             Swal.fire("", "请输入高度", "error");
             return
         }
@@ -195,7 +199,7 @@
                         type: "GET",
                         contentType: "application/json",
                         url: "/restore",
-                        data: {height:100},
+                        data: {height: height},
                         success: function (result) {
                             $(".modal").css("display", "none");
                             $(".modal-backdrop").css("display", "none");
@@ -237,7 +241,6 @@
             }
         });
     });
-
 </script>
 </body>
 </html>
