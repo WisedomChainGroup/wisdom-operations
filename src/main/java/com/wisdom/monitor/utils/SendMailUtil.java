@@ -1,7 +1,6 @@
 package com.wisdom.monitor.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wisdom.monitor.leveldb.Leveldb;
 import com.wisdom.monitor.model.Mail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,10 +1,8 @@
 package com.wisdom.monitor.security;
 
 
-import com.wisdom.monitor.model.User;
 import com.wisdom.monitor.service.CustomUser;
 import com.wisdom.monitor.service.Impl.CustomUserServiceImpl;
-import com.wisdom.monitor.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,6 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private CustomUserServiceImpl customUserService;

@@ -174,10 +174,9 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public boolean updateNode(Nodes nodes) {
         boolean t = false;
-        if (nodeDao.findNodesById(nodes.getId()).isPresent()){
-            Nodes node = nodeDao.findNodesById(nodes.getId()).get();
-            node = nodes;
-            nodeDao.save(node);
+        if (nodeDao.findNodesByNodeIPAndNodePort(nodes.getNodeIP(),nodes.getNodePort()).isPresent()){
+            nodes.setId(nodeDao.findNodesByNodeIPAndNodePort(nodes.getNodeIP(),nodes.getNodePort()).get().getId());
+            nodeDao.save(nodes);
             t = true;
         }
         return t;

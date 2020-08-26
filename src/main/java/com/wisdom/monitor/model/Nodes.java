@@ -31,7 +31,7 @@ public class Nodes {
 
     static final String COLUMN_PASSWORD = "password";
 
-    static final String COLUMN_DBIP = "dbIP";
+    static final String COLUMN_DBIP = "dbIp";
 
     static final String COLUMN_DBPORT = "dbPort";
 
@@ -45,7 +45,7 @@ public class Nodes {
 
     @Column(name = COLUMN_ID)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = COLUMN_NODEIP)
     private String nodeIP;

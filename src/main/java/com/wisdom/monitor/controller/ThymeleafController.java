@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wisdom.monitor.dao.NodeDao;
 import com.wisdom.monitor.dao.UserDao;
-import com.wisdom.monitor.leveldb.Leveldb;
 import com.wisdom.monitor.model.*;
 import com.wisdom.monitor.security.IsUser;
 import com.wisdom.monitor.service.CustomUser;
@@ -108,13 +107,13 @@ public class ThymeleafController {
     @RequestMapping("/adduser")
     public String adduser(@ModelAttribute User user) {
         boolean tag = false;
-        if (userDao.findById(user.getId()).isPresent()){
+        if (!userDao.findByName(user.getName()).isPresent()){
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             userDao.save(user);
             tag = true;
         }
         Result rs = new Result();
-        if (!tag) {
+        if (tag) {
             rs.setCode(ResultCode.SUCCESS);
             rs.setMessage("添加用户成功");
         } else {
@@ -129,8 +128,8 @@ public class ThymeleafController {
     public String deleteuser(@ModelAttribute User user) {
         Result rs = new Result();
         List<User> userList = userDao.findAll();
-        if (userDao.findById(user.getId()).isPresent()){
-            userDao.deleteById(user.getId());
+        if (userDao.findByName(user.getName()).isPresent()){
+            userDao.deleteByName(user.getName());
             rs.setCode(ResultCode.SUCCESS);
             rs.setMessage("删除成功");
         }else {
@@ -144,7 +143,7 @@ public class ThymeleafController {
     @RequestMapping("/addnode")
     public String addnode(@ModelAttribute Nodes node) throws IOException {
         Result rs = new Result();
-        if (!nodeDao.findNodesById(node.getId()).isPresent()){
+        if (!nodeDao.findNodesByNodeIPAndNodePort(node.getNodeIP(),node.getNodePort()).isPresent()){
             nodeDao.save(node);
             rs.setCode(ResultCode.SUCCESS);
             rs.setMessage("添加节点成功");

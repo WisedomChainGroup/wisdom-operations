@@ -1,16 +1,11 @@
 package com.wisdom.monitor;
 
-//import com.wisdom.monitor.model.ConfigBean;
-import com.wisdom.monitor.dao.UserDao;
 import org.iq80.leveldb.impl.Iq80DBFactory;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.tdf.common.store.DBSettings;
 import org.tdf.common.store.LevelDb;
@@ -27,8 +22,6 @@ public class MonitorApplication {
 
 @SpringBootApplication
 @EnableJpaRepositories
-//@ComponentScan(value="com.wisdom.monitor.dao")
-@MapperScan("com.wisdom.monitor.dao")
 public class MonitorApplication extends SpringBootServletInitializer {
 
     @Override
@@ -40,7 +33,6 @@ public class MonitorApplication extends SpringBootServletInitializer {
     public LevelDb levelDb() {
         LevelDb db = new LevelDb(Iq80DBFactory.factory, "local/leveldb", "tmp");
         db.init(DBSettings.DEFAULT);
-        db.clear();
         return db;
     }
 

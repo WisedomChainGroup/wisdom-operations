@@ -1,13 +1,13 @@
 package com.wisdom.monitor.dao;
 
 import com.wisdom.monitor.model.User;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Mapper
+
 public interface UserDao extends JpaRepository<User, Long> {
     @Override
     <S extends User> S save(S entity);
@@ -18,6 +18,7 @@ public interface UserDao extends JpaRepository<User, Long> {
 
     List<User> findAll();
 
-    void deleteById(Long id);
+    @Transactional
+    void deleteByName(String name);
 
 }

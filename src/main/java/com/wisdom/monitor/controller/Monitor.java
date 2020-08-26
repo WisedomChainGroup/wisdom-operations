@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wisdom.monitor.dao.NodeDao;
-import com.wisdom.monitor.leveldb.Leveldb;
 import com.wisdom.monitor.model.Mail;
 import com.wisdom.monitor.model.Nodes;
 import com.wisdom.monitor.model.Result;
@@ -36,17 +35,14 @@ public class Monitor {
     private NodeDao nodeDao;
 
     @Autowired
-    private Leveldb leveldb;
-    @Autowired
-    TransactionService transactionService;
+    private LevelDb leveldb;
+
     @Value("${Image}")
     private String image;
     @Autowired
     private JdbcTemplate tmpl;
     @Autowired
     public NodeServiceImpl nodeService;
-    @Autowired
-    private LevelDb levelDb;
 
     //分叉监测
     public Object checkBifurcate(){
@@ -178,8 +174,8 @@ public class Monitor {
     @Scheduled(fixedRate=20000)
     public void monitorStatus() throws IOException {
         boolean ismail = false;
-        if (levelDb.get("mail".getBytes(StandardCharsets.UTF_8)).isPresent()){
-            Object read = JSONObject.parseObject(new String(levelDb.get("mail".getBytes(StandardCharsets.UTF_8)).get(),StandardCharsets.UTF_8), Mail.class);
+        if (leveldb.get("mail".getBytes(StandardCharsets.UTF_8)).isPresent()){
+            Object read = JSONObject.parseObject(new String(leveldb.get("mail".getBytes(StandardCharsets.UTF_8)).get(),StandardCharsets.UTF_8), Mail.class);
             ismail = true;
         }
         recoveryBifurcate(ismail);
